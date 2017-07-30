@@ -1,0 +1,25 @@
+.btn-top {
+  position: fixed;
+  bottom: 50px;
+  right: 100px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  z-index: 1000;
+}
+
+.tk-logo {
+  width: 100%;
+  text-align: center;
+  top: 0;
+  height: 60px;
+}
+
+.header-inner-bottom {
+  padding-top: 35px;
+}
