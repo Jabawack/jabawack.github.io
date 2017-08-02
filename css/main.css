@@ -32,25 +32,13 @@
 
 .text-box .title {
   font-size: 6rem;
-  color: #fff;
+  color: #000000;
 }
 
 .text-box .sub-title {
   font-size: 1.2rem;
-  color: #fff;
+  color: #000000;
   margin-top: 0px;
-}
-
-.text-box .sub-title-k {
-  font-size: 1.0rem;
-  line-height: 1.5rem;
-  color: #fff;
-}
-
-.text-box .title-b {
-  font-size: 4rem;
-  line-height: 4.5rem;
-  color: #fff;
 }
 
 .arrow {
