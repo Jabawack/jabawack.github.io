@@ -31,42 +31,51 @@
 </head>
 
 <body>
+
   <a href="#top" class="btn-floating blue-grey darken-4 btn-top">Top</a>
-  <a id="logo-container" href="index.html" class="brand-logo">
-    <div class="tk-logo">
-      <img class="logo" src="images/logo.svg" alt="TK" width="100">
-    </div>
-  </a>
 
+  <div class="navbar-fixed">
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="\" class="brand-logo">
+          <img class="logo" src="images/logo.svg" alt="TK">
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/tk">About</a></li>
+          <li><a href="/resume">Résumé</a></li>
+        </ul>
 
-  <a href="tk" class="link-wrap">
-    <div id="index-banner top" class="parallax-container head-container valign-wrapper fullpage">
-      <div class="section no-pad-bot valign-wrapper">
-        <div class="container valign center">
-          <div class="text-box">
-            <div>
-              <div class="title">TK</div>
-              <div class="sub-title">Software Engineer • UX Designer</div>
-            </div>
-            <div>
-              <div class="arrow">
-                <img src="images/arrow.svg" alt="Enter">
-              </div>
-            </div>
-          </div>
-        </div>
+        <ul id="nav-mobile" class="side-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/tk">About</a></li>
+          <li><a href="/resume">Résumé</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
       </div>
-      <div class="parallax"><img src="images/background1.png" alt="Unsplashed background img 1"></div>
-    </div>
-  </a>
+    </nav>
+  </div>
 
+  <!--
+  <nav class="white tk-logo" role="navigation">
+    <div class="nav-wrapper container center-align">
+      <a href="#top" class="btn-floating blue-grey darken-4 btn-top">Top</a>
+      <a id="logo-container" href="index.html" class="brand-logo">
+        <div class="tk-logo">
+          <img class="logo" src="images/logo.svg" alt="TK">
+        </div>
+      </a>
+    </div>
+  </nav>
+  -->
+
+  <div class="my-parallax"></div>
 
   <div class="container ">
     <div class="section ">
 
       <!--  Row 1  -->
       <div class="row">
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image">
               <img src="images/WebReactor/logo.png">
@@ -82,7 +91,7 @@
         </div>
 
 
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image">
               <img src="images/Tapyn/Logo.svg">
@@ -96,7 +105,7 @@
           </div>
         </div>
 
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image middle">
               <img src="images/Workato/workato-logo-small.png">
@@ -109,12 +118,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <!-- End of Row 1 -->
 
-      <!--  Row 2  -->
-      <div class="row">
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image middle">
               <img src="images/Kurbo/Kurbo_Logo_Tagline.png">
@@ -127,9 +132,20 @@
             </div>
           </div>
         </div>
+      </div>
+      <!-- End of Row 1 -->
+
+    </div>
+  </div>
+
+  <div class="container ">
+    <div class="section ">
+
+      <!--  Row 2  -->
+      <div class="row">
 
 
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image middle">
               <img src="images/SamsungTS2014/logo.jpg">
@@ -138,12 +154,22 @@
               <p>UX Design &middot; UX Research</p>
             </div>
             <div class="card-action">
-              <a href="WebReactor">Tomorrow Solutions 2014</a>
+              <a href="WebReactor">Samsung TS 2014</a>
             </div>
           </div>
         </div>
       </div>
       <!-- End of Row 2 -->
+
+    </div>
+  </div>
+
+  <div class="my-parallax"></div>
+
+  <div class="container ">
+    <div class="section ">
+
+      <!--  Row 3  -->
 
       <div class="row ">
         <div class="col s12 center ">
@@ -152,9 +178,8 @@
         </div>
       </div>
 
-      <!--  Row 3  -->
       <div class="row">
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image middle">
               <img src="http://userexperiencedayhfes.com/wp-content/uploads/2016/02/HFES-UX-Day-Banner-Revised.jpg">
@@ -169,13 +194,13 @@
         </div>
 
 
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image">
               <img src="images/PassionProject/UGroupLogo.svg">
             </div>
             <div class="card-content">
-              <p>Planning COmmittee</p>
+              <p>Planning Committee</p>
             </div>
             <div class="card-action">
               <a href="">U Group @ BAKG</a>
@@ -183,7 +208,7 @@
           </div>
         </div>
 
-        <div class="col s12 m4 ">
+        <div class="col s12 m3 ">
           <div class="card hoverable small">
             <div class="card-image middle">
               <img src="images/PassionProject/uxa_original.png">
@@ -197,36 +222,34 @@
           </div>
         </div>
       </div>
-      <!-- End of Row 1 -->
+      <!-- End of Row 3 -->
 
     </div>
   </div>
 
   <footer class="page-footer blue-grey darken-2 ">
     <div class="container">
-      <div class="row">
-        <div class="col m9 s12">
-          <h5 class="white-text">About Me</h5>
-          <p class="grey-text text-lighten-4">
-            I am a Software Engineer with a broad range of development experience as well as UX Research that comes from working with Big Corporate, startup, and volunteer works.
-          </p>
-        </div>
-        <div class="col m3 s12">
-          <h5 class="white-text">Connect</h5>
-          <p>
-            <a class="btn-floating yellow darken-1" href="mailto:tk.hfes@gmail.com">
-              <i class="fa fa-envelope fa-2x" style="color:#fff;" title="Email"></i></a>
-            <a class="btn-floating blue darken-1" href="https://www.linkedin.com/in/tkhfes/">
-              <i class="fa fa-linkedin fa-2x" style="color:#fff;" title="LinkedIn"></i></a>
-            <a class="btn-floating black" href="https://github.com/Jabawack/">
-              <i class="fa fa-github fa-3x" style="color:#fff;" title="Github"></i></a>
-          </p>
-        </div>
-      </div>
     </div>
     <div class="footer-copyright ">
       <div class="container ">
-        <div class="cargo_link "> &copy; 2017 <a href="http://jabawack.github.io ">jabawack.github.io</a> All Rights Reserved</div>
+        <div class="row" style="margin-bottom: 0px;">
+          <div class="col m9 s12">
+            <h5 class="white-text">Taeho (TK) Kim</h5>
+            <p></p>
+            <div class="cargo_link"> &copy; 2017 <a href="http://jabawack.github.io ">jabawack.github.io</a> All Rights Reserved</div>
+          </div>
+          <div class="col m3 s12">
+            <h5 class="white-text">Connect</h5>
+            <p>
+              <a class="btn-floating yellow darken-1" href="mailto:tk.hfes@gmail.com">
+                <i class="fa fa-envelope fa-2x" style="color:#fff;" title="Email"></i></a>
+              <a class="btn-floating blue darken-1" href="https://www.linkedin.com/in/tkhfes/">
+                <i class="fa fa-linkedin fa-2x" style="color:#fff;" title="LinkedIn"></i></a>
+              <a class="btn-floating black" href="https://github.com/Jabawack/">
+                <i class="fa fa-github fa-3x" style="color:#fff;" title="Github"></i></a>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </footer>

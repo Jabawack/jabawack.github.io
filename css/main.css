@@ -8,7 +8,6 @@
 
 .tk-logo {
   position: fixed;
-  width: 100%;
   text-align: center;
   top: 0;
   height: 60px;
@@ -16,7 +15,6 @@
 }
 
 .tk-logo img {
-  margin-top: 20px;
   width: 50px;
   height: 50px;
 }
@@ -41,30 +39,7 @@
   margin-top: 0px;
 }
 
-.arrow {
-  display: inline-block;
-}
-
-.arrow img {
-  width: 100px;
-  height: 100px;
-  margin-top: 10px;
-}
-
-.fullpage {
-  height: 100vh !important;
-}
-
-.fullpage-content {
-  height: 100vh !important;
-}
-
-.fullpage-content-half {
-  height: 50vh !important;
-}
-
 .link-wrap {
-  width: 100%;
   display: block;
 }
 
@@ -118,4 +93,23 @@
     bottom: 5px;
     right: 5px;
   }
+}
+
+.my-parallax {
+  /* The image used */
+  background-image: url("../images/phpscreen.jpg");
+  /* Set a specific height */
+  min-height: 500px;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.resume {
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+  top: 0%;
 }

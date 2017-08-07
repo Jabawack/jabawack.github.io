@@ -22,6 +22,13 @@
   <title>Taeho (TK) Kim</title>
 
   <!-- CSS  -->
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="css/materialize.min.css" type="text/css" rel="stylesheet" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+  <link href="css/main.css" type="text/css" rel="stylesheet" />
+
+
   <link href="css/tk.css" type="text/css" rel="stylesheet" />
   <link href="css/font-awesome-4.7.0/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
   <script src="js/prefixfree.min.js"></script>
@@ -30,9 +37,28 @@
 
 <body>
   <div id="white-back"></div>
-  <div class="tk-logo">
-    <img src="images/logo.svg" alt="" id="home">
+  <div class="navbar-fixed">
+    <nav class="white" role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="\" class="brand-logo">
+          <img class="logo" src="images/logo.svg" alt="TK">
+        </a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/tk">About</a></li>
+          <li><a href="/resume">Résumé</a></li>
+        </ul>
+
+        <ul id="nav-mobile" class="side-nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/tk">About</a></li>
+          <li><a href="/resume">Résumé</a></li>
+        </ul>
+        <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      </div>
+    </nav>
   </div>
+
+
 
   <div class="wrapper">
     <div class="profile" id="profile-textbox">
@@ -43,7 +69,7 @@
             <br> E-mail
           </div>
           <div class="profile-detail">
-            Taeho (TK) Kim<br> +1 669 400 6011<br> tk.hfes@gmail.com
+            Taeho (TK) Kim<br> +1 669 400 6017<br> tk.hfes@gmail.com
           </div>
         </div>
       </div>
@@ -52,15 +78,31 @@
     <div class="detail">
       <div class="g-box">
         <div class="content">
+
+
           <div class="textarea" id="detail-content">
             <div class="textbox1">
               <div class="text1">
-                No matter how much functionality an application has, if the usability is low, no one will use it.<br><br> I realized this after many years of software development and working with great UX teams<br><br> Now that I have the knowledge of both UX and development, I would like to be a bridge between Engineers and UX team.<br><br>
+                <div class="center">
+                  <img class="tk-images" src="images/samsung.jpg">
+                </div>
+                <br>
+                <h3>UX Software Engineer</h3>
+                <br>I earned my first master's degree in Computer Science from University of Utah. Then, I worked as a Software Engineer at Samsung Electronics. After many collaboration projects with great UX teams at Samsung, I found my passion for UX. Recently I finished the master's degree in Human Factors &amp; Ergonomics at San José State University. Now I would like to bridge the gap between Engineers and UX designers.<br><br>
               </div>
               <div class="text1">
-                I'm a passinate UX Software Engineer with a broad range of development experience as well as UX Research that comes from working with Big Corporate, startup, and volunteer works.<br><br> I love to create a simple, intuitive interfaces.<br><br>
+                <div class="center">
+                  <img class="tk-images" src="images/volunteer.png">
+                </div>
+                <br>
+                <h3>Passion Project</h3>
+                <br>I just love to help people as much as I can with all my heart. At Samsung, there were many opportunities to be part of giving back to the community. For instance, I tutored many students from Jr. High to College, mentored many new employees regardless of their ethnicity, gave free consulting to a start-up company.<br><br> In year 2016-2017, As the President of the UXA, I curated several workshop and speaker panels at San José State University.<br><br> Currenly, I'm the webmaster for the UX day of HFES 2017 international annual conference, and the member of the UX planning committee for the Bay Area K-group. And every weekend, as a media editor, I create a short montage for weekly announcement at New Vision Church, CA.
               </div>
             </div>
+
+            <br>
+            <br>
+
             <div class="textbox2">
               <div class="text2">
                 <div>
@@ -92,14 +134,8 @@
         </div>
       </div>
     </div>
-    <div class="SNS">
-      <div class="g-box" id="link-fb">
-        <img src="images/fb.svg" alt="">
-      </div>
-      <div class="g-box" id="link-linkedin">
-        <i class="fa fa-linkedin fa-2x" style="color:#fff;" title="LinkedIn"></i>
-      </div>
-    </div>
+
+
   </div>
 
   <script src="js/jquery-1.12.4.js"></script>
