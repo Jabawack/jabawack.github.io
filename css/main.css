@@ -113,3 +113,11 @@
   height: 100%;
   top: 0%;
 }
+
+.card .card-content p {
+  color: black;
+}
+
+.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+  margin-right: auto
+}
