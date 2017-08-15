@@ -1,0 +1,46 @@
+/* loading logo */
+
+.no-js #loader {
+  display: none;
+}
+
+.js #loader {
+  display: block;
+  position: absolute;
+  left: 100px;
+  top: 0;
+}
+
+.myLoader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background: url(../img/loading_logo.gif) center no-repeat #000;
+}
+
+body {
+  background: black;
+}
+
+#intro {
+  width: 500px;
+  margin: 200px auto 100px;
+}
+
+#intro h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: white;
+	font-weight: ligher;
+	text-align: center;
+}
+
+#intro p {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-indent: -9999px;
+  overflow: hidden;
+  height: 105px;
+  background: url('../img/coming_soon_edit.png') center no-repeat #000;
+}
