@@ -1,4 +1,6 @@
 /* Custom Stylesheet */
+
+
 /**
  * Use this file to override Materialize files so you can update
  * the core Materialize files in the future
@@ -78,7 +80,6 @@ footer.page-footer {
   margin: 0;
 }
 
-
 .card-image.middle {
   height: 60%;
   display: flex;
@@ -86,5 +87,10 @@ footer.page-footer {
 }
 
 .parallax {
-  -webkit-filter: blur(3px);
+  /*-webkit-filter: blur(3px);*/
+  -webkit-filter: grayscale(90%);
+  -moz-filter: grayscale(90%);
+  -o-filter: grayscale(90%);
+  -ms-filter: grayscale(90%);
+  filter: grayscale(90%);
 }
