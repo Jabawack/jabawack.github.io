@@ -3,6 +3,10 @@ body {
     font-size: 2em;
 }
 
+h1, p {
+    margin: 0;
+}
+
 .container {
 }
 
