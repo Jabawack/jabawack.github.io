@@ -1,4 +1,3 @@
-
 # OS generated files #
 .DS_Store
 .DS_Store?
@@ -12,3 +11,137 @@ Thumbs.db
 # Site specific
 template.html
 text.html
+
+
+# Emacs files
+**/~*
+*~
+rcicore/db_config.py
+
+test_log.txt
+test_ach
+
+test/mock_data/test*
+
+test/behave/fixtures/liquidity*
+test/behave/timing.json
+
+temp/
+
+# Logfiles
+*.log*
+
+**/*.css.map
+
+node_modules
+
+static/bundles
+webpack-stats.json
+
+
+# ACH github package generates a src directory when installed.
+# It should be deleted automatically, but sometimes it's not.
+src/
+
+
+**/.DS_Store
+.idea/codeStyleSettings.xml
+.idea/dictionaries/
+.idea/jsLibraryMappings.xml
+.idea/watcherTasks.xml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/other.xml
+.idea
+
+# Temporary and test files
+junk*
+junk*
+.#junk*
+
+# --------------------------------------------------------------------
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff:
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/emacs.xml
+*.iml
+
+# Sensitive or high-churn files:
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.xml
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/uiDesigner.xml
+
+# Gradle:
+.idea/**/gradle.xml
+.idea/**/libraries
+
+# Mongo Explorer plugin:
+.idea/**/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# mpeltonen/sbt-idea plugin
+.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# ---------------------------------------------------------------------------
+# Ignore python Byte-compiled / optimized / DLL files
+
+__pycache__/
+*.py[cod]
+
+# ---------------------------------------------------------------------------
+# Icon files from mac
+
+**/Icon
+
+# ---------------------------------------------------------------------------
+# Generated Output Files
+
+# Testing report output directory
+**/testreports/
+
+# SCSS Compiler Caches
+**/.sass-cache/
+
+# Profile files
+**/cprofile/
+
+# Python coverage files
+.coverage
+htmlcov/
+
+# JS coverage files
+coverage/
+
+# ---------------------------------------------------------------------------
+# Disabled for now...
+
+# Elastic Beanstalk Files
+#.elasticbeanstalk/*
+#!.elasticbeanstalk/*.cfg.yml
+#!.elasticbeanstalk/*.global.yml
+nohup.out
+
+# S3 File Download Directory
+s3_download/
