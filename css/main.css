@@ -107,6 +107,18 @@
   background-size: cover;
 }
 
+.my-parallax-2 {
+  /* The image used */
+  background-image: url("../images/phpscreen.jpg");
+  /* Set a specific height */
+  min-height: 150px;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .resume {
   vertical-align: middle;
   width: 100%;
