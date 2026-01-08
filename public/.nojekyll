@@ -1,0 +1,9 @@
+# This file tells GitHub Pages to skip Jekyll processing.
+#
+# Why we need this:
+# - GitHub Pages uses Jekyll by default to process static sites
+# - Jekyll ignores files/folders starting with underscore (_)
+# - Next.js outputs assets to _next/ folder
+# - Without .nojekyll, the _next/ folder would be ignored and the site would break
+#
+# This file just needs to exist - its contents don't matter.

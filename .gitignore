@@ -44,7 +44,7 @@ webpack-stats.json
 
 # ACH github package generates a src directory when installed.
 # It should be deleted automatically, but sometimes it's not.
-src/
+# src/  # Commented out - need src/ for Next.js
 
 
 **/.DS_Store
