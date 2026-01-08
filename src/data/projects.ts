@@ -1,0 +1,138 @@
+export interface Project {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  imageStyle: 'contain' | 'cover';
+  tags: string[];
+  category: 'ux' | 'frontend' | 'fullstack' | 'design';
+  status: 'live' | 'archived';
+  featured: boolean;
+  link?: string;
+  year: string;
+  role: string;
+}
+
+export const projects: Project[] = [
+  {
+    id: 'homepage',
+    slug: 'homepage',
+    title: 'Portfolio Homepage',
+    description: 'Evolution of my personal portfolio site. Current version built with Next.js 15, React 19, and MUI v7.',
+    image: '/images/logo.png',
+    imageStyle: 'contain',
+    tags: ['Next.js', 'React 19', 'MUI v7', 'TypeScript'],
+    category: 'fullstack',
+    status: 'live',
+    featured: true,
+    link: '/portfolio/homepage/',
+    year: '2017-Present',
+    role: 'Fullstack Developer',
+  },
+  {
+    id: 'donation-mentoring',
+    slug: 'donation-mentoring',
+    title: 'Donation Mentoring',
+    description: 'A mentoring platform that pairs one-on-one sessions with UNICEF donations.',
+    image: '/images/portfolio/donation-mentoring/current.png',
+    imageStyle: 'cover',
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'Social Impact'],
+    category: 'fullstack',
+    status: 'live',
+    featured: true,
+    link: '/portfolio/donation-mentoring/',
+    year: '2025-Present',
+    role: 'Fullstack Developer',
+  },
+  {
+    id: 'webreactor',
+    slug: 'webreactor',
+    title: 'WebReactor',
+    description: 'Front-End development, Branding, and Wireframe design for a web development agency.',
+    image: '/v2017/images/WebReactor/logo.png',
+    imageStyle: 'contain',
+    tags: ['HTML', 'CSS', 'Branding', 'Wireframe'],
+    category: 'frontend',
+    status: 'archived',
+    featured: true,
+    link: '/v2017/portfolio/WebReactor/index.html',
+    year: '2017',
+    role: 'Frontend Developer',
+  },
+  {
+    id: 'tapyn',
+    slug: 'tapyn',
+    title: 'Tapyn, Inc.',
+    description: 'React/Redux development and UX research for a social networking startup.',
+    image: '/v2017/images/Tapyn/Logo.svg',
+    imageStyle: 'contain',
+    tags: ['React', 'Redux', 'UX Research', 'UI Design'],
+    category: 'frontend',
+    status: 'archived',
+    featured: true,
+    link: '/v2017/tapyn.html',
+    year: '2016',
+    role: 'UX Engineer Intern',
+  },
+  {
+    id: 'workato',
+    slug: 'workato',
+    title: 'Workato',
+    description: 'Enterprise integration platform - UI/UX improvements and frontend development.',
+    image: '/v2017/images/Workato/workato-logo-small.png',
+    imageStyle: 'contain',
+    tags: ['React', 'Enterprise', 'Integration'],
+    category: 'frontend',
+    status: 'archived',
+    featured: true,
+    year: '2017',
+    role: 'Frontend Developer',
+  },
+  {
+    id: 'kurbo',
+    slug: 'kurbo',
+    title: 'Kurbo',
+    description: 'Health and wellness app for children - mobile UI design and research.',
+    image: '/v2017/images/Kurbo/Kurbo_Logo_Tagline.png',
+    imageStyle: 'contain',
+    tags: ['Mobile', 'Health', 'UX Design'],
+    category: 'ux',
+    status: 'archived',
+    featured: false,
+    year: '2016',
+    role: 'UX Designer',
+  },
+  {
+    id: 'orange-theme',
+    slug: 'orange-theme',
+    title: 'CSS Design Exercise',
+    description: 'Pure CSS design showcase demonstrating layout and styling techniques.',
+    image: '/v2017/portfolio/Orange-Theme/images/001.jpg',
+    imageStyle: 'cover',
+    tags: ['CSS', 'Design', 'Layout'],
+    category: 'design',
+    status: 'archived',
+    featured: false,
+    link: '/v2017/portfolio/Orange-Theme/index.html',
+    year: '2017',
+    role: 'Designer',
+  },
+  {
+    id: 'uxday',
+    slug: 'uxday',
+    title: 'UX Day @ HFES',
+    description: 'Organized and led UX Day event for Human Factors and Ergonomics Society.',
+    image: '/v2017/images/PassionProject/Executive1617.png',
+    imageStyle: 'contain',
+    tags: ['Event', 'Leadership', 'UX Community'],
+    category: 'ux',
+    status: 'archived',
+    featured: false,
+    link: '/v2017/UXDay.html',
+    year: '2016-2017',
+    role: 'Event Organizer',
+  },
+];
+
+export const featuredProjects = projects.filter((p) => p.featured);

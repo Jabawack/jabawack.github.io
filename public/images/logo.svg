@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+<style type="text/css">
+	.st0{display:none;}
+	.st1{display:inline;}
+	.st2{fill:#1B1464;}
+	.st3{fill:#0071BC;}
+	.st4{fill:#333333;}
+	.st5{fill:#666666;}
+</style>
+<g id="Layer_1_1_" class="st0">
+	<g class="st1">
+		<rect x="17.5" y="24.5" class="st2" width="47" height="11"/>
+		<path class="st2" d="M64,25v10H18V25H64 M65,24H17v12h48V24L65,24z"/>
+	</g>
+	<g class="st1">
+		<rect x="28.5" y="13.5" class="st2" width="23" height="47"/>
+		<path class="st2" d="M51,14v46H29V14H51 M52,13H28v48h24V13L52,13z"/>
+	</g>
+</g>
+<g id="Layer_2" class="st0">
+	<g class="st1">
+		<rect x="46.5" y="24.5" class="st3" width="20" height="11"/>
+		<path class="st3" d="M66,25v10H47V25H66 M67,24H46v12h21V24L67,24z"/>
+	</g>
+	<g class="st1">
+		<rect x="50.2" y="34.5" transform="matrix(0.8558 -0.5173 0.5173 0.8558 -16.0383 35.5093)" class="st3" width="11" height="24"/>
+		<path class="st3" d="M54.1,34.1L66,53.8L57.4,59L45.5,39.3L54.1,34.1 M54.4,32.7l-10.3,6.2L57,60.3l10.3-6.2L54.4,32.7L54.4,32.7z
+			"/>
+	</g>
+	<g class="st1">
+		<rect x="40.5" y="13.5" class="st3" width="11" height="47"/>
+		<path class="st3" d="M51,14v46H41V14H51 M52,13H40v48h12V13L52,13z"/>
+	</g>
+</g>
+<polygon class="st4" points="13,30.5 13,44 31,43.9 31,75.5 44.5,75.5 44.5,30.5 "/>
+<polygon class="st5" points="13,29 19,24.5 50.7,24.5 44.5,29 "/>
+<polygon class="st4" points="69,75.5 51,53.5 62.6,53.5 80.6,75.5 "/>
+<polygon class="st4" points="69,30.5 51,53 62.6,53 80.6,30.5 "/>
+<polygon class="st5" points="87,24.5 75.5,24.5 69.3,29 80.8,29 "/>
+</svg>

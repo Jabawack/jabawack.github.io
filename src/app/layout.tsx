@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import ThemeRegistry from '@/components/ThemeRegistry';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
 import '@/styles/globals.css';
 
 const inter = Inter({
@@ -11,9 +13,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'TK Kim | Portfolio',
-  description: 'Frontend Engineer & UX Designer portfolio',
+  description: 'Fullstack UX Engineer portfolio',
   icons: {
-    icon: '/v2017/images/favicon.ico',
+    icon: '/images/logo.png',
   },
 };
 
@@ -26,7 +28,9 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <body>
         <ThemeRegistry>
+          <Navigation />
           {children}
+          <Footer />
         </ThemeRegistry>
       </body>
     </html>
