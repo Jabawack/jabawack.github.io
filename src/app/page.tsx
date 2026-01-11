@@ -36,6 +36,15 @@ export default function Home() {
       link: '/portfolio/donation-mentoring/',
       imageStyle: 'cover' as const,
     },
+    {
+      id: 'bakg',
+      title: 'Bay Area K Group',
+      description: 'Bay Area nonprofit organization with 8,000+ members. Serving as VP, IT Support (Webmaster), and Design Committee member.',
+      image: 'https://i0.wp.com/bayareakgroup.org/wp-content/uploads/2019/01/cropped-Symbol-Original-on-White.png?fit=512%2C512&ssl=1',
+      tags: ['NPO', 'BAKG', 'WordPress', 'Social'],
+      link: 'https://bayareakgroup.org',
+      imageStyle: 'contain' as const,
+    },
   ];
 
   return (
@@ -167,7 +176,7 @@ export default function Home() {
 
             <Grid container spacing={3}>
               {featuredProjects.map((project) => (
-                <Grid key={project.id} size={{ xs: 12, sm: 6 }}>
+                <Grid key={project.id} size={{ xs: 12, sm: 6, md: 4 }}>
                   <Card
                     component={project.link ? Link : 'div'}
                     href={project.link || '#'}

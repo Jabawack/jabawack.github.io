@@ -24,9 +24,9 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { updates, statusColors, categoryColors, type UpdateStatus } from '@/data/updates';
 
-export default function UpdatesPage() {
+export default function HomepageClient() {
   const [statusFilter, setStatusFilter] = useState<UpdateStatus | 'all'>('all');
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['v2.0.0']));
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['v2.1.0']));
 
   const filteredUpdates =
     statusFilter === 'all' ? updates : updates.filter((u) => u.status === statusFilter);
@@ -84,7 +84,7 @@ export default function UpdatesPage() {
                 mb: 2,
               }}
             >
-              Portfolio Updates
+              Portfolio Homepage
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600 }}>
               Track the progress of portfolio improvements, new features, and design changes.
@@ -121,30 +121,39 @@ export default function UpdatesPage() {
                   {completedCount} of {totalCount} updates completed ({progressPercent}%)
                 </Typography>
               </Box>
-              <Stack direction="row" spacing={2}>
-                <Stack alignItems="center">
+              <Stack direction="row" spacing={3}>
+                <Stack alignItems="center" spacing={0.5}>
                   <Typography variant="h4" sx={{ color: statusColors.completed, fontWeight: 700 }}>
                     {updates.filter((u) => u.status === 'completed').length}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Completed
-                  </Typography>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <CheckCircleIcon sx={{ color: statusColors.completed, fontSize: 16 }} />
+                    <Typography variant="caption" color="text.secondary">
+                      Completed
+                    </Typography>
+                  </Stack>
                 </Stack>
-                <Stack alignItems="center">
+                <Stack alignItems="center" spacing={0.5}>
                   <Typography variant="h4" sx={{ color: statusColors['in-progress'], fontWeight: 700 }}>
                     {updates.filter((u) => u.status === 'in-progress').length}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    In Progress
-                  </Typography>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <RadioButtonCheckedIcon sx={{ color: statusColors['in-progress'], fontSize: 16 }} />
+                    <Typography variant="caption" color="text.secondary">
+                      In Progress
+                    </Typography>
+                  </Stack>
                 </Stack>
-                <Stack alignItems="center">
+                <Stack alignItems="center" spacing={0.5}>
                   <Typography variant="h4" sx={{ color: statusColors.planned, fontWeight: 700 }}>
                     {updates.filter((u) => u.status === 'planned').length}
                   </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    Planned
-                  </Typography>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <RadioButtonUncheckedIcon sx={{ color: statusColors.planned, fontSize: 16 }} />
+                    <Typography variant="caption" color="text.secondary">
+                      Planned
+                    </Typography>
+                  </Stack>
                 </Stack>
               </Stack>
             </Stack>

@@ -1,5 +1,8 @@
 import { Box, Container, Typography, Stack, Button, Paper } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
+import { getMetadata } from '@/config/seo';
+
+export const metadata = getMetadata('/resume/');
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function ResumePage() {

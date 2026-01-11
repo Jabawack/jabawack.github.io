@@ -1,4 +1,7 @@
 import { Box, Container, Typography, Stack, Chip, Grid, Paper } from '@mui/material';
+import { getMetadata } from '@/config/seo';
+
+export const metadata = getMetadata('/about/');
 
 const skills = {
   frontend: ['React', 'Redux', 'TypeScript', 'Next.js', 'JavaScript'],
