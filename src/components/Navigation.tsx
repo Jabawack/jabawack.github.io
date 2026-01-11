@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   AppBar,
   Toolbar,
@@ -29,6 +30,7 @@ const navItems = [
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
   const scrollTrigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 50,
@@ -40,6 +42,17 @@ export default function Navigation() {
 
   // Only use scroll trigger after mount to avoid hydration mismatch
   const trigger = mounted && scrollTrigger;
+
+  // Check if nav item is active (exact match for home, startsWith for others)
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+    // Normalize: remove trailing slash for consistent comparison
+    const normalizedHref = href.replace(/\/$/, '');
+    const normalizedPath = pathname.replace(/\/$/, '');
+    return normalizedPath === normalizedHref || normalizedPath.startsWith(normalizedHref + '/');
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -72,22 +85,38 @@ export default function Navigation() {
 
             {/* Desktop Navigation */}
             <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
-              {navItems.map((item) => (
-                <Button
-                  key={item.label}
-                  component={Link}
-                  href={item.href}
-                  sx={{
-                    color: 'text.primary',
-                    '&:hover': {
-                      color: 'secondary.main',
-                      backgroundColor: 'transparent',
-                    },
-                  }}
-                >
-                  {item.label}
-                </Button>
-              ))}
+              {navItems.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Button
+                    key={item.label}
+                    component={Link}
+                    href={item.href}
+                    sx={{
+                      color: active ? 'secondary.main' : 'text.primary',
+                      fontWeight: active ? 600 : 400,
+                      position: 'relative',
+                      '&::after': active ? {
+                        content: '""',
+                        position: 'absolute',
+                        bottom: 6,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        width: '60%',
+                        height: 2,
+                        backgroundColor: 'secondary.main',
+                        borderRadius: 1,
+                      } : {},
+                      '&:hover': {
+                        color: 'secondary.main',
+                        backgroundColor: 'transparent',
+                      },
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                );
+              })}
             </Box>
 
             {/* Mobile Menu Button */}
@@ -124,29 +153,36 @@ export default function Navigation() {
           </IconButton>
         </Box>
         <List>
-          {navItems.map((item) => (
-            <ListItem key={item.label} disablePadding>
-              <ListItemButton
-                component={Link}
-                href={item.href}
-                onClick={handleDrawerToggle}
-                sx={{
-                  py: 2,
-                  '&:hover': {
-                    backgroundColor: 'rgba(0, 247, 255, 0.1)',
-                  },
-                }}
-              >
-                <ListItemText
-                  primary={item.label}
-                  primaryTypographyProps={{
-                    fontSize: '1.25rem',
-                    fontWeight: 500,
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
+              <ListItem key={item.label} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  href={item.href}
+                  onClick={handleDrawerToggle}
+                  sx={{
+                    py: 2,
+                    backgroundColor: active ? 'rgba(0, 247, 255, 0.1)' : 'transparent',
+                    borderLeft: active ? '3px solid' : '3px solid transparent',
+                    borderColor: active ? 'secondary.main' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                    },
                   }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                >
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      fontSize: '1.25rem',
+                      fontWeight: active ? 600 : 500,
+                      color: active ? 'secondary.main' : 'text.primary',
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Drawer>
 

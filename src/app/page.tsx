@@ -4,19 +4,17 @@ import {
   Box,
   Container,
   Typography,
-  Button,
-  Stack,
   Card,
   CardContent,
   CardMedia,
   Chip,
   Grid,
+  Stack,
 } from '@mui/material';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import AnimatedSection from '@/components/AnimatedSection';
-import BuildingInPublic from '@/components/BuildingInPublic';
+import BuildingInPublicCard from '@/components/BuildingInPublicCard';
+
 export default function Home() {
   const featuredProjects = [
     {
@@ -31,9 +29,9 @@ export default function Home() {
     {
       id: 'bakg',
       title: 'Bay Area K Group',
-      description: 'Bay Area nonprofit organization with 8,000+ members. Serving as VP, IT Support (Webmaster), and Design Committee member.',
+      description: 'Bay Area nonprofit with 8,000+ members. VP, IT Support, and Design Committee.',
       image: 'https://i0.wp.com/bayareakgroup.org/wp-content/uploads/2019/01/cropped-Symbol-Original-on-White.png?fit=512%2C512&ssl=1',
-      tags: ['NPO', 'BAKG', 'WordPress', 'Social'],
+      tags: ['NPO', 'WordPress', 'Social'],
       link: 'https://bayareakgroup.org',
       imageStyle: 'contain' as const,
     },
@@ -41,13 +39,13 @@ export default function Home() {
 
   return (
     <Box component="main">
-      {/* Hero Section */}
+      {/* Bento Hero Section */}
       <Box
         sx={{
-          minHeight: '90vh',
+          minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          py: { xs: 10, md: 8 },
           position: 'relative',
           overflow: 'hidden',
         }}
@@ -65,187 +63,194 @@ export default function Home() {
           }}
         />
 
-        <Container maxWidth="lg">
-          <Stack spacing={4} alignItems="center" textAlign="center">
-            <Typography
-              variant="h1"
-              sx={{
-                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4.5rem' },
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #e0e0e0 0%, #00f7ff 50%, #2047f4 100%)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Taeho (TK) Kim
-            </Typography>
-
-            <Typography
-              variant="h2"
-              color="text.secondary"
-              sx={{
-                fontSize: { xs: '1.25rem', md: '1.75rem' },
-                fontWeight: 400,
-                maxWidth: 600,
-              }}
-            >
-              Fullstack UX Engineer
-            </Typography>
-
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              sx={{ maxWidth: 600, fontSize: { xs: '1rem', md: '1.125rem' } }}
-            >
-              20+ years building scalable web apps with React, Python, and Django.
-              Passionate about crafting intuitive products and mentoring engineers.
-            </Typography>
-
-          </Stack>
-        </Container>
-
-        {/* Scroll indicator */}
-        <Box
-          component="button"
-          onClick={() => {
-            document.getElementById('featured-projects')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          aria-label="Scroll to projects"
-          sx={{
-            position: 'absolute',
-            bottom: 40,
-            left: '50%',
-            transform: 'translateX(-50%)',
-            textAlign: 'center',
-            cursor: 'pointer',
-            background: 'none',
-            border: 'none',
-            padding: 0,
-            animation: 'bounce 3s ease-in-out infinite',
-            '@keyframes bounce': {
-              '0%, 20%, 50%, 80%, 100%': {
-                transform: 'translateX(-50%) translateY(0)',
-              },
-              '40%': {
-                transform: 'translateX(-50%) translateY(-10px)',
-              },
-              '60%': {
-                transform: 'translateX(-50%) translateY(-5px)',
-              },
-            },
-            '&:hover': {
-              '& .MuiTypography-root': {
-                color: 'secondary.main',
-              },
-            },
-          }}
-        >
-          <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 0.5, transition: 'color 0.2s' }}>
-            Featured Projects
-          </Typography>
-          <KeyboardArrowDownIcon sx={{ color: 'secondary.main', fontSize: 32 }} />
-        </Box>
-      </Box>
-
-      {/* Featured Projects Section */}
-      <Box id="featured-projects" sx={{ py: 10, backgroundColor: 'background.paper' }}>
-        <Container maxWidth="lg">
-          <Stack spacing={6}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="h2" sx={{ fontSize: { xs: '1.75rem', md: '2.25rem' } }}>
-                Featured Projects
-              </Typography>
-              <Button
-                component={Link}
-                href="/portfolio"
-                endIcon={<ArrowForwardIcon />}
-                sx={{ color: 'secondary.main' }}
+        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
+          <Grid container spacing={3}>
+            {/* Intro - Plain text, not a card */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box
+                sx={{
+                  height: '100%',
+                  minHeight: { xs: 280, md: 320 },
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  p: { xs: 2, md: 4 },
+                }}
               >
-                View All
-              </Button>
-            </Box>
+                <Typography
+                  variant="h1"
+                  sx={{
+                    fontSize: { xs: '2.25rem', sm: '3rem', md: '3.5rem' },
+                    fontWeight: 700,
+                    background: 'linear-gradient(135deg, #e0e0e0 0%, #00f7ff 50%, #2047f4 100%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    mb: 2,
+                  }}
+                >
+                  Taeho (TK) Kim
+                </Typography>
 
-            <Grid container spacing={3}>
-              {featuredProjects.map((project) => (
-                <Grid key={project.id} size={{ xs: 12, sm: 6, md: 4 }}>
-                  <Card
-                    component={project.link ? Link : 'div'}
-                    href={project.link || '#'}
+                <Typography
+                  variant="h2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: { xs: '1.25rem', md: '1.5rem' },
+                    fontWeight: 400,
+                    mb: 2,
+                  }}
+                >
+                  Fullstack UX Engineer
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.7 }}
+                >
+                  20+ years building scalable web apps with React, Python, and Django.
+                  Passionate about crafting intuitive products and mentoring engineers.
+                </Typography>
+              </Box>
+            </Grid>
+
+            {/* Building in Public Card - Large */}
+            <Grid size={{ xs: 12, md: 6 }}>
+              <Box sx={{ height: '100%', minHeight: { xs: 280, md: 320 } }}>
+                <BuildingInPublicCard />
+              </Box>
+            </Grid>
+
+            {/* Project Cards - Smaller */}
+            {featuredProjects.map((project) => (
+              <Grid key={project.id} size={{ xs: 12, sm: 6, md: 4 }}>
+                <Card
+                  component={Link}
+                  href={project.link}
+                  sx={{
+                    height: '100%',
+                    minHeight: 240,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    textDecoration: 'none',
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)',
+                    },
+                  }}
+                >
+                  <CardMedia
                     sx={{
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      textDecoration: 'none',
-                      cursor: project.link ? 'pointer' : 'default',
+                      height: 120,
+                      backgroundColor: '#111',
+                      overflow: 'hidden',
+                      ...(project.imageStyle === 'contain' && {
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        p: 2,
+                      }),
                     }}
                   >
-                    <CardMedia
+                    <Box
+                      component="img"
+                      src={project.image}
+                      alt={project.title}
                       sx={{
-                        height: 160,
-                        backgroundColor: '#111',
-                        overflow: 'hidden',
-                        ...(project.imageStyle === 'contain' && {
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          p: 3,
-                        }),
+                        ...(project.imageStyle === 'contain'
+                          ? {
+                              maxHeight: '100%',
+                              maxWidth: '100%',
+                              objectFit: 'contain',
+                            }
+                          : {
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: 'top',
+                            }),
                       }}
-                    >
-                      <Box
-                        component="img"
-                        src={project.image}
-                        alt={project.title}
-                        sx={{
-                          ...(project.imageStyle === 'contain'
-                            ? {
-                                maxHeight: '100%',
-                                maxWidth: '100%',
-                                objectFit: 'contain',
-                              }
-                            : {
-                                width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'top',
-                              }),
-                        }}
-                      />
-                    </CardMedia>
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography variant="h6" gutterBottom>
-                        {project.title}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                        {project.description}
-                      </Typography>
-                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        {project.tags.slice(0, 3).map((tag) => (
-                          <Chip
-                            key={tag}
-                            label={tag}
-                            size="small"
-                            sx={{
-                              backgroundColor: 'rgba(0, 247, 255, 0.1)',
-                              color: 'secondary.main',
-                              fontSize: '0.75rem',
-                            }}
-                          />
-                        ))}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+                    />
+                  </CardMedia>
+                  <CardContent sx={{ flexGrow: 1, p: 2 }}>
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
+                      {project.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5, fontSize: '0.85rem' }}>
+                      {project.description}
+                    </Typography>
+                    <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <Chip
+                          key={tag}
+                          label={tag}
+                          size="small"
+                          sx={{
+                            backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                            color: 'secondary.main',
+                            fontSize: '0.7rem',
+                            height: 22,
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+
+            {/* View All Projects Card */}
+            <Grid size={{ xs: 12, sm: 12, md: 4 }}>
+              <Card
+                component={Link}
+                href="/portfolio/"
+                sx={{
+                  height: '100%',
+                  minHeight: { xs: 100, md: 240 },
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px dashed rgba(255, 255, 255, 0.2)',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    backgroundColor: 'rgba(0, 247, 255, 0.05)',
+                    border: '1px dashed rgba(0, 247, 255, 0.4)',
+                    transform: 'translateY(-4px)',
+                  },
+                }}
+              >
+                <CardContent sx={{ textAlign: 'center' }}>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 1,
+                      color: 'text.secondary',
+                      transition: 'color 0.3s ease',
+                      '&:hover': {
+                        color: 'secondary.main',
+                      },
+                    }}
+                  >
+                    <Typography variant="h6" sx={{ fontWeight: 500 }}>
+                      View All Projects
+                    </Typography>
+                    <ArrowForwardIcon />
+                  </Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mt: 1, opacity: 0.7 }}>
+                    Explore the full portfolio
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
-          </Stack>
+          </Grid>
         </Container>
       </Box>
-
-      {/* Building in Public Section */}
-      <BuildingInPublic />
-
     </Box>
   );
 }

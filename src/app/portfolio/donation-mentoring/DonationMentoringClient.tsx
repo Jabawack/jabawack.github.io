@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   Box,
   Container,
@@ -13,9 +14,11 @@ import {
   Dialog,
   DialogContent,
   IconButton,
+  Breadcrumbs,
 } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloseIcon from '@mui/icons-material/Close';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 const versions = [
   {
@@ -55,9 +58,27 @@ export default function DonationMentoringClient() {
   const [openImage, setOpenImage] = useState<string | null>(null);
 
   return (
-    <Box component="main" sx={{ py: 8 }}>
+    <Box component="main" sx={{ py: 4 }}>
       <Container maxWidth="lg">
-        <Stack spacing={6}>
+        <Stack spacing={4}>
+          {/* Breadcrumbs */}
+          <Breadcrumbs
+            separator={<NavigateNextIcon fontSize="small" sx={{ color: 'text.secondary' }} />}
+            sx={{ '& .MuiBreadcrumbs-li': { color: 'text.secondary' } }}
+          >
+            <Link href="/portfolio/" style={{ color: 'inherit', textDecoration: 'none' }}>
+              <Typography
+                variant="body2"
+                sx={{ '&:hover': { color: 'secondary.main' }, transition: 'color 0.2s' }}
+              >
+                Portfolio
+              </Typography>
+            </Link>
+            <Typography variant="body2" color="text.primary">
+              Donation Mentoring
+            </Typography>
+          </Breadcrumbs>
+
           {/* Header */}
           <Box>
             <Typography

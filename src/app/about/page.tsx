@@ -32,7 +32,7 @@ export default function AboutPage() {
               color="text.secondary"
               sx={{ maxWidth: 700, fontSize: { xs: '1rem', md: '1.125rem' } }}
             >
-              I&apos;m TK Kim, a Fullstack UX Engineer with over 20 years of experience
+              I&apos;m Taeho (TK) Kim, a Fullstack UX Engineer with over 20 years of experience
               building scalable web applications and user-centric interfaces.
             </Typography>
           </Box>

@@ -93,6 +93,24 @@ export const updates: Update[] = [
   },
   // In Progress
   {
+    id: 'v2.2.1',
+    date: '2026-01-11',
+    version: '2.2.1',
+    title: 'Case Study UX Refinements',
+    description: 'Iterative improvements to the Building in Public case study based on UX review.',
+    category: 'ux',
+    status: 'completed',
+    tags: ['UX', 'Navigation', 'MUI Stepper', 'Scroll-spy'],
+    details: [
+      'Replaced accordions with scrollable sections for visible content length',
+      'Added scroll-spy navigation dots (MUI Stepper) for chapter navigation',
+      'Side-by-side comparison table replacing toggle view',
+      'Breadcrumbs and shared page header with full-width progress bar',
+      'Renamed "Portfolio Homepage" to "Site Evolution"',
+      'Navigation active state highlighting for current page',
+    ],
+  },
+  {
     id: 'v2.2.0',
     date: '2026-01-10',
     version: '2.2.0',
@@ -100,13 +118,14 @@ export const updates: Update[] = [
     description: 'Transform the portfolio into a living case study with chapter-based storytelling and progress visualization.',
     category: 'ux',
     status: 'completed',
-    tags: ['UX', 'Storytelling', 'Case Study', 'MUI Accordion'],
+    tags: ['UX', 'Storytelling', 'Case Study', 'MUI Accordion', 'MUI Tabs'],
     details: [
       'Hero progress bar showing overall completion',
-      'Chapter-based narrative structure (Why Rebuild → Polish & UX → Content Platform)',
+      'Chapter-based narrative structure (9-Year Gap → Foundation → Polish & UX → Content Platform)',
       'UX storytelling with cognitive psychology terminology',
-      'Before/after visual comparison for v1 to v2 transition',
+      'Before/after toggle comparison for v1 to v2 transition',
       'Status chips and expandable chapter cards',
+      'Journey/Changelog tabs to serve different audiences (UX readers vs engineers)',
     ],
   },
   {

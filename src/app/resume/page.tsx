@@ -68,7 +68,7 @@ export default function ResumePage() {
                 border: 'none',
                 borderRadius: 1,
               }}
-              title="TK Kim Resume"
+              title="Taeho (TK) Kim Resume"
             />
           </Paper>
         </Stack>
