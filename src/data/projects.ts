@@ -16,9 +16,9 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 'homepage',
-    slug: 'homepage',
-    title: 'Portfolio Homepage',
+    id: 'site-evolution',
+    slug: 'site-evolution',
+    title: 'Site Evolution',
     description: 'Evolution of my personal portfolio site. Current version built with Next.js 15, React 19, and MUI v7.',
     image: '/images/logo.png',
     imageStyle: 'contain',
@@ -26,7 +26,7 @@ export const projects: Project[] = [
     category: 'fullstack',
     status: 'live',
     featured: true,
-    link: '/portfolio/homepage/',
+    link: '/portfolio/site-evolution/',
     year: '2017-Present',
     role: 'Fullstack Developer',
   },

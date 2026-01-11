@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/portfolio/homepage/`,
+      url: `${siteUrl}/portfolio/site-evolution/`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7,

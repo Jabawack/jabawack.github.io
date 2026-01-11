@@ -17,11 +17,11 @@ import { getMilestoneProgress } from '@/data/chapters';
 // Progress derived from shared chapters data
 const progressPercent = getMilestoneProgress();
 
-export default function BuildingInPublicCard() {
+export default function SiteEvolutionCard() {
   return (
     <Card
       component={Link}
-      href="/portfolio/homepage/"
+      href="/portfolio/site-evolution/"
       sx={{
         height: '100%',
         display: 'flex',

@@ -26,7 +26,7 @@ const pages: Record<string, { title: string; description: string }> = {
     title: 'Portfolio',
     description: 'Explore projects by TK - web applications, UX design, and fullstack development.',
   },
-  '/portfolio/homepage/': {
+  '/portfolio/site-evolution/': {
     title: 'Site Evolution',
     description: 'From 2017 jQuery to Next.js 15 — the complete rebuild journey, UX decisions, and technical choices.',
   },

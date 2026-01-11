@@ -107,11 +107,11 @@ function StepIcon({ status, active }: StepIconProps) {
   );
 }
 
-interface BuildingInPublicProps {
+interface SiteEvolutionJourneyProps {
   showHero?: boolean;
 }
 
-export default function BuildingInPublic({ showHero = true }: BuildingInPublicProps) {
+export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJourneyProps) {
   const [activeChapter, setActiveChapter] = useState<string>('chapter-1');
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
 

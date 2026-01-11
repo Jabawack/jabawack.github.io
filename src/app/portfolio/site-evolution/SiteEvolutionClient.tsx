@@ -1,0 +1,141 @@
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+import {
+  Box,
+  Container,
+  Typography,
+  Stack,
+  Tabs,
+  Tab,
+  Breadcrumbs,
+  LinearProgress,
+} from '@mui/material';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import CodeIcon from '@mui/icons-material/Code';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import BuildIcon from '@mui/icons-material/Build';
+import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
+import SiteEvolutionJourney from '@/components/SiteEvolutionJourney';
+import SiteEvolutionChangelog from '@/components/SiteEvolutionChangelog';
+
+export default function SiteEvolutionClient() {
+  const [activeTab, setActiveTab] = useState(0);
+
+  const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
+  const milestoneProgressPercent = getMilestoneProgress();
+
+  return (
+    <Box component="main">
+      {/* Page Header Section */}
+      <Box sx={{ pt: 4, pb: 3, backgroundColor: 'background.default' }}>
+        <Container maxWidth="lg">
+          <Stack spacing={3}>
+            {/* Breadcrumbs */}
+            <Breadcrumbs
+              separator={<NavigateNextIcon fontSize="small" sx={{ color: 'text.secondary' }} />}
+              sx={{ '& .MuiBreadcrumbs-li': { color: 'text.secondary' } }}
+            >
+              <Link href="/portfolio/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                <Typography
+                  variant="body2"
+                  sx={{ '&:hover': { color: 'secondary.main' }, transition: 'color 0.2s' }}
+                >
+                  Portfolio
+                </Typography>
+              </Link>
+              <Typography variant="body2" color="text.primary">
+                Site Evolution
+              </Typography>
+            </Breadcrumbs>
+
+            {/* Page Title */}
+            <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 1 }}>
+                <BuildIcon sx={{ color: 'secondary.main', fontSize: 32 }} />
+                <Typography variant="h3" sx={{ fontWeight: 700 }}>
+                  Site Evolution
+                </Typography>
+              </Box>
+              <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 700 }}>
+                From 2017 jQuery to Next.js 15 — the complete rebuild of this portfolio.
+                Explore the journey, UX decisions, and technical choices.
+              </Typography>
+            </Box>
+
+            {/* Progress Bar */}
+            <Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 0.5 }}>
+                <Typography variant="body2" color="text.secondary">
+                  Overall Progress
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'secondary.main', fontWeight: 600 }}>
+                  {milestoneProgressPercent}% ({completedMilestones} of {totalMilestones} milestones)
+                </Typography>
+              </Box>
+              <LinearProgress
+                variant="determinate"
+                value={milestoneProgressPercent}
+                sx={{
+                  height: 8,
+                  borderRadius: 4,
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  '& .MuiLinearProgress-bar': {
+                    borderRadius: 4,
+                    background: 'linear-gradient(90deg, #2047f4 0%, #00f7ff 100%)',
+                  },
+                }}
+              />
+            </Box>
+          </Stack>
+        </Container>
+      </Box>
+
+      {/* Sticky Tab Navigation */}
+      <Box sx={{
+        position: 'sticky',
+        top: 64,
+        zIndex: 10,
+        backgroundColor: 'background.default',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+      }}>
+        <Container maxWidth="lg">
+          <Tabs
+            value={activeTab}
+            onChange={(_, newValue) => setActiveTab(newValue)}
+            sx={{
+              '& .MuiTab-root': {
+                textTransform: 'none',
+                fontWeight: 500,
+                fontSize: '1rem',
+                minHeight: 48,
+              },
+              '& .Mui-selected': {
+                color: 'secondary.main',
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: 'secondary.main',
+              },
+            }}
+          >
+            <Tab
+              icon={<AutoStoriesIcon sx={{ fontSize: 18 }} />}
+              iconPosition="start"
+              label="Journey"
+            />
+            <Tab
+              icon={<CodeIcon sx={{ fontSize: 18 }} />}
+              iconPosition="start"
+              label="Changelog"
+            />
+          </Tabs>
+        </Container>
+      </Box>
+
+      {/* Tab Content */}
+      {activeTab === 0 && <SiteEvolutionJourney showHero={false} />}
+      {activeTab === 1 && <SiteEvolutionChangelog />}
+    </Box>
+  );
+}

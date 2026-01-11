@@ -7,7 +7,7 @@
 ├── /about/                          → About Me
 ├── /resume/                         → Resume
 └── /portfolio/                      → Portfolio Index
-    ├── /portfolio/homepage/         → Site Evolution (Case Study)
+    ├── /portfolio/site-evolution/   → Site Evolution (Case Study)
     └── /portfolio/donation-mentoring/ → Donation Mentoring (Case Study)
 ```
 
@@ -17,11 +17,11 @@
 
 | URL | Page File | Client Component | Shared Components |
 |-----|-----------|------------------|-------------------|
-| `/` | `app/page.tsx` | (inline) | `BuildingInPublicCard` |
+| `/` | `app/page.tsx` | (inline) | `SiteEvolutionCard` |
 | `/about/` | `app/about/page.tsx` | (inline) | — |
 | `/resume/` | `app/resume/page.tsx` | (inline) | — |
-| `/portfolio/` | `app/portfolio/page.tsx` | `PortfolioClient.tsx` | `BuildingInPublicCard` |
-| `/portfolio/homepage/` | `app/portfolio/homepage/page.tsx` | `HomepageClient.tsx` | `BuildingInPublic` |
+| `/portfolio/` | `app/portfolio/page.tsx` | `PortfolioClient.tsx` | — |
+| `/portfolio/site-evolution/` | `app/portfolio/site-evolution/page.tsx` | `SiteEvolutionClient.tsx` | `SiteEvolutionJourney` |
 | `/portfolio/donation-mentoring/` | `app/portfolio/donation-mentoring/page.tsx` | `DonationMentoringClient.tsx` | — |
 
 ---
@@ -38,14 +38,15 @@
 ### Feature Components (`src/components/`)
 | Component | Purpose | Used By |
 |-----------|---------|---------|
-| `BuildingInPublic.tsx` | Site Evolution journey view (chapters, scroll-spy) | `HomepageClient.tsx` |
-| `BuildingInPublicCard.tsx` | "Building in Public" card for portfolio grids | `app/page.tsx`, `PortfolioClient.tsx` |
+| `SiteEvolutionJourney.tsx` | Journey tab (chapters, scroll-spy, milestones) | `SiteEvolutionClient.tsx` |
+| `SiteEvolutionChangelog.tsx` | Changelog tab (updates timeline, filters) | `SiteEvolutionClient.tsx` |
+| `SiteEvolutionCard.tsx` | "Site Evolution" card for home page | `app/page.tsx` |
 
 ### Page Client Components (`src/app/**/`)
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | `PortfolioClient.tsx` | `app/portfolio/` | Portfolio grid with category filter |
-| `HomepageClient.tsx` | `app/portfolio/homepage/` | Site Evolution page (Journey + Changelog tabs) |
+| `SiteEvolutionClient.tsx` | `app/portfolio/site-evolution/` | Site Evolution page (Journey + Changelog tabs) |
 | `DonationMentoringClient.tsx` | `app/portfolio/donation-mentoring/` | Donation Mentoring case study |
 
 ---
@@ -55,8 +56,8 @@
 | File | Exports | Used By |
 |------|---------|---------|
 | `projects.ts` | `projects`, `Project` type | `PortfolioClient.tsx` |
-| `updates.ts` | `updates`, `Update` type, `UpdateStatus`, `UpdateCategory` | `HomepageClient.tsx` |
-| `chapters.ts` | `chapters`, `getMilestoneStats()`, `getMilestoneProgress()` | `BuildingInPublic.tsx`, `BuildingInPublicCard.tsx`, `HomepageClient.tsx` |
+| `updates.ts` | `updates`, `Update` type, `UpdateStatus`, `UpdateCategory` | `SiteEvolutionClient.tsx` |
+| `chapters.ts` | `chapters`, `getMilestoneStats()`, `getMilestoneProgress()` | `SiteEvolutionJourney.tsx`, `SiteEvolutionCard.tsx`, `SiteEvolutionClient.tsx` |
 
 ---
 
@@ -65,7 +66,7 @@
 | File | Exports | Used By |
 |------|---------|---------|
 | `seo.ts` | `siteConfig`, `getMetadata()`, `allPages` | All `page.tsx` files, `layout.tsx` |
-| `statusConfig.ts` | `statusConfig`, `statusColors`, `categoryColors` | `BuildingInPublic.tsx`, `HomepageClient.tsx` |
+| `statusConfig.ts` | `statusConfig`, `statusColors`, `categoryColors` | `SiteEvolutionJourney.tsx`, `SiteEvolutionClient.tsx` |
 
 ---
 
@@ -97,19 +98,6 @@
 
 ---
 
-## Naming Inconsistencies (For Reference)
-
-| Current | Content | Potential Rename |
-|---------|---------|------------------|
-| `/portfolio/homepage/` | Site Evolution case study | `/portfolio/site-evolution/` |
-| `HomepageClient.tsx` | Site Evolution client | `SiteEvolutionClient.tsx` |
-| `BuildingInPublic.tsx` | Journey chapters view | `SiteEvolutionJourney.tsx` |
-| `BuildingInPublicCard.tsx` | Portfolio card | `SiteEvolutionCard.tsx` |
-
-**Status:** Keeping current names per KISS principle. URL is already live.
-
----
-
 ## File Tree
 
 ```
@@ -124,9 +112,9 @@ src/
 │   └── portfolio/
 │       ├── page.tsx                  # Portfolio index (/portfolio/)
 │       ├── PortfolioClient.tsx       # Portfolio grid client
-│       ├── homepage/
-│       │   ├── page.tsx              # Site Evolution (/portfolio/homepage/)
-│       │   └── HomepageClient.tsx    # Journey + Changelog tabs
+│       ├── site-evolution/
+│       │   ├── page.tsx              # Site Evolution (/portfolio/site-evolution/)
+│       │   └── SiteEvolutionClient.tsx # Journey + Changelog tabs
 │       └── donation-mentoring/
 │           ├── page.tsx              # Case study (/portfolio/donation-mentoring/)
 │           └── DonationMentoringClient.tsx
@@ -134,8 +122,9 @@ src/
 │   ├── Navigation.tsx                # Global header
 │   ├── Footer.tsx                    # Global footer
 │   ├── ThemeRegistry.tsx             # MUI theme provider
-│   ├── BuildingInPublic.tsx          # Journey chapters component
-│   └── BuildingInPublicCard.tsx      # Portfolio card for this project
+│   ├── SiteEvolutionJourney.tsx      # Journey tab (chapters, milestones)
+│   ├── SiteEvolutionChangelog.tsx    # Changelog tab (updates timeline)
+│   └── SiteEvolutionCard.tsx         # Home page card for this project
 ├── config/
 │   ├── seo.ts                        # SEO configuration
 │   └── statusConfig.ts               # Status colors & icons

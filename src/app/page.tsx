@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BuildingInPublicCard from '@/components/BuildingInPublicCard';
+import SiteEvolutionCard from '@/components/SiteEvolutionCard';
 
 export default function Home() {
   const featuredProjects = [
@@ -118,7 +118,7 @@ export default function Home() {
             {/* Building in Public Card - Large */}
             <Grid size={{ xs: 12, md: 6 }}>
               <Box sx={{ height: '100%', minHeight: { xs: 280, md: 320 } }}>
-                <BuildingInPublicCard />
+                <SiteEvolutionCard />
               </Box>
             </Grid>
 
