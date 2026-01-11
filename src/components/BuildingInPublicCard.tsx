@@ -12,10 +12,9 @@ import {
 import BuildIcon from '@mui/icons-material/Build';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
-import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
+import { getMilestoneProgress } from '@/data/chapters';
 
-// Progress data derived from shared chapters data
-const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
+// Progress derived from shared chapters data
 const progressPercent = getMilestoneProgress();
 
 export default function BuildingInPublicCard() {

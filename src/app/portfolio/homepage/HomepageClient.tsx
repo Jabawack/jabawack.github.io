@@ -18,7 +18,6 @@ import {
   ListItemText,
   Tabs,
   Tab,
-  Divider,
   Breadcrumbs,
   LinearProgress,
 } from '@mui/material';
@@ -32,7 +31,8 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CodeIcon from '@mui/icons-material/Code';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BuildIcon from '@mui/icons-material/Build';
-import { updates, statusColors, categoryColors, type UpdateStatus } from '@/data/updates';
+import { updates, type UpdateStatus } from '@/data/updates';
+import { statusColors, categoryColors } from '@/config/statusConfig';
 import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
 import BuildingInPublic from '@/components/BuildingInPublic';
 

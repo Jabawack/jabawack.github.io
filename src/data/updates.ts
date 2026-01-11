@@ -210,26 +210,3 @@ export const updates: Update[] = [
     ],
   },
 ];
-
-export const getUpdatesByStatus = (status: UpdateStatus) =>
-  updates.filter((u) => u.status === status);
-
-export const getUpdatesByCategory = (category: UpdateCategory) =>
-  updates.filter((u) => u.category === category);
-
-// Status colors for the timeline
-export const statusColors: Record<UpdateStatus, string> = {
-  'completed': '#4caf50',
-  'in-progress': '#00f7ff',
-  'planned': '#666666',
-};
-
-// Category colors for chips
-export const categoryColors: Record<UpdateCategory, string> = {
-  'feature': '#2047f4',
-  'enhancement': '#9c27b0',
-  'bugfix': '#f44336',
-  'design': '#ff9800',
-  'ux': '#e91e63',
-  'infrastructure': '#607d8b',
-};

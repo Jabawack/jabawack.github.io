@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import ThemeRegistry from '@/components/ThemeRegistry';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { siteConfig } from '@/config/seo';
 import '@/styles/globals.css';
 
 const inter = Inter({
@@ -11,10 +12,8 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = 'https://jabawack.github.io';
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: 'TK | Fullstack UX Engineer',
     template: '%s | TK',
@@ -30,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: siteUrl,
+    url: siteConfig.url,
     siteName: 'TK Portfolio',
     title: 'TK | Fullstack UX Engineer',
     description:

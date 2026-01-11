@@ -21,16 +21,9 @@ import {
   Divider,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import BuildIcon from '@mui/icons-material/Build';
-import ScheduleIcon from '@mui/icons-material/Schedule';
 import { chapters, getMilestoneStats } from '@/data/chapters';
-
-const statusConfig = {
-  completed: { icon: CheckCircleIcon, color: '#4caf50', label: 'Done' },
-  'in-progress': { icon: BuildIcon, color: '#00f7ff', label: 'In Progress' },
-  planned: { icon: ScheduleIcon, color: '#666666', label: 'Planned' },
-};
+import { statusConfig } from '@/config/statusConfig';
 
 const beforeAfterData = {
   before: {
@@ -78,21 +71,12 @@ interface StepIconProps {
 }
 
 function StepIcon({ status, active }: StepIconProps) {
-  const color = statusConfig[status].color;
+  const config = statusConfig[status];
+  const Icon = config.icon;
+  const color = config.color;
   const size = 20;
 
-  if (status === 'completed') {
-    return (
-      <CheckCircleIcon
-        sx={{
-          fontSize: size,
-          color,
-          filter: active ? `drop-shadow(0 0 4px ${color})` : 'none',
-        }}
-      />
-    );
-  }
-
+  // In-progress gets a pulsing dot instead of an icon
   if (status === 'in-progress') {
     return (
       <Box
@@ -112,9 +96,8 @@ function StepIcon({ status, active }: StepIconProps) {
     );
   }
 
-  // Planned
   return (
-    <ScheduleIcon
+    <Icon
       sx={{
         fontSize: size,
         color,
