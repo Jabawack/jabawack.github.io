@@ -16,17 +16,9 @@ import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AnimatedSection from '@/components/AnimatedSection';
+import BuildingInPublic from '@/components/BuildingInPublic';
 export default function Home() {
   const featuredProjects = [
-    {
-      id: 'homepage',
-      title: 'Portfolio Homepage',
-      description: 'Evolution of my personal portfolio site. Current version built with Next.js 15, React 19, and MUI v7.',
-      image: '/images/logo.png',
-      tags: ['Next.js', 'React 19', 'MUI v7'],
-      link: '/portfolio/homepage/',
-      imageStyle: 'contain' as const,
-    },
     {
       id: 'donation-mentoring',
       title: 'Donation Mentoring',
@@ -250,6 +242,9 @@ export default function Home() {
           </Stack>
         </Container>
       </Box>
+
+      {/* Building in Public Section */}
+      <BuildingInPublic />
 
     </Box>
   );
