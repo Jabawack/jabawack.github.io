@@ -18,7 +18,7 @@ const versions = [
     date: '2017',
     description: 'Original portfolio built with Materialize CSS and jQuery. Static HTML/CSS/JS site.',
     tech: ['Materialize CSS', 'jQuery', 'HTML/CSS'],
-    link: '/v2017/',
+    link: '/v2017/index.html',
     status: 'archived',
   },
 ];

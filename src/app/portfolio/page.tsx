@@ -125,14 +125,16 @@ export default function PortfolioPage() {
                     <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
                       <Typography variant="h6">{project.title}</Typography>
                       <Chip
-                        label={project.status}
+                        label={project.status === 'archived' ? 'archived' : 'live'}
                         size="small"
                         sx={{
                           backgroundColor:
-                            project.status === 'live' ? '#4caf50' : 'rgba(255,255,255,0.1)',
-                          color: project.status === 'live' ? 'white' : 'text.secondary',
+                            project.status === 'live' ? '#4caf50' : 'transparent',
+                          color: project.status === 'live' ? 'white' : 'text.disabled',
                           fontSize: '0.65rem',
                           height: 20,
+                          border: project.status === 'archived' ? '1px solid' : 'none',
+                          borderColor: 'text.disabled',
                         }}
                       />
                     </Stack>
