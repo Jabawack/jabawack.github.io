@@ -14,6 +14,7 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
 import Link from 'next/link';
 import { projects, type Project } from '@/data/projects';
 
@@ -21,6 +22,7 @@ type CategoryFilter = 'all' | Project['category'];
 
 export default function PortfolioClient() {
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const theme = useTheme();
 
   const filteredProjects =
     categoryFilter === 'all'
@@ -91,7 +93,7 @@ export default function PortfolioClient() {
                   <CardMedia
                     sx={{
                       height: 180,
-                      backgroundColor: '#111',
+                      backgroundColor: theme.palette.mode === 'dark' ? '#111' : '#f5f5f5',
                       overflow: 'hidden',
                       ...(project.imageStyle === 'contain' && {
                         display: 'flex',
@@ -129,7 +131,7 @@ export default function PortfolioClient() {
                         size="small"
                         sx={{
                           backgroundColor:
-                            project.status === 'live' ? '#4caf50' : 'transparent',
+                            project.status === 'live' ? 'success.main' : 'transparent',
                           color: project.status === 'live' ? 'white' : 'text.disabled',
                           fontSize: '0.65rem',
                           height: 20,
@@ -151,7 +153,7 @@ export default function PortfolioClient() {
                           label={tag}
                           size="small"
                           sx={{
-                            backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                            backgroundColor: alpha(theme.palette.secondary.main, 0.1),
                             color: 'secondary.main',
                             fontSize: '0.7rem',
                           }}

@@ -12,6 +12,7 @@ import {
   Breadcrumbs,
   LinearProgress,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CodeIcon from '@mui/icons-material/Code';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -19,9 +20,11 @@ import BuildIcon from '@mui/icons-material/Build';
 import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
 import SiteEvolutionJourney from '@/components/SiteEvolutionJourney';
 import SiteEvolutionChangelog from '@/components/SiteEvolutionChangelog';
+import { getProgressGradient } from '@/theme';
 
 export default function SiteEvolutionClient() {
   const [activeTab, setActiveTab] = useState(0);
+  const theme = useTheme();
 
   const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
   const milestoneProgressPercent = getMilestoneProgress();
@@ -80,10 +83,10 @@ export default function SiteEvolutionClient() {
                 sx={{
                   height: 8,
                   borderRadius: 4,
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  backgroundColor: theme.palette.divider,
                   '& .MuiLinearProgress-bar': {
                     borderRadius: 4,
-                    background: 'linear-gradient(90deg, #2047f4 0%, #00f7ff 100%)',
+                    background: getProgressGradient(theme),
                   },
                 }}
               />
@@ -98,7 +101,7 @@ export default function SiteEvolutionClient() {
         top: 64,
         zIndex: 10,
         backgroundColor: 'background.default',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: `1px solid ${theme.palette.divider}`,
       }}>
         <Container maxWidth="lg">
           <Tabs

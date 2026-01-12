@@ -20,10 +20,11 @@ import {
   ListItemText,
   Divider,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme, alpha } from '@mui/material/styles';
 import BuildIcon from '@mui/icons-material/Build';
 import { chapters, getMilestoneStats } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
+import { getGradientBackground, getProgressGradient, getLineColor } from '@/theme';
 
 const beforeAfterData = {
   before: {
@@ -58,7 +59,7 @@ const DotConnector = styled(StepConnector)(({ theme }) => ({
     marginLeft: 9, // Center line with 20px icon: (20/2) - (2/2) = 9
   },
   '& .MuiStepConnector-line': {
-    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: theme.palette.divider,
     borderLeftWidth: 2,
     minHeight: 60,
   },
@@ -114,6 +115,7 @@ interface SiteEvolutionJourneyProps {
 export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJourneyProps) {
   const [activeChapter, setActiveChapter] = useState<string>('chapter-1');
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+  const theme = useTheme();
 
   // Calculate progress from shared data
   const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
@@ -170,8 +172,8 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
           {showHero && (
           <Card
             sx={{
-              background: 'linear-gradient(135deg, rgba(32, 71, 244, 0.1) 0%, rgba(0, 247, 255, 0.05) 100%)',
-              border: '1px solid rgba(0, 247, 255, 0.2)',
+              background: getGradientBackground(theme),
+              border: `1px solid ${alpha(theme.palette.secondary.main, 0.2)}`,
             }}
           >
             <CardContent sx={{ p: 4 }}>
@@ -204,10 +206,10 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
                     sx={{
                       height: 10,
                       borderRadius: 5,
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      backgroundColor: theme.palette.divider,
                       '& .MuiLinearProgress-bar': {
                         borderRadius: 5,
-                        background: 'linear-gradient(90deg, #2047f4 0%, #00f7ff 100%)',
+                        background: getProgressGradient(theme),
                       },
                     }}
                   />
@@ -378,8 +380,8 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
 
                                 <Card
                                   sx={{
-                                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                                    border: `1px solid ${theme.palette.divider}`,
                                   }}
                                 >
                                   <CardContent>
@@ -391,7 +393,7 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
                                         gap: 2,
                                         pb: 1.5,
                                         mb: 1.5,
-                                        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                                        borderBottom: `1px solid ${theme.palette.divider}`,
                                       }}
                                     >
                                       <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
@@ -415,7 +417,7 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
                                             gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
                                             gap: 2,
                                             py: 0.5,
-                                            borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                                            borderBottom: `1px solid ${theme.palette.divider}`,
                                           }}
                                         >
                                           <Typography variant="body2" color="text.secondary">

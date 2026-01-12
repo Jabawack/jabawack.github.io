@@ -11,11 +11,15 @@ import {
   Grid,
   Stack,
 } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SiteEvolutionCard from '@/components/SiteEvolutionCard';
+import { getHeroGradient, getTextGradient } from '@/theme';
 
 export default function Home() {
+  const theme = useTheme();
+
   const featuredProjects = [
     {
       id: 'donation-mentoring',
@@ -58,7 +62,7 @@ export default function Home() {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'radial-gradient(ellipse at 50% 0%, rgba(32, 71, 244, 0.15) 0%, transparent 60%)',
+            background: getHeroGradient(theme),
             pointerEvents: 'none',
           }}
         />
@@ -82,7 +86,7 @@ export default function Home() {
                   sx={{
                     fontSize: { xs: '2.25rem', sm: '3rem', md: '3.5rem' },
                     fontWeight: 700,
-                    background: 'linear-gradient(135deg, #e0e0e0 0%, #00f7ff 50%, #2047f4 100%)',
+                    background: getTextGradient(theme),
                     backgroundClip: 'text',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -137,14 +141,14 @@ export default function Home() {
                     transition: 'all 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 8px 30px rgba(0, 0, 0, 0.3)',
+                      boxShadow: `0 8px 30px ${alpha(theme.palette.common.black, 0.3)}`,
                     },
                   }}
                 >
                   <CardMedia
                     sx={{
                       height: 120,
-                      backgroundColor: '#111',
+                      backgroundColor: theme.palette.mode === 'dark' ? '#111' : '#f5f5f5',
                       overflow: 'hidden',
                       ...(project.imageStyle === 'contain' && {
                         display: 'flex',
@@ -188,7 +192,7 @@ export default function Home() {
                           label={tag}
                           size="small"
                           sx={{
-                            backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                            backgroundColor: alpha(theme.palette.secondary.main, 0.1),
                             color: 'secondary.main',
                             fontSize: '0.7rem',
                             height: 22,
@@ -213,12 +217,12 @@ export default function Home() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   textDecoration: 'none',
-                  backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px dashed rgba(255, 255, 255, 0.2)',
+                  backgroundColor: alpha(theme.palette.common.white, theme.palette.mode === 'dark' ? 0.02 : 0.5),
+                  border: `1px dashed ${alpha(theme.palette.text.primary, 0.2)}`,
                   transition: 'all 0.3s ease',
                   '&:hover': {
-                    backgroundColor: 'rgba(0, 247, 255, 0.05)',
-                    border: '1px dashed rgba(0, 247, 255, 0.4)',
+                    backgroundColor: alpha(theme.palette.secondary.main, 0.05),
+                    border: `1px dashed ${alpha(theme.palette.secondary.main, 0.4)}`,
                     transform: 'translateY(-4px)',
                   },
                 }}

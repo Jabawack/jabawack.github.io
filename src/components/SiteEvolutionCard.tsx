@@ -9,15 +9,19 @@ import {
   Chip,
   Stack,
 } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
 import BuildIcon from '@mui/icons-material/Build';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
 import { getMilestoneProgress } from '@/data/chapters';
+import { getGradientBackground, getProgressGradient } from '@/theme';
 
 // Progress derived from shared chapters data
 const progressPercent = getMilestoneProgress();
 
 export default function SiteEvolutionCard() {
+  const theme = useTheme();
+
   return (
     <Card
       component={Link}
@@ -27,13 +31,13 @@ export default function SiteEvolutionCard() {
         display: 'flex',
         flexDirection: 'column',
         textDecoration: 'none',
-        background: 'linear-gradient(135deg, rgba(32, 71, 244, 0.15) 0%, rgba(0, 247, 255, 0.08) 100%)',
-        border: '1px solid rgba(0, 247, 255, 0.3)',
+        background: getGradientBackground(theme),
+        border: `1px solid ${alpha(theme.palette.secondary.main, 0.3)}`,
         transition: 'all 0.3s ease',
         '&:hover': {
-          border: '1px solid rgba(0, 247, 255, 0.6)',
+          border: `1px solid ${alpha(theme.palette.secondary.main, 0.6)}`,
           transform: 'translateY(-4px)',
-          boxShadow: '0 8px 30px rgba(0, 247, 255, 0.15)',
+          boxShadow: `0 8px 30px ${alpha(theme.palette.secondary.main, 0.15)}`,
         },
       }}
     >
@@ -67,10 +71,10 @@ export default function SiteEvolutionCard() {
             sx={{
               height: 6,
               borderRadius: 3,
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backgroundColor: theme.palette.divider,
               '& .MuiLinearProgress-bar': {
                 borderRadius: 3,
-                background: 'linear-gradient(90deg, #2047f4 0%, #00f7ff 100%)',
+                background: getProgressGradient(theme),
               },
             }}
           />
@@ -82,7 +86,7 @@ export default function SiteEvolutionCard() {
             label="Next.js 15"
             size="small"
             sx={{
-              backgroundColor: 'rgba(0, 247, 255, 0.1)',
+              backgroundColor: alpha(theme.palette.secondary.main, 0.1),
               color: 'secondary.main',
               fontSize: '0.7rem',
             }}
@@ -91,8 +95,8 @@ export default function SiteEvolutionCard() {
             label="React 19"
             size="small"
             sx={{
-              backgroundColor: 'rgba(32, 71, 244, 0.2)',
-              color: '#8fa4f8',
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+              color: theme.palette.mode === 'dark' ? '#8fa4f8' : theme.palette.primary.main,
               fontSize: '0.7rem',
             }}
           />
@@ -100,8 +104,8 @@ export default function SiteEvolutionCard() {
             label="MUI v7"
             size="small"
             sx={{
-              backgroundColor: 'rgba(32, 71, 244, 0.2)',
-              color: '#8fa4f8',
+              backgroundColor: alpha(theme.palette.primary.main, 0.2),
+              color: theme.palette.mode === 'dark' ? '#8fa4f8' : theme.palette.primary.main,
               fontSize: '0.7rem',
             }}
           />

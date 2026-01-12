@@ -16,6 +16,7 @@ import {
   IconButton,
   Breadcrumbs,
 } from '@mui/material';
+import { useTheme, alpha } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -56,6 +57,7 @@ const versions = [
 
 export default function DonationMentoringClient() {
   const [openImage, setOpenImage] = useState<string | null>(null);
+  const theme = useTheme();
 
   return (
     <Box component="main" sx={{ py: 4 }}>
@@ -153,7 +155,7 @@ export default function DonationMentoringClient() {
                             label={t}
                             size="small"
                             sx={{
-                              backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                              backgroundColor: alpha(theme.palette.secondary.main, 0.1),
                               color: 'secondary.main',
                             }}
                           />
@@ -175,7 +177,7 @@ export default function DonationMentoringClient() {
                             transition: 'transform 0.2s, box-shadow 0.2s',
                             '&:hover': {
                               transform: 'scale(1.02)',
-                              boxShadow: '0 0 20px rgba(0, 247, 255, 0.3)',
+                              boxShadow: `0 0 20px ${alpha(theme.palette.secondary.main, 0.3)}`,
                             },
                           }}
                         >

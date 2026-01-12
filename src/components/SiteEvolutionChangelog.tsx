@@ -16,6 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { getLineColor } from '@/theme';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import ScheduleIcon from '@mui/icons-material/Schedule';
@@ -51,6 +53,7 @@ function getStatusIcon(status: UpdateStatus) {
 export default function SiteEvolutionChangelog() {
   const [statusFilter, setStatusFilter] = useState<UpdateStatus | 'all'>('all');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['v2.1.0']));
+  const theme = useTheme();
 
   const filteredUpdates =
     statusFilter === 'all' ? updates : updates.filter((u) => u.status === statusFilter);
@@ -134,7 +137,7 @@ export default function SiteEvolutionChangelog() {
                 top: 0,
                 bottom: 0,
                 width: 2,
-                backgroundColor: 'rgba(255,255,255,0.1)',
+                backgroundColor: getLineColor(theme),
               }}
             />
 
@@ -242,7 +245,7 @@ export default function SiteEvolutionChangelog() {
                             label={tag}
                             size="small"
                             sx={{
-                              backgroundColor: 'rgba(255,255,255,0.05)',
+                              backgroundColor: theme.palette.divider,
                               color: 'text.secondary',
                               fontSize: '0.7rem',
                             }}

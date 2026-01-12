@@ -1,3 +1,4 @@
+/* Dark mode (default) */
 :root {
   --color-bg-primary: #000000;
   --color-bg-secondary: #0a0a0a;
@@ -5,7 +6,23 @@
   --color-accent-cyan: #00f7ff;
   --color-text-primary: #e0e0e0;
   --color-text-secondary: #aeaecb;
+  --color-scrollbar-track: #0a0a0a;
+  --color-scrollbar-thumb: #333;
+  --color-scrollbar-thumb-hover: #444;
   --container-max-width: 1392px;
+}
+
+/* Light mode */
+[data-theme="light"] {
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #ffffff;
+  --color-accent-blue: #1a3bc7;
+  --color-accent-cyan: #0090a3;
+  --color-text-primary: #1a1a1a;
+  --color-text-secondary: #5c5c7a;
+  --color-scrollbar-track: #f0f0f0;
+  --color-scrollbar-thumb: #c0c0c0;
+  --color-scrollbar-thumb-hover: #a0a0a0;
 }
 
 * {
@@ -41,16 +58,16 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-secondary);
+  background: var(--color-scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: var(--color-scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: var(--color-scrollbar-thumb-hover);
 }
 
 /* Scroll-triggered fade-in animation */

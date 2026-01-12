@@ -19,6 +19,8 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { useTheme } from '@mui/material/styles';
+import ThemeToggle from './ThemeToggle';
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -31,6 +33,7 @@ export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
+  const theme = useTheme();
   const scrollTrigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 50,
@@ -42,6 +45,7 @@ export default function Navigation() {
 
   // Only use scroll trigger after mount to avoid hydration mismatch
   const trigger = mounted && scrollTrigger;
+  const isDark = theme.palette.mode === 'dark';
 
   // Check if nav item is active (exact match for home, startsWith for others)
   const isActive = (href: string) => {
@@ -64,7 +68,9 @@ export default function Navigation() {
         position="fixed"
         elevation={trigger ? 4 : 0}
         sx={{
-          backgroundColor: trigger ? 'rgba(0, 0, 0, 0.95)' : 'transparent',
+          backgroundColor: trigger
+            ? (isDark ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)')
+            : 'transparent',
           transition: 'background-color 0.3s ease',
         }}
       >
@@ -84,7 +90,7 @@ export default function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, alignItems: 'center' }}>
               {navItems.map((item) => {
                 const active = isActive(item.href);
                 return (
@@ -117,6 +123,7 @@ export default function Navigation() {
                   </Button>
                 );
               })}
+              <ThemeToggle />
             </Box>
 
             {/* Mobile Menu Button */}
@@ -147,7 +154,8 @@ export default function Navigation() {
           },
         }}
       >
-        <Box sx={{ p: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ p: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <ThemeToggle />
           <IconButton onClick={handleDrawerToggle} color="inherit">
             <CloseIcon />
           </IconButton>
@@ -163,11 +171,13 @@ export default function Navigation() {
                   onClick={handleDrawerToggle}
                   sx={{
                     py: 2,
-                    backgroundColor: active ? 'rgba(0, 247, 255, 0.1)' : 'transparent',
+                    backgroundColor: active
+                      ? (isDark ? 'rgba(0, 247, 255, 0.1)' : 'rgba(0, 144, 163, 0.1)')
+                      : 'transparent',
                     borderLeft: active ? '3px solid' : '3px solid transparent',
                     borderColor: active ? 'secondary.main' : 'transparent',
                     '&:hover': {
-                      backgroundColor: 'rgba(0, 247, 255, 0.1)',
+                      backgroundColor: isDark ? 'rgba(0, 247, 255, 0.1)' : 'rgba(0, 144, 163, 0.1)',
                     },
                   }}
                 >

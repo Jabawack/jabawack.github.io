@@ -1,14 +1,28 @@
 'use client';
 
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import theme from '@/theme';
+import { ThemeProvider, useThemeMode } from '@/context/ThemeContext';
+import { darkTheme, lightTheme } from '@/theme';
 
-export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
+// Inner component that uses the theme context
+function MuiThemeWrapper({ children }: { children: React.ReactNode }) {
+  const { resolvedMode } = useThemeMode();
+  const theme = resolvedMode === 'dark' ? darkTheme : lightTheme;
+
   return (
-    <ThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
       <CssBaseline />
       {children}
+    </MuiThemeProvider>
+  );
+}
+
+// Main registry that provides both contexts
+export default function ThemeRegistry({ children }: { children: React.ReactNode }) {
+  return (
+    <ThemeProvider>
+      <MuiThemeWrapper>{children}</MuiThemeWrapper>
     </ThemeProvider>
   );
 }
