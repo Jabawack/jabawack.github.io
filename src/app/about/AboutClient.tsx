@@ -22,7 +22,6 @@ export default function AboutClient() {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '2rem', md: '3rem' },
                 fontWeight: 700,
                 mb: 2,
               }}
@@ -32,7 +31,7 @@ export default function AboutClient() {
             <Typography
               variant="body1"
               color="text.secondary"
-              sx={{ maxWidth: 700, fontSize: { xs: '1rem', md: '1.125rem' } }}
+              sx={{ maxWidth: 700 }}
             >
               I&apos;m Taeho (TK) Kim, a Fullstack UX Engineer with over 20 years of experience
               building scalable web applications and user-centric interfaces.

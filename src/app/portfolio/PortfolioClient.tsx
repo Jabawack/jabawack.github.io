@@ -38,7 +38,6 @@ export default function PortfolioClient() {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '2rem', md: '3rem' },
                 fontWeight: 700,
                 mb: 2,
               }}
@@ -133,7 +132,7 @@ export default function PortfolioClient() {
                           backgroundColor:
                             project.status === 'live' ? 'success.main' : 'transparent',
                           color: project.status === 'live' ? 'white' : 'text.disabled',
-                          fontSize: '0.65rem',
+                          fontSize: '0.7rem',
                           height: 20,
                           border: project.status === 'archived' ? '1px solid' : 'none',
                           borderColor: 'text.disabled',

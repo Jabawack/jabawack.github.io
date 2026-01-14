@@ -1,6 +1,6 @@
 'use client';
 
-import { createTheme, type Theme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes, type Theme } from '@mui/material/styles';
 import { darkPalette, lightPalette } from './palettes';
 import { getComponentOverrides } from './components';
 
@@ -45,12 +45,18 @@ const shape = {
 export function createDynamicTheme(mode: 'light' | 'dark'): Theme {
   const palette = mode === 'dark' ? darkPalette : lightPalette;
 
-  return createTheme({
+  let theme = createTheme({
+    cssVariables: true, // Enable CSS custom properties (--mui-*)
     palette,
     typography,
     shape,
     components: getComponentOverrides(mode),
   });
+
+  // Apply responsive font scaling to headings (h1-h6)
+  theme = responsiveFontSizes(theme);
+
+  return theme;
 }
 
 // Pre-created themes for performance

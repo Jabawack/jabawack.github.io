@@ -65,7 +65,7 @@ export const chapters: Chapter[] = [
     milestones: [
       { version: 'v2.2.0', title: 'Building in Public (Case study foundation)', status: 'completed' },
       { version: 'v2.2.1', title: 'UX Refinements (Scroll-spy nav, comparison table)', status: 'completed' },
-      { version: 'v2.3.0', title: 'Theme System (Light/dark mode)', status: 'planned' },
+      { version: 'v2.3.0', title: 'Theme System (Light/dark mode)', status: 'completed' },
       { version: 'v2.4.0', title: 'Contact & Engagement (SpeedDial, analytics)', status: 'planned' },
       { version: 'v2.5.0', title: 'Content Depth (Case studies, Stepper/Tabs)', status: 'planned' },
       { version: 'v2.6.0', title: 'Discoverability (Autocomplete filtering)', status: 'planned' },
