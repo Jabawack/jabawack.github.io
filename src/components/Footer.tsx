@@ -39,8 +39,7 @@ export default function Footer() {
               }}
             >
               jabawack.github.io
-            </Box>{' '}
-            All Rights Reserved
+            </Box>
           </Typography>
 
           <Stack direction="row" spacing={1}>

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import {
   Box,
   Container,
@@ -15,16 +16,35 @@ import {
 import { useTheme } from '@mui/material/styles';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import CodeIcon from '@mui/icons-material/Code';
+import WidgetsIcon from '@mui/icons-material/Widgets';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BuildIcon from '@mui/icons-material/Build';
 import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
 import SiteEvolutionJourney from '@/components/SiteEvolutionJourney';
 import SiteEvolutionChangelog from '@/components/SiteEvolutionChangelog';
+import StorybookEmbed from '@/components/StorybookEmbed';
 import { getProgressGradient } from '@/theme';
 
+const TAB_MAP: Record<string, number> = {
+  journey: 0,
+  changelog: 1,
+  components: 2,
+};
+
 export default function SiteEvolutionClient() {
-  const [activeTab, setActiveTab] = useState(0);
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get('tab');
+  const initialTab = tabParam && TAB_MAP[tabParam] !== undefined ? TAB_MAP[tabParam] : 0;
+
+  const [activeTab, setActiveTab] = useState(initialTab);
   const theme = useTheme();
+
+  // Update tab when URL param changes
+  useEffect(() => {
+    if (tabParam && TAB_MAP[tabParam] !== undefined) {
+      setActiveTab(TAB_MAP[tabParam]);
+    }
+  }, [tabParam]);
 
   const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
   const milestoneProgressPercent = getMilestoneProgress();
@@ -132,6 +152,11 @@ export default function SiteEvolutionClient() {
               iconPosition="start"
               label="Changelog"
             />
+            <Tab
+              icon={<WidgetsIcon sx={{ fontSize: 18 }} />}
+              iconPosition="start"
+              label="Components"
+            />
           </Tabs>
         </Container>
       </Box>
@@ -139,6 +164,11 @@ export default function SiteEvolutionClient() {
       {/* Tab Content */}
       {activeTab === 0 && <SiteEvolutionJourney showHero={false} />}
       {activeTab === 1 && <SiteEvolutionChangelog />}
+      {activeTab === 2 && (
+        <Box sx={{ px: 2 }}>
+          <StorybookEmbed height="calc(100vh - 64px - 48px - 200px)" />
+        </Box>
+      )}
     </Box>
   );
 }

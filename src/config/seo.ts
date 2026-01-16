@@ -34,6 +34,10 @@ const pages: Record<string, { title: string; description: string }> = {
     title: 'Donation Mentoring',
     description: 'A mentoring platform that pairs one-on-one sessions with UNICEF donations.',
   },
+  '/portfolio/design-system/': {
+    title: 'Design System',
+    description: 'Storybook component library showcasing the UI building blocks of this portfolio.',
+  },
 };
 
 /**
