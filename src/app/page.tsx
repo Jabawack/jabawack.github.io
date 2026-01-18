@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Chip,
   Grid,
   Stack,
 } from '@mui/material';
@@ -15,6 +14,7 @@ import { useTheme, alpha } from '@mui/material/styles';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SiteEvolutionCard from '@/components/SiteEvolutionCard';
+import Tag from '@/components/Tag';
 import { getHeroGradient, getTextGradient } from '@/theme';
 
 export default function Home() {
@@ -187,16 +187,12 @@ export default function Home() {
                     </Typography>
                     <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
                       {project.tags.slice(0, 3).map((tag) => (
-                        <Chip
+                        <Tag
                           key={tag}
                           label={tag}
                           size="small"
-                          sx={{
-                            backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-                            color: 'secondary.main',
-                            fontSize: '0.7rem',
-                            height: 22,
-                          }}
+                          variant="secondary"
+                          sx={{ fontSize: '0.7rem', height: 22 }}
                         />
                       ))}
                     </Stack>

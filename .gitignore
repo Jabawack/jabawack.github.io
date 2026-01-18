@@ -2,6 +2,9 @@
 .claude/
 CLAUDE.md
 
+# Reference docs (not checked in)
+docs/reference/
+
 # Next.js
 .next/
 out/

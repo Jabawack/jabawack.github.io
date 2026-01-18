@@ -6,10 +6,10 @@ import {
   CardContent,
   Typography,
   LinearProgress,
-  Chip,
   Stack,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
+import Tag from '@/components/Tag';
 import BuildIcon from '@mui/icons-material/Build';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';
@@ -82,33 +82,9 @@ export default function SiteEvolutionCard() {
 
         {/* Tags */}
         <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 2 }}>
-          <Chip
-            label="Next.js 15"
-            size="small"
-            sx={{
-              backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-              color: 'secondary.main',
-              fontSize: '0.7rem',
-            }}
-          />
-          <Chip
-            label="React 19"
-            size="small"
-            sx={{
-              backgroundColor: alpha(theme.palette.primary.main, 0.2),
-              color: theme.palette.mode === 'dark' ? '#8fa4f8' : theme.palette.primary.main,
-              fontSize: '0.7rem',
-            }}
-          />
-          <Chip
-            label="MUI v7"
-            size="small"
-            sx={{
-              backgroundColor: alpha(theme.palette.primary.main, 0.2),
-              color: theme.palette.mode === 'dark' ? '#8fa4f8' : theme.palette.primary.main,
-              fontSize: '0.7rem',
-            }}
-          />
+          <Tag label="Next.js 15" variant="secondary" size="small" />
+          <Tag label="React 19" variant="secondary" size="small" />
+          <Tag label="MUI v7" variant="secondary" size="small" />
         </Stack>
 
         {/* CTA */}

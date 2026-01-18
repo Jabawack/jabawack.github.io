@@ -1,7 +1,7 @@
 'use client';
 
-import { Box, Container, Typography, Stack, Chip, Grid, Paper } from '@mui/material';
-import { useTheme, alpha } from '@mui/material/styles';
+import { Box, Container, Typography, Stack, Grid, Paper } from '@mui/material';
+import Tag from '@/components/Tag';
 
 const skills = {
   frontend: ['React', 'Redux', 'TypeScript', 'Next.js', 'JavaScript'],
@@ -11,8 +11,6 @@ const skills = {
 };
 
 export default function AboutClient() {
-  const theme = useTheme();
-
   return (
     <Box component="main" sx={{ py: 8 }}>
       <Container maxWidth="lg">
@@ -90,15 +88,7 @@ export default function AboutClient() {
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {skills.frontend.map((skill) => (
-                      <Chip
-                        key={skill}
-                        label={skill}
-                        size="small"
-                        sx={{
-                          backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                          color: 'primary.main',
-                        }}
-                      />
+                      <Tag key={skill} label={skill} size="small" variant="primary" />
                     ))}
                   </Stack>
                 </Paper>
@@ -110,15 +100,7 @@ export default function AboutClient() {
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {skills.backend.map((skill) => (
-                      <Chip
-                        key={skill}
-                        label={skill}
-                        size="small"
-                        sx={{
-                          backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-                          color: 'secondary.main',
-                        }}
-                      />
+                      <Tag key={skill} label={skill} size="small" variant="secondary" />
                     ))}
                   </Stack>
                 </Paper>
@@ -130,15 +112,7 @@ export default function AboutClient() {
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {skills.ux.map((skill) => (
-                      <Chip
-                        key={skill}
-                        label={skill}
-                        size="small"
-                        sx={{
-                          backgroundColor: alpha(theme.palette.success.main, 0.1),
-                          color: 'success.main',
-                        }}
-                      />
+                      <Tag key={skill} label={skill} size="small" variant="success" />
                     ))}
                   </Stack>
                 </Paper>
@@ -150,12 +124,7 @@ export default function AboutClient() {
                   </Typography>
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {skills.tools.map((skill) => (
-                      <Chip
-                        key={skill}
-                        label={skill}
-                        size="small"
-                        sx={{ backgroundColor: theme.palette.divider, color: 'text.secondary' }}
-                      />
+                      <Tag key={skill} label={skill} size="small" variant="default" />
                     ))}
                   </Stack>
                 </Paper>

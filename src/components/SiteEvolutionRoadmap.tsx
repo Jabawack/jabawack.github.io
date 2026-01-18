@@ -6,7 +6,6 @@ import {
   Container,
   Typography,
   Paper,
-  Chip,
   Stack,
   Divider,
   List,
@@ -15,6 +14,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
+import Tag from '@/components/Tag';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
@@ -60,43 +60,33 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({ item, showVersion = true }) =
           <Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
               {showVersion && item.version && (
-                <Chip
+                <Tag
                   label={`v${item.version}`}
                   size="small"
-                  sx={{
-                    backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-                    color: 'secondary.main',
-                    fontWeight: 600,
-                    fontSize: '0.75rem',
-                    height: 24,
-                  }}
+                  variant="secondary"
+                  sx={{ fontWeight: 600, fontSize: '0.75rem', height: 24 }}
                 />
               )}
               {item.priority && (
-                <Chip
-                  icon={<CircleIcon sx={{ fontSize: 8, color: `${priorityConfig[item.priority].color} !important` }} />}
+                <Tag
+                  icon={<CircleIcon sx={{ fontSize: 8 }} />}
                   label={priorityConfig[item.priority].label}
                   size="small"
-                  sx={{
-                    backgroundColor: alpha(priorityConfig[item.priority].color, 0.1),
-                    color: priorityConfig[item.priority].color,
-                    fontSize: '0.7rem',
-                    height: 22,
-                    '& .MuiChip-icon': { ml: 0.5 },
-                  }}
+                  variant={
+                    item.priority === 'high'
+                      ? 'error'
+                      : item.priority === 'medium'
+                        ? 'warning'
+                        : 'default'
+                  }
+                  sx={{ fontSize: '0.7rem', height: 22, '& .MuiChip-icon': { ml: 0.5 } }}
                 />
               )}
-              <Chip
+              <Tag
                 label={item.status}
                 size="small"
-                sx={{
-                  backgroundColor: item.status === 'in-progress'
-                    ? alpha(theme.palette.info.main, 0.1)
-                    : alpha(theme.palette.text.secondary, 0.1),
-                  color: item.status === 'in-progress' ? 'info.main' : 'text.secondary',
-                  fontSize: '0.7rem',
-                  height: 22,
-                }}
+                variant={item.status === 'in-progress' ? 'secondary' : 'default'}
+                sx={{ fontSize: '0.7rem', height: 22 }}
               />
             </Box>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -121,15 +111,12 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({ item, showVersion = true }) =
 
         <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
           {item.tags.map((tag) => (
-            <Chip
+            <Tag
               key={tag}
               label={tag}
               size="small"
-              sx={{
-                backgroundColor: alpha(theme.palette.text.primary, 0.05),
-                fontSize: '0.7rem',
-                height: 20,
-              }}
+              variant="secondary"
+              sx={{ fontSize: '0.7rem', height: 20 }}
             />
           ))}
         </Stack>
@@ -155,17 +142,11 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ icon, title, description,
         <Typography variant="h5" sx={{ fontWeight: 700 }}>
           {title}
         </Typography>
-        <Chip
-          label={count}
+        <Tag
+          label={String(count)}
           size="small"
-          sx={{
-            backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-            color: 'secondary.main',
-            fontWeight: 600,
-            fontSize: '0.8rem',
-            height: 24,
-            minWidth: 28,
-          }}
+          variant="secondary"
+          sx={{ fontWeight: 600, fontSize: '0.8rem', height: 24, minWidth: 28 }}
         />
       </Box>
       <Typography variant="body2" color="text.secondary">
@@ -253,15 +234,12 @@ const SiteEvolutionRoadmap: React.FC = () => {
                   />
                   <Stack direction="row" spacing={0.5}>
                     {item.tags.slice(0, 2).map((tag) => (
-                      <Chip
+                      <Tag
                         key={tag}
                         label={tag}
                         size="small"
-                        sx={{
-                          backgroundColor: alpha(theme.palette.text.primary, 0.05),
-                          fontSize: '0.65rem',
-                          height: 18,
-                        }}
+                        variant="secondary"
+                        sx={{ fontSize: '0.65rem', height: 18 }}
                       />
                     ))}
                   </Stack>

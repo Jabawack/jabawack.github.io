@@ -415,6 +415,51 @@ public/images/blog/
 └── orbit-lab-project-journey/   # v2.6.0 - 3D flight tracker
 ```
 
+### Automated Screenshot Capture
+
+Use the Playwright-based screenshot utility for consistent captures:
+
+```bash
+# First, start the dev server in another terminal
+npm run dev:next
+
+# Capture a screenshot
+npm run screenshot <slug> --url <path> --name <filename> [options]
+```
+
+**Options:**
+
+| Flag | Description | Default |
+|------|-------------|---------|
+| `--url <path>` | URL path to capture | Required |
+| `--name <name>` | Filename (without extension) | Required |
+| `--dark` | Capture in dark mode (adds `-dark` suffix) | false |
+| `--full` | Capture full page | false |
+| `--width <px>` | Viewport width | 1280 |
+| `--height <px>` | Viewport height | 800 |
+
+**Examples:**
+
+```bash
+# Capture blog listing in light mode
+npm run screenshot building-mdx-blog-system --url /blog/ --name 01-listing
+
+# Capture same page in dark mode
+npm run screenshot building-mdx-blog-system --url /blog/ --name 01-listing --dark
+
+# Capture a specific blog post (full page)
+npm run screenshot building-mdx-blog-system --url /blog/building-mdx-blog-system/ --name 02-post --full
+
+# Capture before/after pair
+npm run screenshot building-mdx-blog-system --url /blog/ --name 03-before-tags
+# (make changes)
+npm run screenshot building-mdx-blog-system --url /blog/ --name 04-after-tags
+```
+
+**Output:**
+- Files saved to `public/images/blog/<slug>/`
+- Prints MDX snippet to copy/paste into your post
+
 ### SEO Optimization
 
 - Each post generates its own `<title>` and `<meta description>`

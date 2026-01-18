@@ -8,7 +8,6 @@ import {
   LinearProgress,
   Card,
   CardContent,
-  Chip,
   Stack,
   Stepper,
   Step,
@@ -22,6 +21,7 @@ import {
 } from '@mui/material';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import BuildIcon from '@mui/icons-material/Build';
+import Tag from '@/components/Tag';
 import { chapters, getMilestoneStats } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
 import { getGradientBackground, getProgressGradient, getLineColor } from '@/theme';
@@ -217,19 +217,22 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
 
                 {/* Status Legend */}
                 <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-                  {Object.entries(statusConfig).map(([key, config]) => (
-                    <Chip
-                      key={key}
-                      icon={<config.icon sx={{ fontSize: 16 }} />}
-                      label={config.label}
-                      size="small"
-                      sx={{
-                        backgroundColor: `${config.color}20`,
-                        color: config.color,
-                        '& .MuiChip-icon': { color: config.color },
-                      }}
-                    />
-                  ))}
+                  {Object.entries(statusConfig).map(([key, config]) => {
+                    const variantMap: Record<string, 'success' | 'secondary' | 'default'> = {
+                      completed: 'success',
+                      'in-progress': 'secondary',
+                      planned: 'default',
+                    };
+                    return (
+                      <Tag
+                        key={key}
+                        icon={<config.icon sx={{ fontSize: 16 }} />}
+                        label={config.label}
+                        size="small"
+                        variant={variantMap[key] || 'default'}
+                      />
+                    );
+                  })}
                 </Stack>
               </Stack>
             </CardContent>
@@ -313,13 +316,16 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
                                 {chapter.versions}
                               </Typography>
                             </Box>
-                            <Chip
+                            <Tag
                               label={statusConfig[chapter.status].label}
                               size="small"
-                              sx={{
-                                backgroundColor: `${statusColor}20`,
-                                color: statusColor,
-                              }}
+                              variant={
+                                chapter.status === 'completed'
+                                  ? 'success'
+                                  : chapter.status === 'in-progress'
+                                    ? 'secondary'
+                                    : 'default'
+                              }
                             />
                           </Box>
 

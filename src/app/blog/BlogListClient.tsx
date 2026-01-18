@@ -7,7 +7,6 @@ import {
   Container,
   Typography,
   Stack,
-  Chip,
   Paper,
   Grid,
   TextField,
@@ -37,7 +36,10 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
   const [sortBy, setSortBy] = useState<SortOption>('latest');
 
   const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
+    // Parse as local date to avoid timezone shift
+    // "2026-01-20" should display as January 20, not January 19
+    const [year, month, day] = dateString.split('-').map(Number);
+    const date = new Date(year, month - 1, day);
     return date.toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -172,17 +174,18 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
             {(searchQuery || selectedTag) && (
               <Stack direction="row" spacing={1} sx={{ mt: 2 }} flexWrap="wrap" useFlexGap>
                 {searchQuery && (
-                  <Chip
+                  <Tag
                     label={`Search: "${searchQuery}"`}
                     size="small"
+                    variant="secondary"
                     onDelete={() => setSearchQuery('')}
                   />
                 )}
                 {selectedTag && (
-                  <Chip
+                  <Tag
                     label={`Tag: ${selectedTag}`}
                     size="small"
-                    color="primary"
+                    variant="secondary"
                     onDelete={() => setSelectedTag('')}
                   />
                 )}
@@ -224,52 +227,54 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
                       },
                     }}
                   >
-                    <Stack spacing={2}>
-                      <Box>
-                        <Stack
-                          direction="row"
-                          spacing={2}
-                          alignItems="center"
-                          sx={{ mb: 1 }}
-                        >
-                          <Typography variant="caption" color="text.secondary">
-                            {formatDate(post.date)}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            {post.readingTime}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            by {post.author}
-                          </Typography>
-                          {post.version && (
-                            <Chip
-                              label={`v${post.version}`}
-                              size="small"
-                              variant="outlined"
-                              sx={{ height: 20, fontSize: '0.7rem' }}
-                            />
-                          )}
-                        </Stack>
-                        <Typography
-                          variant="h5"
-                          sx={{
-                            fontWeight: 600,
-                            color: 'text.primary',
-                            mb: 1,
-                          }}
-                        >
-                          {post.title}
+                    <Stack spacing={1.5}>
+                      {/* Title first */}
+                      <Typography
+                        variant="h5"
+                        sx={{
+                          fontWeight: 600,
+                          color: 'text.primary',
+                        }}
+                      >
+                        {post.title}
+                      </Typography>
+
+                      {/* Metadata second */}
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        alignItems="center"
+                        flexWrap="wrap"
+                        useFlexGap
+                      >
+                        <Typography variant="caption" color="text.secondary">
+                          {formatDate(post.date)}
+                          {post.updatedOn && ` · Updated ${formatDate(post.updatedOn)}`}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {post.description}
+                        <Typography variant="caption" color="text.secondary">
+                          {post.readingTime}
                         </Typography>
-                      </Box>
+                        {post.version && (
+                          <Tag
+                            label={`v${post.version}`}
+                            size="small"
+                            variant="outlined"
+                            sx={{ height: 20, fontSize: '0.7rem' }}
+                          />
+                        )}
+                      </Stack>
+
+                      {/* Description */}
+                      <Typography variant="body2" color="text.secondary">
+                        {post.description}
+                      </Typography>
                       {post.tags.length > 0 && (
                         <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                           {post.tags.map((tag) => (
                             <Tag
                               key={tag}
                               label={tag}
+                              variant="secondary"
                               selected={selectedTag === tag}
                               onClick={(e) => {
                                 e.preventDefault();

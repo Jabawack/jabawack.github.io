@@ -4,7 +4,8 @@ import { getAllSlugs, getPostBySlug } from '@/lib/blog';
 import { siteConfig } from '@/config/seo';
 import BlogPostHeader from './BlogPostHeader';
 import BlogPostContent from './BlogPostContent';
-import { Box, Container, Stack, Paper, Button } from '@mui/material';
+import BlogAuthorFooter from '@/components/BlogAuthorFooter';
+import { Box, Container, Stack, Button } from '@mui/material';
 import Link from 'next/link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
@@ -68,6 +69,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <BlogPostContent>
               <MDXContent />
             </BlogPostContent>
+            <BlogAuthorFooter />
           </Box>
         </Stack>
       </Container>

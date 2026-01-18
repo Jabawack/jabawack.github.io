@@ -1,6 +1,6 @@
 {
   "name": "jabawack-portfolio",
-  "version": "2.4.0",
+  "version": "2.6.0",
   "private": true,
   "scripts": {
     "dev": "concurrently -n next,storybook -c cyan,magenta \"next dev\" \"storybook dev -p 6006 --ci\"",
@@ -13,7 +13,8 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o out/storybook"
+    "build-storybook": "storybook build -o out/storybook",
+    "screenshot": "npx ts-node scripts/capture-screenshots.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.0",
+    "@playwright/test": "^1.57.0",
     "@storybook/addon-a11y": "^10.1.11",
     "@storybook/addon-docs": "^10.1.11",
     "@storybook/addon-onboarding": "^10.1.11",
@@ -51,6 +53,7 @@
     "rehype-pretty-code": "^0.14.1",
     "shiki": "^3.21.0",
     "storybook": "^10.1.11",
+    "ts-node": "^10.9.2",
     "typescript": "^5.7.0",
     "vite": "^7.3.1",
     "vitest": "^4.0.17"

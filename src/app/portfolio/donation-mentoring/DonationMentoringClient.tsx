@@ -9,7 +9,6 @@ import {
   Stack,
   Card,
   CardContent,
-  Chip,
   Button,
   Dialog,
   DialogContent,
@@ -20,6 +19,7 @@ import { useTheme, alpha } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import Tag from '@/components/Tag';
 
 const versions = [
   {
@@ -130,9 +130,10 @@ export default function DonationMentoringClient() {
                         flexWrap="wrap"
                         useFlexGap
                       >
-                        <Chip
+                        <Tag
                           label={v.version}
-                          color={v.status === 'current' ? 'primary' : 'default'}
+                          variant={v.status === 'current' ? 'primary' : 'default'}
+                          selected={v.status === 'current'}
                           sx={{ fontWeight: 600 }}
                         />
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -149,15 +150,7 @@ export default function DonationMentoringClient() {
 
                       <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                         {v.tech.map((t) => (
-                          <Chip
-                            key={t}
-                            label={t}
-                            size="small"
-                            sx={{
-                              backgroundColor: alpha(theme.palette.secondary.main, 0.1),
-                              color: 'secondary.main',
-                            }}
-                          />
+                          <Tag key={t} label={t} size="small" variant="secondary" />
                         ))}
                       </Stack>
 

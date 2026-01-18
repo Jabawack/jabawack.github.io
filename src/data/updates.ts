@@ -15,6 +15,7 @@ export interface Update {
   priority?: UpdatePriority; // For backlog ordering
   tags: string[];
   details?: string[];
+  blogSlug?: string;         // Optional - link to related blog post
 }
 
 export const updates: Update[] = [
@@ -176,12 +177,12 @@ export const updates: Update[] = [
   },
   {
     id: 'v2.6.0',
-    date: 'TBD',
+    date: '2026-01-17',
     version: '2.6.0',
     title: 'orbit-lab-project Portfolio Card',
     description: 'Add orbit-lab-project 3D globe visualization project to portfolio.',
     category: 'feature',
-    status: 'in-progress',
+    status: 'completed',
     tier: 'roadmap',
     tags: ['Three.js', 'React Three Fiber', 'WebGL', '3D', 'Portfolio'],
     details: [
@@ -189,15 +190,16 @@ export const updates: Update[] = [
       'Project screenshots and GIFs',
       'Technology tags (R3F, three-globe, OpenSky API)',
     ],
+    blogSlug: 'orbit-lab-project-journey',
   },
   {
     id: 'v2.5.0',
-    date: 'TBD',
+    date: '2026-01-16',
     version: '2.5.0',
     title: 'MDX Blog',
     description: 'Transform portfolio into a living knowledge base with MDX-powered blog.',
     category: 'feature',
-    status: 'in-progress',
+    status: 'completed',
     tier: 'roadmap',
     tags: ['MDX', 'Blog', 'Content', 'RSS'],
     details: [
@@ -206,6 +208,7 @@ export const updates: Update[] = [
       'RSS feed generation',
       'First post: documenting orbit-lab-project development journey',
     ],
+    blogSlug: 'building-mdx-blog-system',
   },
   {
     id: 'v2.4.0',
@@ -374,3 +377,5 @@ export const updates: Update[] = [
 export const getRoadmapUpdates = () => updates.filter((u) => u.tier === 'roadmap');
 export const getBacklogUpdates = () => updates.filter((u) => u.tier === 'backlog');
 export const getIceboxUpdates = () => updates.filter((u) => u.tier === 'icebox');
+export const getUpdateByVersion = (version: string) => updates.find((u) => u.version === version);
+export const getUpdateByBlogSlug = (blogSlug: string) => updates.find((u) => u.blogSlug === blogSlug);

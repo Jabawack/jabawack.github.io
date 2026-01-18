@@ -1,6 +1,6 @@
 ---
 title: "Why I Added a Blog to My Portfolio"
-date: "2026-01-17"
+date: "2026-01-16"
 description: "The portfolio needed a voice - a place to document decisions, share the journey, and explain the 'why' behind each feature"
 tags: ["Portfolio", "MDX", "Documentation"]
 author: "TK"
@@ -33,7 +33,7 @@ The blog isn't separate from the portfolio - it's part of it. Each post connects
 |---------|---------|-----------|
 | v2.4.0 | Design System | Why Storybook over Docusaurus |
 | v2.5.0 | MDX Blog | This post |
-| v2.6.0 | orbit-lab | Building a 3D flight tracker |
+| v2.6.0 | orbit-lab-project | Building a 3D flight tracker |
 
 This creates a living changelog. When someone sees "v2.5.0" on the Site Evolution page, they can read the full story.
 
@@ -63,9 +63,43 @@ With the blog in place, I can now:
 - **Link versions to stories** - each release has context
 - **Share technical deep-dives** that don't fit in portfolio cards
 
+## The Implementation
+
+### Before: No Blog in Navigation
+
+The site had four navigation items. Blog posts about the portfolio lived nowhere.
+
+![Before: Site navigation without Blog](/images/blog/building-mdx-blog-system/01-before-home.png)
+
+### After: Blog Integrated
+
+Now "Blog" appears in navigation, and each post connects to its version in Site Evolution.
+
+![After: Site navigation with Blog](/images/blog/building-mdx-blog-system/02-after-home.png)
+
+### Bidirectional Linking
+
+The real UX win: **posts link to Site Evolution, and Site Evolution links to posts**.
+
+On each blog post, a context banner shows which version it's part of:
+
+![Blog post with Site Evolution context banner](/images/blog/building-mdx-blog-system/04-blog-post.png)
+
+On the Site Evolution changelog, milestones with blog posts get a "Read the story" link:
+
+![Site Evolution changelog with blog link](/images/blog/building-mdx-blog-system/05-site-evolution-link.png)
+
+This creates a complete loop: readers can discover posts from the changelog, or jump to the changelog for broader context while reading a post.
+
+### The Blog Listing
+
+Posts are filterable by tag, searchable, and sortable. Each card shows the version badge when applicable.
+
+![Blog listing page](/images/blog/building-mdx-blog-system/03-blog-listing.png)
+
 ## The First Story
 
-The next post will document the orbit-lab project - a 3D flight tracker I'm building with Three.js and deck.gl. Instead of just showing a portfolio card with a screenshot, I'll share:
+The next post will document orbit-lab-project - a 3D flight tracker I'm building with Three.js and deck.gl. Instead of just showing a portfolio card with a screenshot, I'll share:
 
 - Why I chose deck.gl over raw Three.js
 - The challenge of rendering 10,000+ flight paths

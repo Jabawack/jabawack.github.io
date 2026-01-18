@@ -3,7 +3,8 @@
 import React from 'react';
 import { Chip } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
-import type { ChipProps } from '@mui/material';
+
+export type TagVariant = 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'outlined';
 
 export interface TagProps {
   /** Tag label text */
@@ -12,94 +13,133 @@ export interface TagProps {
   selected?: boolean;
   /** Click handler */
   onClick?: (e: React.MouseEvent) => void;
+  /** Delete handler - shows delete icon when provided */
+  onDelete?: () => void;
   /** Size variant */
   size?: 'small' | 'medium';
-  /** Color variant */
-  variant?: 'default' | 'primary' | 'secondary' | 'success' | 'warning';
+  /** Color variant - uses theme colors */
+  variant?: TagVariant;
+  /** Icon to display before the label */
+  icon?: React.ReactElement;
+  /** Additional sx styles for customization */
+  sx?: Record<string, unknown>;
 }
 
 /**
  * Tag component for categorization and filtering.
  *
- * Designed with accessibility in mind:
- * - Minimum 4.5:1 contrast ratio
- * - Visible in both light and dark modes
- * - Clear selected/unselected states
- * - Desaturated colors to reduce eye strain
+ * Uses theme colors for consistency across light/dark modes.
+ * All variants derive from theme.palette for proper theming.
  */
 export const Tag: React.FC<TagProps> = ({
   label,
   selected = false,
   onClick,
+  onDelete,
   size = 'small',
   variant = 'default',
+  icon,
+  sx: sxOverride,
 }) => {
   const theme = useTheme();
-  const isDark = theme.palette.mode === 'dark';
 
-  // Color mappings for different variants
-  const variantColors = {
-    default: {
-      bg: isDark ? '#1e293b' : '#f1f5f9',
-      bgHover: isDark ? '#334155' : '#e2e8f0',
-      bgSelected: isDark ? '#3b82f6' : '#2563eb',
-      text: isDark ? '#e2e8f0' : '#334155',
-      textSelected: '#ffffff',
-      border: isDark ? '#334155' : '#cbd5e1',
-      borderSelected: 'transparent',
-    },
-    primary: {
-      bg: isDark ? alpha('#3b82f6', 0.15) : alpha('#2563eb', 0.1),
-      bgHover: isDark ? alpha('#3b82f6', 0.25) : alpha('#2563eb', 0.2),
-      bgSelected: isDark ? '#3b82f6' : '#2563eb',
-      text: isDark ? '#93c5fd' : '#1d4ed8',
-      textSelected: '#ffffff',
-      border: isDark ? alpha('#3b82f6', 0.4) : alpha('#2563eb', 0.3),
-      borderSelected: 'transparent',
-    },
-    secondary: {
-      bg: isDark ? alpha('#06b6d4', 0.15) : alpha('#0891b2', 0.1),
-      bgHover: isDark ? alpha('#06b6d4', 0.25) : alpha('#0891b2', 0.2),
-      bgSelected: isDark ? '#06b6d4' : '#0891b2',
-      text: isDark ? '#67e8f9' : '#0e7490',
-      textSelected: '#ffffff',
-      border: isDark ? alpha('#06b6d4', 0.4) : alpha('#0891b2', 0.3),
-      borderSelected: 'transparent',
-    },
-    success: {
-      bg: isDark ? alpha('#22c55e', 0.15) : alpha('#16a34a', 0.1),
-      bgHover: isDark ? alpha('#22c55e', 0.25) : alpha('#16a34a', 0.2),
-      bgSelected: isDark ? '#22c55e' : '#16a34a',
-      text: isDark ? '#86efac' : '#15803d',
-      textSelected: '#ffffff',
-      border: isDark ? alpha('#22c55e', 0.4) : alpha('#16a34a', 0.3),
-      borderSelected: 'transparent',
-    },
-    warning: {
-      bg: isDark ? alpha('#f59e0b', 0.15) : alpha('#d97706', 0.1),
-      bgHover: isDark ? alpha('#f59e0b', 0.25) : alpha('#d97706', 0.2),
-      bgSelected: isDark ? '#f59e0b' : '#d97706',
-      text: isDark ? '#fcd34d' : '#b45309',
-      textSelected: '#ffffff',
-      border: isDark ? alpha('#f59e0b', 0.4) : alpha('#d97706', 0.3),
-      borderSelected: 'transparent',
-    },
+  // Get colors from theme palette based on variant
+  const getVariantColors = () => {
+    const palette = theme.palette;
+
+    switch (variant) {
+      case 'primary':
+        return {
+          bg: alpha(palette.primary.main, 0.15),
+          bgHover: alpha(palette.primary.main, 0.25),
+          bgSelected: palette.primary.main,
+          text: palette.mode === 'dark' ? palette.primary.light : palette.primary.dark,
+          textSelected: palette.primary.contrastText,
+          border: alpha(palette.primary.main, 0.4),
+        };
+
+      case 'secondary':
+        return {
+          bg: alpha(palette.secondary.main, 0.1),
+          bgHover: alpha(palette.secondary.main, 0.2),
+          bgSelected: palette.secondary.main,
+          text: palette.secondary.main,
+          textSelected: palette.mode === 'dark' ? '#000000' : '#ffffff',
+          border: alpha(palette.secondary.main, 0.4),
+        };
+
+      case 'success':
+        return {
+          bg: alpha(palette.success.main, 0.15),
+          bgHover: alpha(palette.success.main, 0.25),
+          bgSelected: palette.success.main,
+          text: palette.mode === 'dark' ? palette.success.light : palette.success.dark,
+          textSelected: palette.success.contrastText,
+          border: alpha(palette.success.main, 0.4),
+        };
+
+      case 'warning':
+        return {
+          bg: alpha(palette.warning.main, 0.15),
+          bgHover: alpha(palette.warning.main, 0.25),
+          bgSelected: palette.warning.main,
+          text: palette.mode === 'dark' ? palette.warning.light : palette.warning.dark,
+          textSelected: palette.warning.contrastText,
+          border: alpha(palette.warning.main, 0.4),
+        };
+
+      case 'error':
+        return {
+          bg: alpha(palette.error.main, 0.15),
+          bgHover: alpha(palette.error.main, 0.25),
+          bgSelected: palette.error.main,
+          text: palette.mode === 'dark' ? palette.error.light : palette.error.dark,
+          textSelected: palette.error.contrastText,
+          border: alpha(palette.error.main, 0.4),
+        };
+
+      case 'outlined':
+        return {
+          bg: 'transparent',
+          bgHover: alpha(palette.text.primary, 0.05),
+          bgSelected: alpha(palette.text.primary, 0.1),
+          text: palette.text.secondary,
+          textSelected: palette.text.primary,
+          border: palette.divider,
+        };
+
+      case 'default':
+      default:
+        return {
+          bg: palette.mode === 'dark' ? alpha(palette.text.primary, 0.08) : alpha(palette.text.primary, 0.06),
+          bgHover: palette.mode === 'dark' ? alpha(palette.text.primary, 0.12) : alpha(palette.text.primary, 0.1),
+          bgSelected: palette.primary.main,
+          text: palette.text.secondary,
+          textSelected: palette.primary.contrastText,
+          border: palette.mode === 'dark' ? alpha(palette.text.primary, 0.15) : alpha(palette.text.primary, 0.12),
+        };
+    }
   };
 
-  const colors = variantColors[variant];
+  const colors = getVariantColors();
 
   return (
     <Chip
       label={label}
       size={size}
+      icon={icon}
       onClick={onClick}
+      onDelete={onDelete}
       sx={{
         backgroundColor: selected ? colors.bgSelected : colors.bg,
         color: selected ? colors.textSelected : colors.text,
-        border: `1px solid ${selected ? colors.borderSelected : colors.border}`,
+        border: `1px solid ${selected ? 'transparent' : colors.border}`,
         fontWeight: 500,
         cursor: onClick ? 'pointer' : 'default',
         transition: 'all 0.15s ease-in-out',
+        '& .MuiChip-icon': {
+          color: 'inherit',
+        },
         '&:hover': onClick
           ? {
               backgroundColor: selected ? colors.bgSelected : colors.bgHover,
@@ -111,6 +151,7 @@ export const Tag: React.FC<TagProps> = ({
               transform: 'translateY(0)',
             }
           : {},
+        ...sxOverride,
       }}
     />
   );

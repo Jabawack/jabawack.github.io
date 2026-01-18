@@ -1,11 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   Box,
   Container,
   Typography,
-  Chip,
   Stack,
   Card,
   ToggleButton,
@@ -15,8 +15,10 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import Tag from '@/components/Tag';
 import { getLineColor } from '@/theme';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
@@ -24,6 +26,7 @@ import ScheduleIcon from '@mui/icons-material/Schedule';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import ArticleIcon from '@mui/icons-material/Article';
 import { updates, type UpdateStatus } from '@/data/updates';
 import { statusColors, categoryColors } from '@/config/statusConfig';
 
@@ -188,15 +191,12 @@ export default function SiteEvolutionChangelog() {
                             useFlexGap
                             sx={{ mb: 1 }}
                           >
-                            <Chip
-                              label={update.version}
+                            <Tag
+                              label={update.version ?? ''}
                               size="small"
-                              sx={{
-                                backgroundColor: 'primary.main',
-                                color: 'white',
-                                fontWeight: 600,
-                                fontFamily: 'monospace',
-                              }}
+                              variant="secondary"
+                              selected
+                              sx={{ fontFamily: 'monospace' }}
                             />
                             <Typography variant="h6" sx={{ fontSize: '1.1rem' }}>
                               {update.title}
@@ -218,40 +218,50 @@ export default function SiteEvolutionChangelog() {
 
                       {/* Tags */}
                       <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 2 }}>
-                        <Chip
+                        <Tag
                           label={update.category}
                           size="small"
                           sx={{
                             backgroundColor: categoryColors[update.category],
                             color: 'white',
                             textTransform: 'capitalize',
-                            fontSize: '0.7rem',
+                            border: 'none',
                           }}
                         />
-                        <Chip
+                        <Tag
                           label={update.status.replace('-', ' ')}
                           size="small"
-                          variant="outlined"
-                          sx={{
-                            borderColor: statusColors[update.status],
-                            color: statusColors[update.status],
-                            textTransform: 'capitalize',
-                            fontSize: '0.7rem',
-                          }}
+                          variant={
+                            update.status === 'completed'
+                              ? 'success'
+                              : update.status === 'in-progress'
+                                ? 'secondary'
+                                : 'default'
+                          }
+                          sx={{ textTransform: 'capitalize' }}
                         />
                         {update.tags.map((tag) => (
-                          <Chip
-                            key={tag}
-                            label={tag}
-                            size="small"
-                            sx={{
-                              backgroundColor: theme.palette.divider,
-                              color: 'text.secondary',
-                              fontSize: '0.7rem',
-                            }}
-                          />
+                          <Tag key={tag} label={tag} size="small" variant="secondary" />
                         ))}
                       </Stack>
+
+                      {/* Blog post link */}
+                      {update.blogSlug && (
+                        <Box sx={{ mt: 2 }}>
+                          <Button
+                            component={Link}
+                            href={`/blog/${update.blogSlug}/`}
+                            size="small"
+                            startIcon={<ArticleIcon />}
+                            onClick={(e) => e.stopPropagation()}
+                            sx={{
+                              textTransform: 'none',
+                            }}
+                          >
+                            Read the story
+                          </Button>
+                        </Box>
+                      )}
 
                       {/* Expandable details */}
                       {update.details && (

@@ -53,7 +53,7 @@ export const chapters: Chapter[] = [
   {
     id: 'chapter-3',
     title: 'Chapter 3: Polish & UX',
-    status: 'in-progress',
+    status: 'completed',
     versions: 'v2.2.0 → v2.6.0',
     story: [
       'Infrastructure complete, focus shifts to the experiential layer—microinteractions and feedback loops that build user confidence. Every enhancement follows one question: "Does this reduce friction or add it?"',
@@ -69,8 +69,8 @@ export const chapters: Chapter[] = [
       { version: 'v2.2.1', title: 'UX Refinements (Scroll-spy nav, comparison table)', status: 'completed' },
       { version: 'v2.3.0', title: 'Theme System (Light/dark mode)', status: 'completed' },
       { version: 'v2.4.0', title: 'Design System (Storybook component library)', status: 'completed' },
-      { version: 'v2.5.0', title: 'MDX Blog (Articles, RSS feed)', status: 'in-progress' },
-      { version: 'v2.6.0', title: 'orbit-lab-project Portfolio Card (3D globe visualization)', status: 'in-progress' },
+      { version: 'v2.5.0', title: 'MDX Blog (Articles, RSS feed)', status: 'completed' },
+      { version: 'v2.6.0', title: 'orbit-lab-project Portfolio Card (3D globe visualization)', status: 'completed' },
     ],
   },
   {
@@ -108,4 +108,10 @@ export const getMilestoneStats = () => {
 export const getMilestoneProgress = () => {
   const { total, completed } = getMilestoneStats();
   return Math.round((completed / total) * 100);
+};
+
+export const getChapterByVersion = (version: string) => {
+  return chapters.find((chapter) =>
+    chapter.milestones.some((m) => m.version === version)
+  );
 };
