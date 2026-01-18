@@ -54,7 +54,7 @@ export const chapters: Chapter[] = [
     id: 'chapter-3',
     title: 'Chapter 3: Polish & UX',
     status: 'in-progress',
-    versions: 'v2.2.0 → v2.8.0',
+    versions: 'v2.2.0 → v2.6.0',
     story: [
       'Infrastructure complete, focus shifts to the experiential layer—microinteractions and feedback loops that build user confidence. Every enhancement follows one question: "Does this reduce friction or add it?"',
       'This case study (v2.2.0) transforms the rebuild process itself into content. Progress bars, chapter navigation, and before/after comparisons turn transparency into engagement. Users don\'t just see a portfolio—they see how it\'s made.',
@@ -63,7 +63,6 @@ export const chapters: Chapter[] = [
       'The Design System (v2.4.0) extends the "building in public" philosophy to the component level. Storybook transforms isolated components into interactive documentation—each story captures variants, states, and edge cases. Visitors see not just the portfolio, but the systematic thinking behind it. This is meta-portfolio: the tooling itself becomes evidence of capability.',
       'The MDX Blog (v2.5.0) transforms the portfolio from static showcase to living knowledge base. A portfolio shows what you\'ve done; a blog shows how you think. MDX enables embedded interactivity—code examples users can run, diagrams they can explore. The first use case: documenting the orbit-lab-project development journey in real-time.',
       'orbit-lab-project (v2.6.0) represents a new direction—building reusable visualization frameworks. A 3D globe built with React Three Fiber and three-globe, deployed separately on Vercel, but linked as a portfolio piece. The blog documents the journey; the portfolio showcases the result.',
-      'Planned enhancements apply established UX heuristics: SpeedDial for contact uses Fitts\'s Law (frequently used actions should be easily reachable). Autocomplete filtering leverages recognition over recall—users see available tags rather than guessing search terms.',
     ],
     milestones: [
       { version: 'v2.2.0', title: 'Building in Public (Case study foundation)', status: 'completed' },
@@ -72,8 +71,23 @@ export const chapters: Chapter[] = [
       { version: 'v2.4.0', title: 'Design System (Storybook component library)', status: 'completed' },
       { version: 'v2.5.0', title: 'MDX Blog (Articles, RSS feed)', status: 'in-progress' },
       { version: 'v2.6.0', title: 'orbit-lab-project Portfolio Card (3D globe visualization)', status: 'in-progress' },
-      { version: 'v2.7.0', title: 'Contact & Engagement (SpeedDial, analytics)', status: 'planned' },
-      { version: 'v2.8.0', title: 'Discoverability (Autocomplete filtering)', status: 'planned' },
+    ],
+  },
+  {
+    id: 'chapter-4',
+    title: 'Chapter 4: Landing Page Evolution',
+    status: 'planned',
+    versions: 'v2.7.0 → v2.9.0',
+    story: [
+      'First impressions matter. The landing page is the portfolio\'s handshake—it needs to communicate who I am, what I do, and why it matters, all within seconds. The current bento-style layout works, but modern portfolio sites have raised the bar with scroll-driven storytelling and purposeful animation.',
+      'The redesign draws inspiration from contemporary SaaS landing pages: a clear hero section with a strong call-to-action ("Download Resume"), tabbed skill showcases that let visitors explore at their own pace, and scroll-triggered text reveals that create emphasis without overwhelming.',
+      'Technical implementation leverages Framer Motion for performant animations that respect user preferences (prefers-reduced-motion). The sticky parallax gallery creates depth and memorability. The bento testimonials grid provides social proof at a glance—metrics and quotes from colleagues that build credibility.',
+      'This chapter represents a shift from "functional portfolio" to "memorable experience." Each section is a dedicated component, built for reusability and tested in Storybook. The goal: a landing page that demonstrates not just what I\'ve built, but how I think about building.',
+    ],
+    milestones: [
+      { version: 'v2.7.0', title: 'Landing Page Foundation (Hero, navbar, skills showcase)', status: 'planned' },
+      { version: 'v2.8.0', title: 'Advanced Sections (Project spotlight, portfolio gallery)', status: 'planned' },
+      { version: 'v2.9.0', title: 'Social Proof & Polish (Testimonials grid, accessibility)', status: 'planned' },
     ],
   },
 ];

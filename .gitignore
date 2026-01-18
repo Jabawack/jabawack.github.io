@@ -6,6 +6,7 @@ CLAUDE.md
 .next/
 out/
 .env.local
+tsconfig.tsbuildinfo
 
 # OS generated files #
 .DS_Store

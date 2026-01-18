@@ -38,6 +38,10 @@ const pages: Record<string, { title: string; description: string }> = {
     title: 'Design System',
     description: 'Storybook component library showcasing the UI building blocks of this portfolio.',
   },
+  '/blog/': {
+    title: 'Blog',
+    description: 'Articles about web development, design, and technology.',
+  },
 };
 
 /**

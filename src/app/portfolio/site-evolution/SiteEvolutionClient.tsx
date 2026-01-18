@@ -15,20 +15,23 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import CodeIcon from '@mui/icons-material/Code';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BuildIcon from '@mui/icons-material/Build';
 import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
 import SiteEvolutionJourney from '@/components/SiteEvolutionJourney';
+import SiteEvolutionRoadmap from '@/components/SiteEvolutionRoadmap';
 import SiteEvolutionChangelog from '@/components/SiteEvolutionChangelog';
 import StorybookEmbed from '@/components/StorybookEmbed';
 import { getProgressGradient } from '@/theme';
 
 const TAB_MAP: Record<string, number> = {
   journey: 0,
-  changelog: 1,
-  components: 2,
+  roadmap: 1,
+  changelog: 2,
+  components: 3,
 };
 
 export default function SiteEvolutionClient() {
@@ -148,6 +151,11 @@ export default function SiteEvolutionClient() {
               label="Journey"
             />
             <Tab
+              icon={<RocketLaunchIcon sx={{ fontSize: 18 }} />}
+              iconPosition="start"
+              label="Roadmap"
+            />
+            <Tab
               icon={<CodeIcon sx={{ fontSize: 18 }} />}
               iconPosition="start"
               label="Changelog"
@@ -163,8 +171,9 @@ export default function SiteEvolutionClient() {
 
       {/* Tab Content */}
       {activeTab === 0 && <SiteEvolutionJourney showHero={false} />}
-      {activeTab === 1 && <SiteEvolutionChangelog />}
-      {activeTab === 2 && (
+      {activeTab === 1 && <SiteEvolutionRoadmap />}
+      {activeTab === 2 && <SiteEvolutionChangelog />}
+      {activeTab === 3 && (
         <Box sx={{ px: 2 }}>
           <StorybookEmbed height="calc(100vh - 64px - 48px - 200px)" />
         </Box>
