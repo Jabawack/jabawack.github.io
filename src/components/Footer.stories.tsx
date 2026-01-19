@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import Footer from './Footer';
+import { Box, Typography } from '@mui/material';
 
 const meta: Meta<typeof Footer> = {
   title: 'Components/Footer',
@@ -12,6 +13,23 @@ const meta: Meta<typeof Footer> = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        {/* Placeholder content */}
+        <Box sx={{ flexGrow: 1, p: 4, bgcolor: 'background.default' }}>
+          <Typography variant="h4" gutterBottom>
+            Page Content
+          </Typography>
+          <Typography color="text.secondary">
+            This placeholder represents the main page content. The footer stays at the bottom.
+          </Typography>
+        </Box>
+        {/* Footer at bottom */}
+        <Story />
+      </Box>
+    ),
+  ],
 };
 
 export default meta;

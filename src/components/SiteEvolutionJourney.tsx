@@ -13,18 +13,15 @@ import {
   Step,
   StepLabel,
   StepConnector,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Divider,
 } from '@mui/material';
 import { styled, useTheme, alpha } from '@mui/material/styles';
 import BuildIcon from '@mui/icons-material/Build';
 import Tag from '@/components/Tag';
-import { chapters, getMilestoneStats } from '@/data/chapters';
+import { StreamingChapterCard } from '@/components/AIThinkingFlow';
+import { chapters, getMilestoneStats, Chapter } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
-import { getGradientBackground, getProgressGradient, getLineColor } from '@/theme';
+import { getGradientBackground, getProgressGradient } from '@/theme';
 
 const beforeAfterData = {
   before: {
@@ -290,165 +287,107 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
             {/* Scrollable Content */}
             <Box sx={{ flexGrow: 1 }}>
               <Stack spacing={6}>
-                {chapters.map((chapter) => {
-                  const StatusIcon = statusConfig[chapter.status].icon;
-                  const statusColor = statusConfig[chapter.status].color;
+                {chapters.map((chapter, index) => {
+                  // Calculate delay based on previous chapters' content length
+                  const getChapterDelay = () => {
+                    if (index === 0) return 0;
+                    let totalDelay = 0;
+                    const statusDuration = 1800;
+                    const speed = 12;
+                    const staggerDelay = 500;
+                    for (let i = 0; i < index; i++) {
+                      const ch = chapters[i];
+                      const contentLength = ch.title.length + ch.versions.length + ch.story.join('').length + 50;
+                      totalDelay += statusDuration + (contentLength * speed) + staggerDelay;
+                    }
+                    return totalDelay;
+                  };
 
-                  return (
-                    <Box
-                      key={chapter.id}
-                      id={chapter.id}
-                      ref={(el: HTMLElement | null) => {
-                        if (el) sectionRefs.current.set(chapter.id, el);
-                      }}
-                      component="section"
-                    >
-                      <Card sx={{ p: 3 }}>
-                        <Stack spacing={3}>
-                          {/* Chapter Header */}
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <StatusIcon sx={{ color: statusColor, fontSize: 28 }} />
-                            <Box sx={{ flexGrow: 1 }}>
-                              <Typography variant="h5" sx={{ fontWeight: 600 }}>
-                                {chapter.title}
+                  // Before/After table for Chapter 1
+                  const beforeAfterTable = chapter.id === 'chapter-1' ? (
+                    <>
+                      <Divider />
+                      <Box>
+                        <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
+                          Before / After Comparison
+                        </Typography>
+                        <Card
+                          sx={{
+                            backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                            border: `1px solid ${theme.palette.divider}`,
+                          }}
+                        >
+                          <CardContent>
+                            {/* Header Row */}
+                            <Box
+                              sx={{
+                                display: 'grid',
+                                gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
+                                gap: 2,
+                                pb: 1.5,
+                                mb: 1.5,
+                                borderBottom: `1px solid ${theme.palette.divider}`,
+                              }}
+                            >
+                              <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                                Aspect
                               </Typography>
-                              <Typography variant="caption" color="text.secondary">
-                                {chapter.versions}
+                              <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>
+                                2017 (v1)
+                              </Typography>
+                              <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right', color: 'secondary.main' }}>
+                                2026 (v2)
                               </Typography>
                             </Box>
-                            <Tag
-                              label={statusConfig[chapter.status].label}
-                              size="small"
-                              variant={
-                                chapter.status === 'completed'
-                                  ? 'success'
-                                  : chapter.status === 'in-progress'
-                                    ? 'secondary'
-                                    : 'default'
-                              }
-                            />
-                          </Box>
 
-                          {/* Story */}
-                          <Box>
-                            {chapter.story.map((paragraph, idx) => (
-                              <Typography
-                                key={idx}
-                                variant="body2"
-                                color="text.secondary"
-                                sx={{ mb: 2, lineHeight: 1.8 }}
-                              >
-                                {paragraph}
-                              </Typography>
-                            ))}
-                          </Box>
-
-                          <Divider />
-
-                          {/* Milestones */}
-                          <Box>
-                            <Typography variant="subtitle2" sx={{ mb: 1, color: 'text.secondary' }}>
-                              Milestones
-                            </Typography>
-                            <List dense disablePadding>
-                              {chapter.milestones.map((milestone) => {
-                                const MilestoneIcon = statusConfig[milestone.status].icon;
-                                const milestoneColor = statusConfig[milestone.status].color;
-                                return (
-                                  <ListItem key={milestone.version} disableGutters sx={{ py: 0.5 }}>
-                                    <ListItemIcon sx={{ minWidth: 32 }}>
-                                      <MilestoneIcon sx={{ fontSize: 18, color: milestoneColor }} />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                      primary={
-                                        <Typography variant="body2">
-                                          <Box component="span" sx={{ color: 'secondary.main', fontFamily: 'monospace', mr: 1 }}>
-                                            {milestone.version}
-                                          </Box>
-                                          {milestone.title}
-                                        </Typography>
-                                      }
-                                    />
-                                  </ListItem>
-                                );
-                              })}
-                            </List>
-                          </Box>
-
-                          {/* Before/After for Chapter 1 */}
-                          {chapter.id === 'chapter-1' && (
-                            <>
-                              <Divider />
-                              <Box>
-                                <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
-                                  Before / After Comparison
-                                </Typography>
-
-                                <Card
+                            {/* Data Rows */}
+                            <Stack spacing={1}>
+                              {beforeAfterData.before.items.map((item, idx) => (
+                                <Box
+                                  key={item.aspect}
                                   sx={{
-                                    backgroundColor: alpha(theme.palette.background.paper, 0.5),
-                                    border: `1px solid ${theme.palette.divider}`,
+                                    display: 'grid',
+                                    gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
+                                    gap: 2,
+                                    py: 0.5,
+                                    borderBottom: `1px solid ${theme.palette.divider}`,
                                   }}
                                 >
-                                  <CardContent>
-                                    {/* Header Row */}
-                                    <Box
-                                      sx={{
-                                        display: 'grid',
-                                        gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
-                                        gap: 2,
-                                        pb: 1.5,
-                                        mb: 1.5,
-                                        borderBottom: `1px solid ${theme.palette.divider}`,
-                                      }}
-                                    >
-                                      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                                        Aspect
-                                      </Typography>
-                                      <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>
-                                        2017 (v1)
-                                      </Typography>
-                                      <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right', color: 'secondary.main' }}>
-                                        2026 (v2)
-                                      </Typography>
-                                    </Box>
+                                  <Typography variant="body2" color="text.secondary">
+                                    {item.aspect}
+                                  </Typography>
+                                  <Typography variant="body2" sx={{ textAlign: 'right' }}>
+                                    {item.value}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{ textAlign: 'right', color: 'secondary.main', fontWeight: 500 }}
+                                  >
+                                    {beforeAfterData.after.items[idx].value}
+                                  </Typography>
+                                </Box>
+                              ))}
+                            </Stack>
+                          </CardContent>
+                        </Card>
+                      </Box>
+                    </>
+                  ) : undefined;
 
-                                    {/* Data Rows */}
-                                    <Stack spacing={1}>
-                                      {beforeAfterData.before.items.map((item, index) => (
-                                        <Box
-                                          key={item.aspect}
-                                          sx={{
-                                            display: 'grid',
-                                            gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
-                                            gap: 2,
-                                            py: 0.5,
-                                            borderBottom: `1px solid ${theme.palette.divider}`,
-                                          }}
-                                        >
-                                          <Typography variant="body2" color="text.secondary">
-                                            {item.aspect}
-                                          </Typography>
-                                          <Typography variant="body2" sx={{ textAlign: 'right' }}>
-                                            {item.value}
-                                          </Typography>
-                                          <Typography
-                                            variant="body2"
-                                            sx={{ textAlign: 'right', color: 'secondary.main', fontWeight: 500 }}
-                                          >
-                                            {beforeAfterData.after.items[index].value}
-                                          </Typography>
-                                        </Box>
-                                      ))}
-                                    </Stack>
-                                  </CardContent>
-                                </Card>
-                              </Box>
-                            </>
-                          )}
-                        </Stack>
-                      </Card>
-                    </Box>
+                  return (
+                    <StreamingChapterCard
+                      key={chapter.id}
+                      chapter={chapter}
+                      chapterIndex={index}
+                      delay={getChapterDelay()}
+                      speed={12}
+                      statusDuration={1800}
+                      statusMessages={['Thinking...', 'Analyzing...', 'Loading...']}
+                      sectionRef={(el) => {
+                        if (el) sectionRefs.current.set(chapter.id, el);
+                      }}
+                      extraContent={beforeAfterTable}
+                    />
                   );
                 })}
               </Stack>
