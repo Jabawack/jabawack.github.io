@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
   Box,
@@ -30,6 +30,46 @@ import ArticleIcon from '@mui/icons-material/Article';
 import { updates, type UpdateStatus } from '@/data/updates';
 import { statusColors, categoryColors } from '@/config/statusConfig';
 
+// Custom smooth scroll with easing for AI-like effect
+// Returns a cancel function to stop the animation
+function smoothScrollTo(element: HTMLElement, duration: number = 800): () => void {
+  const targetPosition = element.getBoundingClientRect().top + window.scrollY;
+  const startPosition = window.scrollY;
+  const headerOffset = 120; // Account for sticky header
+  const targetY = targetPosition - headerOffset;
+  const distance = targetY - startPosition;
+  let startTime: number | null = null;
+  let animationId: number | null = null;
+  let cancelled = false;
+
+  // Ease-out cubic for smooth deceleration
+  const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
+
+  function animation(currentTime: number) {
+    if (cancelled) return;
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const progress = Math.min(timeElapsed / duration, 1);
+    const easedProgress = easeOutCubic(progress);
+
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (progress < 1 && !cancelled) {
+      animationId = requestAnimationFrame(animation);
+    }
+  }
+
+  animationId = requestAnimationFrame(animation);
+
+  // Return cancel function
+  return () => {
+    cancelled = true;
+    if (animationId !== null) {
+      cancelAnimationFrame(animationId);
+    }
+  };
+}
+
 function getStatusIcon(status: UpdateStatus) {
   switch (status) {
     case 'completed':
@@ -57,9 +97,49 @@ export default function SiteEvolutionChangelog() {
   const [statusFilter, setStatusFilter] = useState<UpdateStatus | 'all'>('all');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['v2.1.0']));
   const theme = useTheme();
+  const itemRefs = useRef<Map<string, HTMLElement>>(new Map());
+  const hasScrolledRef = useRef(false);
+  const cancelScrollRef = useRef<(() => void) | null>(null);
 
   const filteredUpdates =
     statusFilter === 'all' ? updates : updates.filter((u) => u.status === statusFilter);
+
+  // Auto-scroll on mount with AI-like delayed smooth scroll
+  useEffect(() => {
+    if (hasScrolledRef.current) return;
+
+    // Find target: last in-progress, or last planned (next to work on)
+    const inProgressItems = updates.filter((u) => u.status === 'in-progress');
+    let targetId: string | null = null;
+
+    if (inProgressItems.length > 0) {
+      targetId = inProgressItems[inProgressItems.length - 1].id;
+    } else {
+      const plannedItems = updates.filter((u) => u.status === 'planned');
+      if (plannedItems.length > 0) {
+        targetId = plannedItems[plannedItems.length - 1].id;
+      }
+    }
+
+    if (!targetId) return;
+
+    // Delay scroll for subtle AI-like effect (feels intentional)
+    const timeoutId = setTimeout(() => {
+      const element = itemRefs.current.get(targetId);
+      if (element) {
+        hasScrolledRef.current = true;
+        cancelScrollRef.current = smoothScrollTo(element, 800);
+      }
+    }, 400);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (cancelScrollRef.current) {
+        cancelScrollRef.current();
+        cancelScrollRef.current = null;
+      }
+    };
+  }, []);
 
   const toggleExpanded = (id: string) => {
     setExpandedIds((prev) => {
@@ -149,7 +229,17 @@ export default function SiteEvolutionChangelog() {
                 const isExpanded = expandedIds.has(update.id);
 
                 return (
-                  <Box key={update.id} sx={{ position: 'relative', pl: 6 }}>
+                  <Box
+                    key={update.id}
+                    ref={(el: HTMLElement | null) => {
+                      if (el) {
+                        itemRefs.current.set(update.id, el);
+                      } else {
+                        itemRefs.current.delete(update.id);
+                      }
+                    }}
+                    sx={{ position: 'relative', pl: 6 }}
+                  >
                     {/* Status icon */}
                     <Box
                       sx={{

@@ -45,7 +45,12 @@ export default function SiteEvolutionClient() {
   // Update tab when URL param changes
   useEffect(() => {
     if (tabParam && TAB_MAP[tabParam] !== undefined) {
-      setActiveTab(TAB_MAP[tabParam]);
+      const newTab = TAB_MAP[tabParam];
+      setActiveTab(newTab);
+      // Reset scroll for non-changelog tabs (changelog handles its own scroll)
+      if (newTab !== 2) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
     }
   }, [tabParam]);
 
@@ -129,7 +134,13 @@ export default function SiteEvolutionClient() {
         <Container maxWidth="lg">
           <Tabs
             value={activeTab}
-            onChange={(_, newValue) => setActiveTab(newValue)}
+            onChange={(_, newValue) => {
+              setActiveTab(newValue);
+              // Reset scroll for non-changelog tabs (changelog handles its own scroll)
+              if (newValue !== 2) {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+              }
+            }}
             sx={{
               '& .MuiTab-root': {
                 textTransform: 'none',

@@ -16,6 +16,7 @@ import { styled, keyframes } from '@mui/material/styles';
 import Tag from '@/components/Tag';
 import { Chapter } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
+import { THINKING_WORDS } from './constants';
 
 // Blinking cursor
 const blink = keyframes`
@@ -65,8 +66,6 @@ const SkeletonLine = styled(Box, {
   animation: `${shimmer} 1.5s infinite`,
 }));
 
-const DEFAULT_STATUS_MESSAGES = ['Thinking...', 'Analyzing...', 'Loading...'];
-
 interface StreamingChapterCardProps {
   chapter: Chapter;
   chapterIndex: number;
@@ -75,8 +74,10 @@ interface StreamingChapterCardProps {
   statusDuration?: number;
   statusMessages?: string[];
   onComplete?: () => void;
+  onToggleCollapse?: () => void;
   sectionRef?: (el: HTMLElement | null) => void;
   extraContent?: React.ReactNode;
+  collapsed?: boolean;
 }
 
 type Phase = 'waiting' | 'status' | 'streaming' | 'complete';
@@ -85,17 +86,24 @@ export function StreamingChapterCard({
   chapter,
   chapterIndex,
   delay = 0,
-  speed = 12,
-  statusDuration = 1800,
-  statusMessages = DEFAULT_STATUS_MESSAGES,
+  speed = 8,
+  statusDuration = 600,
+  statusMessages = THINKING_WORDS,
   onComplete,
+  onToggleCollapse,
   sectionRef,
   extraContent,
+  collapsed = false,
 }: StreamingChapterCardProps) {
   const [phase, setPhase] = useState<Phase>('waiting');
-  const [statusIndex, setStatusIndex] = useState(0);
   const [statusCharIndex, setStatusCharIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  // Pick a random thinking word (without the dots - we'll animate them)
+  const [statusWord] = useState(() => {
+    const word = statusMessages[Math.floor(Math.random() * statusMessages.length)];
+    return word.replace(/\.+$/, ''); // Remove trailing dots
+  });
+  const [dotCount, setDotCount] = useState(1);
 
   const StatusIcon = statusConfig[chapter.status].icon;
   const statusColor = statusConfig[chapter.status].color;
@@ -112,7 +120,6 @@ export function StreamingChapterCard({
   const versionEnd = titleEnd + version.length;
   const statusEnd = versionEnd + statusLabel.length;
   const storyEnd = statusEnd + story.length;
-  const headerEnd = storyEnd + milestonesHeader.length;
   const fullContent = title + version + statusLabel + story + milestonesHeader;
 
   // Phase 1: Wait for delay
@@ -121,14 +128,14 @@ export function StreamingChapterCard({
     return () => clearTimeout(timer);
   }, [delay]);
 
-  // Phase 2: Status typewriter
+  // Phase 2: Status typewriter - type out word, then animate dots
   useEffect(() => {
     if (phase !== 'status') return;
 
-    const currentMessage = statusMessages[statusIndex];
+    // Type out the status word (without dots)
     const typeInterval = setInterval(() => {
       setStatusCharIndex((prev) => {
-        if (prev >= currentMessage.length) {
+        if (prev >= statusWord.length) {
           clearInterval(typeInterval);
           return prev;
         }
@@ -137,27 +144,31 @@ export function StreamingChapterCard({
     }, 40);
 
     return () => clearInterval(typeInterval);
-  }, [phase, statusIndex, statusMessages]);
+  }, [phase, statusWord]);
 
-  // Advance status messages
+  // Animate dots: . → .. → ... → .
   useEffect(() => {
     if (phase !== 'status') return;
+    if (statusCharIndex < statusWord.length) return;
 
-    const currentMessage = statusMessages[statusIndex];
-    if (statusCharIndex < currentMessage.length) return;
+    const dotInterval = setInterval(() => {
+      setDotCount((prev) => (prev % 3) + 1);
+    }, 400);
 
-    const messageDelay = statusDuration / statusMessages.length;
+    return () => clearInterval(dotInterval);
+  }, [phase, statusCharIndex, statusWord.length]);
+
+  // After status duration, move to streaming
+  useEffect(() => {
+    if (phase !== 'status') return;
+    if (statusCharIndex < statusWord.length) return;
+
     const timer = setTimeout(() => {
-      if (statusIndex < statusMessages.length - 1) {
-        setStatusIndex((prev) => prev + 1);
-        setStatusCharIndex(0);
-      } else {
-        setPhase('streaming');
-      }
-    }, messageDelay);
+      setPhase('streaming');
+    }, statusDuration);
 
     return () => clearTimeout(timer);
-  }, [phase, statusCharIndex, statusIndex, statusMessages, statusDuration]);
+  }, [phase, statusCharIndex, statusWord.length, statusDuration]);
 
   // Phase 3: Stream content
   useEffect(() => {
@@ -168,7 +179,6 @@ export function StreamingChapterCard({
         if (prev >= fullContent.length) {
           clearInterval(interval);
           setPhase('complete');
-          onComplete?.();
           return prev;
         }
         return prev + 1;
@@ -176,9 +186,48 @@ export function StreamingChapterCard({
     }, speed);
 
     return () => clearInterval(interval);
-  }, [phase, fullContent.length, speed, onComplete]);
+  }, [phase, fullContent.length, speed]);
+
+  // Call onComplete when phase transitions to complete
+  useEffect(() => {
+    if (phase === 'complete') {
+      onComplete?.();
+    }
+  }, [phase, onComplete]);
 
   const isComplete = phase === 'complete';
+
+  // Collapsed view - just header (after all hooks)
+  if (collapsed && isComplete) {
+    return (
+      <Box id={chapter.id} ref={sectionRef} component="section">
+        <Card
+          sx={{
+            p: 2,
+            opacity: 0.7,
+            cursor: 'pointer',
+            transition: 'opacity 0.2s, box-shadow 0.2s',
+            '&:hover': {
+              opacity: 1,
+              boxShadow: 2,
+            },
+          }}
+          onClick={onToggleCollapse}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <StatusIcon sx={{ color: statusColor, fontSize: 24 }} />
+            <Typography variant="body1" sx={{ fontWeight: 500, color: 'text.secondary' }}>
+              {chapter.title}
+            </Typography>
+            <Box sx={{ flexGrow: 1 }} />
+            <Typography variant="caption" color="text.disabled">
+              {chapter.versions}
+            </Typography>
+          </Box>
+        </Card>
+      </Box>
+    );
+  }
   const showCursor = (phase === 'status' || phase === 'streaming') && !isComplete;
 
   // Calculate visible content
@@ -223,8 +272,24 @@ export function StreamingChapterCard({
     >
       <Card sx={{ p: 3 }}>
         <Stack spacing={3}>
-          {/* Header */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+          {/* Header - clickable to collapse for completed chapters */}
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              ...(isComplete && chapter.status === 'completed' && onToggleCollapse ? {
+                cursor: 'pointer',
+                borderRadius: 1,
+                mx: -1,
+                px: 1,
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                },
+              } : {}),
+            }}
+            onClick={isComplete && chapter.status === 'completed' ? onToggleCollapse : undefined}
+          >
             {/* Icon - pulsing dot until complete */}
             <Box sx={{ width: 28, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {isComplete ? (
@@ -237,9 +302,16 @@ export function StreamingChapterCard({
             {/* Title area */}
             <Box sx={{ flexGrow: 1 }}>
               {phase === 'status' ? (
-                <Typography variant="h5" sx={{ fontWeight: 600, color: 'secondary.main' }}>
-                  {statusMessages[statusIndex].slice(0, statusCharIndex)}
-                  {showCursor && <Cursor />}
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 400,
+                    color: 'text.disabled',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  {statusWord.slice(0, statusCharIndex)}
+                  {statusCharIndex >= statusWord.length && '.'.repeat(dotCount)}
                 </Typography>
               ) : (
                 <>

@@ -9,8 +9,7 @@ import { AIThinkingFlowSkeleton } from './AIThinkingFlowSkeleton';
 import { AIThinkingFlowStatus } from './AIThinkingFlowStatus';
 import { useContentReady } from './useContentReady';
 
-const DEFAULT_STATUS_MESSAGES = ['Thinking...', 'Analyzing chapters...', 'Loading content...'];
-const STATUS_INTERVAL = 700; // Time between status message changes
+import { THINKING_WORDS, STATUS_INTERVAL } from './constants';
 
 export function AIThinkingFlow({
   children,
@@ -19,7 +18,7 @@ export function AIThinkingFlow({
   minDuration = 2000,
   maxDuration = 10000,
   waitForImages = true,
-  statusMessages = DEFAULT_STATUS_MESSAGES,
+  statusMessages = THINKING_WORDS,
   onComplete,
 }: AIThinkingFlowProps) {
   const contentRef = useRef<HTMLDivElement>(null);

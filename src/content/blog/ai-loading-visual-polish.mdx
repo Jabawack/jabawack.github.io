@@ -1,0 +1,169 @@
+---
+title: "Polishing the AI Loading Experience"
+date: "2026-01-20"
+description: "Small visual tweaks that make the Site Evolution page feel more intentional - from playful thinking words to auto-collapsing chapters"
+tags: ["UX", "Animation", "AI", "Polish"]
+author: "TK"
+version: "2.6.0"
+---
+
+# Polishing the AI Loading Experience
+
+The Site Evolution page has had streaming animations since v2.5.0. Content types character-by-character, skeleton lines shrink as text appears, and a pulsing dot indicates loading. It worked. But it felt... mechanical.
+
+Today's changes are about making it feel *alive*.
+
+## The Inspiration
+
+I stumbled on a [tweet by Pallav Mac](https://x.com/pallavmac/status/1897491460636778693) showing the variety of "thinking" words Claude Code uses while processing:
+
+> Thinking... Analyzing... Pondering... Cogitating... Percolating... Noodling...
+
+It's such a small thing, but it gives the AI personality. Instead of robotic "Loading...", you get "Marinating..." or "Vibing..." - words that feel human.
+
+I stole this idea.
+
+## Before: Static and Predictable
+
+The old loading flow:
+1. Show "Thinking..."
+2. Switch to "Analyzing..."
+3. Switch to "Loading..."
+4. Start streaming content
+
+Every card did the same dance, in the same order. Predictable. Boring.
+
+## After: Random and Playful
+
+Now each card picks a random word from a pool of 15+ options:
+
+```ts
+const THINKING_WORDS = [
+  'Thinking...',
+  'Analyzing...',
+  'Pondering...',
+  'Cogitating...',
+  'Percolating...',
+  'Noodling...',
+  'Musing...',
+  'Brewing...',
+  'Vibing...',
+  'Mulling...',
+  'Conjuring...',
+  'Simmering...',
+  'Ruminating...',
+  'Marinating...',
+];
+```
+
+One card might show "Cogitating...", the next "Percolating...". The randomness feels more organic.
+
+## Animated Dots
+
+The dots now animate: `.` → `..` → `...` → `.`
+
+Instead of static "Thinking...", you see the dots cycle, suggesting ongoing thought. It's a small touch that adds life.
+
+```ts
+// Animate dots: . → .. → ... → .
+useEffect(() => {
+  if (phase !== 'status') return;
+  if (statusCharIndex < statusWord.length) return;
+
+  const dotInterval = setInterval(() => {
+    setDotCount((prev) => (prev % 3) + 1);
+  }, 400);
+
+  return () => clearInterval(dotInterval);
+}, [phase, statusCharIndex, statusWord.length]);
+```
+
+## Snappier Timing
+
+The old timing felt sluggish:
+- 1800ms status phase
+- 12ms per character
+
+New timing:
+- 600ms status phase
+- 8ms per character
+
+The result is noticeably faster without feeling rushed. Content appears quickly enough to maintain engagement.
+
+## Auto-Collapsing Chapters
+
+The bigger UX improvement: completed chapters now collapse automatically.
+
+### The Problem
+
+When all chapters stream fully, the page becomes a wall of text. Users who want to focus on Chapter 3 have to scroll past Chapters 1 and 2.
+
+### The Solution
+
+After a chapter finishes streaming, if it's "completed" status, it collapses to a single-line summary. Click to expand. Click again to collapse. The header row becomes the toggle.
+
+### Manual Navigation Mode
+
+Clicking a chapter in the sidebar nav now:
+1. Collapses all other chapters
+2. Expands the selected chapter
+3. Scrolls smoothly to it
+
+This creates a focused reading experience - you see one chapter at a time, with collapsed summaries above and below.
+
+## Changelog Auto-Scroll
+
+The Changelog tab also got love. On mount, it now auto-scrolls to the most relevant item:
+- If there's an "in-progress" item, scroll to it
+- Otherwise, scroll to the next "planned" item
+
+The scroll uses a custom easing function (ease-out cubic) for that smooth, intentional feel.
+
+## Storybook Improvements
+
+All these changes are testable in Storybook. The streaming story got better controls:
+
+| Control | What It Does |
+|---------|--------------|
+| `typingSpeed` | Characters per millisecond (lower = faster) |
+| `statusDuration` | How long "Thinking..." shows |
+| `staggerDelay` | Gap between cards completing |
+| `cardCount` | Number of chapters to render |
+
+## The Impact
+
+These changes don't add features. They don't fix bugs. They make the existing experience feel more polished:
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Status text | Predictable cycle | Random, playful words |
+| Dots | Static | Animated (. → .. → ...) |
+| Timing | 1800ms + 12ms/char | 600ms + 8ms/char |
+| Completed chapters | Always expanded | Auto-collapse |
+| Sidebar nav | Scroll only | Expand + scroll |
+| Changelog | Static on load | Auto-scroll to active |
+
+None of these are features users asked for. But combined, they make the page feel cared-for. That's what polish is.
+
+## Why It Matters
+
+Portfolio sites are showcases. If the *showcase* has jank, what does that say about the work inside?
+
+These tweaks take the loading experience from "works" to "delights". And that's worth an afternoon of work.
+
+{/*
+## Screenshots Checklist
+
+Place in `public/images/blog/ai-loading-visual-polish/`:
+
+- [ ] `01-before-status.png` - Old streaming with "Thinking... Analyzing... Loading..." cycle
+- [ ] `02-after-status.png` - New streaming with random word like "Cogitating..."
+- [ ] `03-collapsed-chapter.png` - A collapsed chapter card (just title + version)
+- [ ] `04-manual-navigation.png` - Sidebar nav with one chapter expanded
+- [ ] `05-storybook-controls.png` - Storybook controls panel for streaming story
+
+Capture options:
+- Storybook: `npm run storybook` → http://localhost:6006
+- Before state: Use deployed version or `git stash` temporarily
+- After state: Local dev server
+*/}
