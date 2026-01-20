@@ -5,6 +5,8 @@ import { getMetadata } from '@/config/seo';
 export const metadata = getMetadata('/resume/');
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
+const RESUME_PDF_PATH = '/resume/TK_SWE_Resume.pdf';
+
 export default function ResumePage() {
   return (
     <Box component="main" sx={{ py: 8 }}>
@@ -33,7 +35,7 @@ export default function ResumePage() {
               color="primary"
               startIcon={<DownloadIcon />}
               component="a"
-              href="/TK_FE_Resume.pdf"
+              href={RESUME_PDF_PATH}
               download
             >
               Download PDF
@@ -43,7 +45,7 @@ export default function ResumePage() {
               color="secondary"
               startIcon={<OpenInNewIcon />}
               component="a"
-              href="/TK_FE_Resume.pdf"
+              href={RESUME_PDF_PATH}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -60,7 +62,7 @@ export default function ResumePage() {
           >
             <Box
               component="iframe"
-              src="/TK_FE_Resume.pdf"
+              src={RESUME_PDF_PATH}
               sx={{
                 width: '100%',
                 height: { xs: '500px', md: '800px' },
