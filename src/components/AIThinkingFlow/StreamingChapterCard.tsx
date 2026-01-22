@@ -24,6 +24,18 @@ const blink = keyframes`
   51%, 100% { opacity: 0; }
 `;
 
+// Fade up animation for skip
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const Cursor = styled('span')(({ theme }) => ({
   display: 'inline-block',
   width: 2,
@@ -78,6 +90,7 @@ interface StreamingChapterCardProps {
   sectionRef?: (el: HTMLElement | null) => void;
   extraContent?: React.ReactNode;
   collapsed?: boolean;
+  instant?: boolean;
 }
 
 type Phase = 'waiting' | 'status' | 'streaming' | 'complete';
@@ -94,10 +107,12 @@ export function StreamingChapterCard({
   sectionRef,
   extraContent,
   collapsed = false,
+  instant = false,
 }: StreamingChapterCardProps) {
   const [phase, setPhase] = useState<Phase>('waiting');
   const [statusCharIndex, setStatusCharIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
+  const [skippedToComplete, setSkippedToComplete] = useState(false);
   // Pick a random thinking word (without the dots - we'll animate them)
   const [statusWord] = useState(() => {
     const word = statusMessages[Math.floor(Math.random() * statusMessages.length)];
@@ -195,6 +210,15 @@ export function StreamingChapterCard({
     }
   }, [phase, onComplete]);
 
+  // Handle instant skip - complete immediately, animation handled by CSS
+  useEffect(() => {
+    if (instant && phase !== 'complete') {
+      setSkippedToComplete(true);
+      setPhase('complete');
+      setCharIndex(fullContent.length);
+    }
+  }, [instant, phase, fullContent.length]);
+
   const isComplete = phase === 'complete';
 
   // Collapsed view - just header (after all hooks)
@@ -212,7 +236,10 @@ export function StreamingChapterCard({
               boxShadow: 2,
             },
           }}
-          onClick={onToggleCollapse}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleCollapse?.();
+          }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <StatusIcon sx={{ color: statusColor, fontSize: 24 }} />
@@ -270,7 +297,15 @@ export function StreamingChapterCard({
       ref={sectionRef}
       component="section"
     >
-      <Card sx={{ p: 3 }}>
+      <Card
+        sx={{
+          p: 3,
+          ...(skippedToComplete && {
+            animation: `${fadeUp} 0.4s ease-out both`,
+            animationDelay: `${chapterIndex * 100}ms`,
+          }),
+        }}
+      >
         <Stack spacing={3}>
           {/* Header - clickable to collapse for completed chapters */}
           <Box
@@ -288,7 +323,10 @@ export function StreamingChapterCard({
                 },
               } : {}),
             }}
-            onClick={isComplete && chapter.status === 'completed' ? onToggleCollapse : undefined}
+            onClick={isComplete && chapter.status === 'completed' ? (e) => {
+              e.stopPropagation();
+              onToggleCollapse?.();
+            } : undefined}
           >
             {/* Icon - pulsing dot until complete */}
             <Box sx={{ width: 28, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

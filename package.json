@@ -1,6 +1,6 @@
 {
   "name": "jabawack-portfolio",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "private": true,
   "scripts": {
     "dev": "concurrently -n next,storybook -c cyan,magenta \"next dev\" \"storybook dev -p 6006 --ci\"",
@@ -14,7 +14,12 @@
     "test:coverage": "vitest --coverage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build -o out/storybook",
-    "screenshot": "npx ts-node scripts/capture-screenshots.ts"
+    "screenshot": "tsx scripts/screenshot/cli.ts",
+    "screenshot:before": "tsx scripts/screenshot/cli.ts --before",
+    "screenshot:after": "tsx scripts/screenshot/cli.ts --after",
+    "screenshot:story": "tsx scripts/screenshot/cli.ts --story",
+    "screenshot:url": "tsx scripts/screenshot/cli.ts --url",
+    "screenshot:gif": "tsx scripts/screenshot/record-gif.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

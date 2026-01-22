@@ -1,0 +1,178 @@
+---
+title: "Respecting User Time: Click to Skip"
+date: "2026-01-21"
+description: "Adding a click-to-skip feature to the Site Evolution animation - because forcing users to wait isn't good UX, it's disrespectful"
+tags: ["UX", "Animation", "Polish", "Portfolio"]
+author: "TK"
+version: "2.6.1"
+---
+
+# Respecting User Time: Click to Skip
+
+Here's an uncomfortable truth: that beautiful streaming animation I built? It's annoying on repeat visits.
+
+The first time someone sees text typing character-by-character, it's delightful. The second time, it's tolerable. The third time, they're wondering why they can't just *see the content*.
+
+I was that user. Testing my own site, watching the same animation play for the 50th time. Waiting. And waiting.
+
+## The Empathy Gap
+
+When I built the streaming animation, I was thinking like a developer: *"This looks cool. The timing feels right. Ship it."*
+
+I wasn't thinking like a user who:
+- Has already seen this page before
+- Just wants to find specific information
+- Is on a slow connection and sees content trickle in
+- Has limited time and patience
+
+That's an empathy gap. I optimized for *first impression* and ignored *every other visit*.
+
+## The Realization
+
+Video intros have "Skip" buttons. Podcasts have "Skip 30s" buttons. YouTube has "Skip Ad". Every piece of media that respects users gives them control over their time.
+
+Why should my portfolio be different?
+
+The streaming animation is ~10-15 seconds long. That's an eternity in web time. Users shouldn't be held hostage by my design choices.
+
+## The Solution: Click Anywhere to Skip
+
+Simple, intuitive, no explanation needed:
+
+**Click anywhere on the content area → animation completes instantly.**
+
+No buttons. No settings. No "Skip animation" checkbox in some buried menu. Just click.
+
+### Why Click Instead of a Button?
+
+A "Skip" button would:
+- Add visual clutter
+- Require users to find and target it
+- Feel like an afterthought
+
+Click-anywhere says: *"We know. Just click."*
+
+It's the same pattern as clicking through a slideshow or dismissing a modal. Users already know it.
+
+## The Transition Matters
+
+Instant cuts feel jarring. When you skip, the content doesn't just *appear* - it fades up with a subtle stagger.
+
+Each chapter card:
+1. Fades from 0 to 100% opacity
+2. Slides up 12 pixels
+3. Staggers 100ms after the previous card
+
+The whole skip takes ~600ms. Fast enough to feel instant, smooth enough to feel intentional.
+
+```tsx
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+// Applied with stagger based on chapter index
+sx={{
+  animation: `${fadeUp} 0.4s ease-out both`,
+  animationDelay: `${chapterIndex * 100}ms`,
+}}
+```
+
+## The Hint
+
+During the animation, a subtle hint appears at the top:
+
+> *Click anywhere to skip animation*
+
+It's text.disabled color, 70% opacity. Visible if you're looking, invisible if you're watching the animation. Once you skip (or the animation completes), it disappears.
+
+## What Doesn't Trigger Skip
+
+- **Clicking chapter headers**: Toggles expand/collapse, doesn't skip
+- **Clicking sidebar navigation**: Navigates to chapter, doesn't skip
+- **Clicking after animation completes**: Nothing happens (correct behavior)
+
+Event propagation is handled with `stopPropagation()` on interactive elements. The skip only triggers on "empty" clicks.
+
+## No Memory, By Design
+
+The skip doesn't persist. Refresh the page, animation plays again.
+
+Why? Because:
+- LocalStorage for this feels heavy-handed
+- Users might *want* to see it again
+- First-time visitors should get the full experience
+- It's one click to skip - not a burden
+
+If users consistently skip, that's feedback. Maybe the animation is too long. But the *option* to skip is the respectful default.
+
+## Developer Experience: Storybook DRY
+
+While implementing this, I initially duplicated the skip logic in the Storybook story. 50+ lines of useState, useCallback, and event handlers - copy-pasted from the main component.
+
+That's wrong. It violates DRY. When I add features to the component, I'd have to update the story too.
+
+The fix was obvious:
+
+```tsx
+// Before: 100+ lines of duplicated logic
+export const FullExperience: Story = {
+  render: () => {
+    const [state1, setState1] = useState(...);
+    const [state2, setState2] = useState(...);
+    // ... all the logic again
+  },
+};
+
+// After: use the actual component
+export const FullExperience: Story = {
+  render: () => <SiteEvolutionJourney showHero={false} />,
+};
+```
+
+Stories should test components, not reimplement them.
+
+## New Skill: Storybook DRY
+
+To prevent this mistake in the future, I added a Claude skill that auto-activates when working with Storybook:
+
+**Triggers:** `storybook`, `story`, `stories`, `*.stories.tsx`
+
+**Core rule:** Always import and render actual components. Never duplicate their logic.
+
+It's a simple reminder, but simple reminders prevent simple mistakes.
+
+## The UX Principle
+
+This whole change comes down to one principle:
+
+> **Users should always have an escape hatch.**
+
+Animations are great until they're not. Loading states are informative until they're barriers. Transitions are smooth until they're slow.
+
+Giving users control doesn't diminish the experience - it respects their autonomy. The animation is still there for those who want it. But now, it's a choice, not a sentence.
+
+## Impact
+
+| Aspect | Before | After |
+|--------|--------|-------|
+| Animation | Forced, ~15 seconds | Skippable with one click |
+| Skip transition | N/A | Staggered fade-up (600ms total) |
+| User control | None | Full |
+| Repeat visit experience | Frustrating | Respectful |
+
+## Why It Matters
+
+Every interaction is a conversation. When users can't skip an animation, the site is saying: *"My aesthetic is more important than your time."*
+
+That's not a message I want to send.
+
+The best UX is invisible. Users who want the animation get it. Users who don't, skip it. Neither group thinks about it - which means the UX is working.
+
+That's respect.

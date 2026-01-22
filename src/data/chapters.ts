@@ -54,7 +54,7 @@ export const chapters: Chapter[] = [
     id: 'chapter-3',
     title: 'Chapter 3: Polish & UX',
     status: 'completed',
-    versions: 'v2.2.0 → v2.6.0',
+    versions: 'v2.2.0 → v2.6.1',
     story: [
       'Infrastructure complete, focus shifts to the experiential layer—microinteractions and feedback loops that build user confidence. Every enhancement follows one question: "Does this reduce friction or add it?"',
       'This case study (v2.2.0) transforms the rebuild process itself into content. Progress bars, chapter navigation, and before/after comparisons turn transparency into engagement. Users don\'t just see a portfolio—they see how it\'s made.',
@@ -62,7 +62,7 @@ export const chapters: Chapter[] = [
       'Light/dark mode respects user autonomy and system preferences. It\'s not just aesthetic—it\'s acknowledging that users have contexts and preferences that deserve accommodation.',
       'The Design System (v2.4.0) extends the "building in public" philosophy to the component level. Storybook transforms isolated components into interactive documentation—each story captures variants, states, and edge cases. Visitors see not just the portfolio, but the systematic thinking behind it. This is meta-portfolio: the tooling itself becomes evidence of capability.',
       'The MDX Blog (v2.5.0) transforms the portfolio from static showcase to living knowledge base. A portfolio shows what you\'ve done; a blog shows how you think. MDX enables embedded interactivity—code examples users can run, diagrams they can explore. The first use case: documenting the orbit-lab-project development journey in real-time.',
-      'orbit-lab-project (v2.6.0) represents a new direction—building reusable visualization frameworks. A 3D globe built with React Three Fiber and three-globe, deployed separately on Vercel, but linked as a portfolio piece. The blog documents the journey; the portfolio showcases the result.',
+      'orbit-lab-project (v2.6.0) started as a personal challenge: dive into WebGL and Three.js to expand beyond traditional frontend work into 3D web graphics. The goal was hands-on exploration of React Three Fiber, shader programming, and GPU-accelerated rendering—skills increasingly relevant as web experiences become more immersive, from data visualizations and product configurators to interactive storytelling. The result is a 3D flight visualization globe deployed separately on Vercel, opening doors to creative coding and immersive web experiences.',
     ],
     milestones: [
       { version: 'v2.2.0', title: 'Building in Public (Case study foundation)', status: 'completed' },
@@ -71,6 +71,7 @@ export const chapters: Chapter[] = [
       { version: 'v2.4.0', title: 'Design System (Storybook component library)', status: 'completed' },
       { version: 'v2.5.0', title: 'MDX Blog (Articles, RSS feed)', status: 'completed' },
       { version: 'v2.6.0', title: 'orbit-lab-project Portfolio Card (3D globe visualization)', status: 'completed' },
+      { version: 'v2.6.1', title: 'Click-to-Skip Animation (Respecting user time)', status: 'completed' },
     ],
   },
   {

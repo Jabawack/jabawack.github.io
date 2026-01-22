@@ -56,9 +56,10 @@ interface JourneyContentProps {
   manualNavigation: boolean;
   onToggleChapter: (chapterId: string) => void;
   onChapterChange: (chapterId: string) => void;
+  instant?: boolean;
 }
 
-function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters, manualNavigation, onToggleChapter, onChapterChange }: JourneyContentProps) {
+function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters, manualNavigation, onToggleChapter, onChapterChange, instant }: JourneyContentProps) {
   const [activeCard, setActiveCard] = useState(0);
 
   // Update active chapter when streaming moves to next card
@@ -177,6 +178,7 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
                 if (el) sectionRefs.current.set(chapter.id, el);
               }}
               extraContent={beforeAfterTable}
+              instant={instant}
             />
           );
         })}
@@ -194,6 +196,7 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
   const [expandedChapters, setExpandedChapters] = useState<Set<string>>(new Set());
   const [streamingComplete, setStreamingComplete] = useState(false);
   const [manualNavigation, setManualNavigation] = useState(false);
+  const [skipAnimation, setSkipAnimation] = useState(false);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
   const theme = useTheme();
 
@@ -238,6 +241,14 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
       setTimeout(() => setStreamingComplete(true), 2000);
     }
   }, []);
+
+  // Handle click to skip animation
+  const handleSkipAnimation = useCallback(() => {
+    if (!streamingComplete && !skipAnimation) {
+      setSkipAnimation(true);
+      setStreamingComplete(true);
+    }
+  }, [streamingComplete, skipAnimation]);
 
   // Scroll spy effect - only active after streaming completes
   // Only triggers for expanded chapters (not collapsed ones)
@@ -381,16 +392,40 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
               />
             </Box>
 
-            {/* Scrollable Content */}
-            <JourneyContent
-              sectionRefs={sectionRefs}
-              theme={theme}
-              beforeAfterData={beforeAfterData}
-              expandedChapters={expandedChapters}
-              manualNavigation={manualNavigation}
-              onToggleChapter={toggleChapter}
-              onChapterChange={handleChapterChange}
-            />
+            {/* Scrollable Content - clickable to skip animation */}
+            <Box
+              onClick={handleSkipAnimation}
+              sx={{
+                flexGrow: 1,
+                cursor: streamingComplete ? 'default' : 'pointer',
+              }}
+            >
+              {/* Skip hint */}
+              {!streamingComplete && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    display: 'block',
+                    textAlign: 'center',
+                    mb: 2,
+                    color: 'text.disabled',
+                    opacity: 0.7,
+                  }}
+                >
+                  Click anywhere to skip animation
+                </Typography>
+              )}
+              <JourneyContent
+                sectionRefs={sectionRefs}
+                theme={theme}
+                beforeAfterData={beforeAfterData}
+                expandedChapters={expandedChapters}
+                manualNavigation={manualNavigation}
+                onToggleChapter={toggleChapter}
+                onChapterChange={handleChapterChange}
+                instant={skipAnimation}
+              />
+            </Box>
           </Box>
         </Stack>
       </Container>

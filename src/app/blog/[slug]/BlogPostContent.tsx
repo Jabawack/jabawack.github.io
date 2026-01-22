@@ -75,10 +75,14 @@ export default function BlogPostContent({ children }: BlogPostContentProps) {
         '& blockquote': {
           borderLeft: `4px solid ${theme.palette.primary.main}`,
           pl: 3,
+          py: 2,
           ml: 0,
           my: 3,
           fontStyle: 'italic',
           color: 'text.secondary',
+          '& p': {
+            m: 0,
+          },
         },
         '& img': {
           maxWidth: '100%',
