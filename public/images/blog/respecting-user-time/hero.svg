@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="iconGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffa726"/>
+      <stop offset="100%" style="stop-color:#ff7043"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bg)"/>
+
+  <!-- SkipNext Icon - large and centered -->
+  <!-- MUI SkipNext: play triangle + vertical bar -->
+  <g transform="translate(600, 337.5)">
+    <!-- Play triangle -->
+    <path d="M-100,-80 L60,0 L-100,80 Z" fill="url(#iconGlow)"/>
+    <!-- Vertical bar -->
+    <rect x="80" y="-80" width="30" height="160" rx="4" fill="url(#iconGlow)"/>
+  </g>
+</svg>

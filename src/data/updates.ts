@@ -127,7 +127,7 @@ export const updates: Update[] = [
   {
     id: 'v2.9.0',
     date: 'TBD',
-    version: '2.9.0',
+    version: 'v2.9.0',
     title: 'Landing Page Polish',
     description: 'Testimonials grid and final polish for new landing page.',
     category: 'ux',
@@ -144,7 +144,7 @@ export const updates: Update[] = [
   {
     id: 'v2.8.0',
     date: 'TBD',
-    version: '2.8.0',
+    version: 'v2.8.0',
     title: 'Landing Page Advanced Sections',
     description: 'Project spotlight and portfolio gallery with parallax effects.',
     category: 'ux',
@@ -160,7 +160,7 @@ export const updates: Update[] = [
   {
     id: 'v2.7.0',
     date: 'TBD',
-    version: '2.7.0',
+    version: 'v2.7.0',
     title: 'Landing Page Foundation',
     description: 'New hero section with CTA, skills showcase, and scroll animations.',
     category: 'ux',
@@ -176,9 +176,28 @@ export const updates: Update[] = [
     ],
   },
   {
+    id: 'v2.6.2',
+    date: '2026-01-22',
+    version: 'v2.6.2',
+    title: 'Contextual Navigation',
+    description: 'Bidirectional linking between Journey, Changelog, and Blog with hero images and highlight animations.',
+    category: 'ux',
+    status: 'completed',
+    tier: 'roadmap',
+    tags: ['UX', 'Navigation', 'Blog', 'Polish'],
+    details: [
+      '"Back to the Journey" link in blog posts with scroll-to-highlight',
+      'Hero image support for blog posts',
+      'Thumbnail images in blog listing',
+      '"Read the story" links in Journey chapters',
+      'Highlight animation for milestone on return',
+    ],
+    blogSlug: 'contextual-navigation',
+  },
+  {
     id: 'v2.6.1',
     date: '2026-01-21',
-    version: '2.6.1',
+    version: 'v2.6.1',
     title: 'Click-to-Skip Animation',
     description: 'Respect user time with click-to-skip for Site Evolution streaming animation.',
     category: 'ux',
@@ -196,7 +215,7 @@ export const updates: Update[] = [
   {
     id: 'v2.6.0',
     date: '2026-01-17',
-    version: '2.6.0',
+    version: 'v2.6.0',
     title: 'orbit-lab-project Portfolio Card',
     description: 'Add orbit-lab-project 3D globe visualization project to portfolio.',
     category: 'feature',
@@ -213,7 +232,7 @@ export const updates: Update[] = [
   {
     id: 'v2.5.0',
     date: '2026-01-16',
-    version: '2.5.0',
+    version: 'v2.5.0',
     title: 'MDX Blog',
     description: 'Transform portfolio into a living knowledge base with MDX-powered blog.',
     category: 'feature',
@@ -231,7 +250,7 @@ export const updates: Update[] = [
   {
     id: 'v2.4.0',
     date: '2026-01-15',
-    version: '2.4.0',
+    version: 'v2.4.0',
     title: 'Design System',
     description: 'Public Storybook component library extending the "building in public" philosophy to the component level.',
     category: 'feature',
@@ -251,7 +270,7 @@ export const updates: Update[] = [
   {
     id: 'v2.3.0',
     date: '2026-01-11',
-    version: '2.3.0',
+    version: 'v2.3.0',
     title: 'Theme System',
     description: 'Add light/dark mode toggle with system preference detection.',
     category: 'feature',
@@ -269,7 +288,7 @@ export const updates: Update[] = [
   {
     id: 'v2.2.1',
     date: '2026-01-11',
-    version: '2.2.1',
+    version: 'v2.2.1',
     title: 'Case Study UX Refinements',
     description: 'Iterative improvements to the Building in Public case study based on UX review.',
     category: 'ux',
@@ -288,7 +307,7 @@ export const updates: Update[] = [
   {
     id: 'v2.2.0',
     date: '2026-01-10',
-    version: '2.2.0',
+    version: 'v2.2.0',
     title: 'Building in Public',
     description: 'Transform the portfolio into a living case study with chapter-based storytelling and progress visualization.',
     category: 'ux',
@@ -307,7 +326,7 @@ export const updates: Update[] = [
   {
     id: 'v2.1.0',
     date: '2026-01-10',
-    version: '2.1.0',
+    version: 'v2.1.0',
     title: 'Architecture Cleanup',
     description: 'Refactor to Server + Client component pattern for better performance and maintainability.',
     category: 'infrastructure',
@@ -324,7 +343,7 @@ export const updates: Update[] = [
   {
     id: 'v2.0.2',
     date: '2026-01-10',
-    version: '2.0.2',
+    version: 'v2.0.2',
     title: 'Projects & SEO Update',
     description: 'Added new portfolio projects, fixed project metadata, and implemented SEO improvements.',
     category: 'enhancement',
@@ -341,7 +360,7 @@ export const updates: Update[] = [
   {
     id: 'v2.0.1',
     date: '2026-01-08',
-    version: '2.0.1',
+    version: 'v2.0.1',
     title: 'Navigation & Footer Components',
     description: 'Added responsive navigation with mobile drawer and footer with social links.',
     category: 'feature',
@@ -357,7 +376,7 @@ export const updates: Update[] = [
   {
     id: 'v2.0.0',
     date: '2026-01-08',
-    version: '2.0.0',
+    version: 'v2.0.0',
     title: 'Portfolio Site Modernization',
     description: 'Complete rebuild using Next.js 15, React 19, and MUI v7. Modern dark theme with minimalist design.',
     category: 'feature',
@@ -375,7 +394,7 @@ export const updates: Update[] = [
   {
     id: 'v1.0.0',
     date: '2017-01-01',
-    version: '1.0.0',
+    version: 'v1.0.0',
     title: 'Original Static Site',
     description: 'First portfolio using Materialize CSS and jQuery. Now archived at /v2017/.',
     category: 'feature',

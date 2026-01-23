@@ -16,7 +16,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import Tag from '@/components/Tag';
 import { ChapterNav } from '@/components/ChapterNav';
 import { StreamingChapterCard } from '@/components/AIThinkingFlow';
-import { chapters, getMilestoneStats } from '@/data/chapters';
+import { chapters, getMilestoneStats, getChapterByVersion } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
 import { getGradientBackground, getProgressGradient } from '@/theme';
 
@@ -57,9 +57,10 @@ interface JourneyContentProps {
   onToggleChapter: (chapterId: string) => void;
   onChapterChange: (chapterId: string) => void;
   instant?: boolean;
+  highlightVersion?: string | null;
 }
 
-function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters, manualNavigation, onToggleChapter, onChapterChange, instant }: JourneyContentProps) {
+function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters, manualNavigation, onToggleChapter, onChapterChange, instant, highlightVersion }: JourneyContentProps) {
   const [activeCard, setActiveCard] = useState(0);
 
   // Update active chapter when streaming moves to next card
@@ -88,80 +89,91 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
     <Box sx={{ flexGrow: 1 }}>
       <Stack spacing={2}>
         {chapters.map((chapter, index) => {
+          // Check if this chapter contains the highlighted version
+          const chapterHasHighlight = highlightVersion &&
+            chapter.milestones.some(m => m.version === highlightVersion);
+
           // Before/After table for Chapter 1
-          const beforeAfterTable = chapter.id === 'chapter-1' ? (
+          const extraContent = (
             <>
-              <Divider />
-              <Box>
-                <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
-                  Before / After Comparison
-                </Typography>
-                <Card
-                  sx={{
-                    backgroundColor: alpha(theme.palette.background.paper, 0.5),
-                    border: `1px solid ${theme.palette.divider}`,
-                  }}
-                >
-                  <CardContent>
-                    <Box
+              {chapter.id === 'chapter-1' && (
+                <>
+                  <Divider />
+                  <Box>
+                    <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 2 }}>
+                      Before / After Comparison
+                    </Typography>
+                    <Card
                       sx={{
-                        display: 'grid',
-                        gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
-                        gap: 2,
-                        pb: 1.5,
-                        mb: 1.5,
-                        borderBottom: `1px solid ${theme.palette.divider}`,
+                        backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                        border: `1px solid ${theme.palette.divider}`,
                       }}
                     >
-                      <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
-                        Aspect
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>
-                        2017 (v1)
-                      </Typography>
-                      <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right', color: 'secondary.main' }}>
-                        2026 (v2)
-                      </Typography>
-                    </Box>
-                    <Stack spacing={1}>
-                      {beforeAfterData.before.items.map((item, idx) => (
+                      <CardContent>
                         <Box
-                          key={item.aspect}
                           sx={{
                             display: 'grid',
                             gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
                             gap: 2,
-                            py: 0.5,
+                            pb: 1.5,
+                            mb: 1.5,
                             borderBottom: `1px solid ${theme.palette.divider}`,
                           }}
                         >
-                          <Typography variant="body2" color="text.secondary">
-                            {item.aspect}
+                          <Typography variant="body2" color="text.secondary" sx={{ fontWeight: 600 }}>
+                            Aspect
                           </Typography>
-                          <Typography variant="body2" sx={{ textAlign: 'right' }}>
-                            {item.value}
+                          <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right' }}>
+                            2017 (v1)
                           </Typography>
-                          <Typography
-                            variant="body2"
-                            sx={{ textAlign: 'right', color: 'secondary.main', fontWeight: 500 }}
-                          >
-                            {beforeAfterData.after.items[idx].value}
+                          <Typography variant="body2" sx={{ fontWeight: 600, textAlign: 'right', color: 'secondary.main' }}>
+                            2026 (v2)
                           </Typography>
                         </Box>
-                      ))}
-                    </Stack>
-                  </CardContent>
-                </Card>
-              </Box>
+                        <Stack spacing={1}>
+                          {beforeAfterData.before.items.map((item, idx) => (
+                            <Box
+                              key={item.aspect}
+                              sx={{
+                                display: 'grid',
+                                gridTemplateColumns: { xs: '1fr 1fr 1fr', sm: '1.5fr 1fr 1fr' },
+                                gap: 2,
+                                py: 0.5,
+                                borderBottom: `1px solid ${theme.palette.divider}`,
+                              }}
+                            >
+                              <Typography variant="body2" color="text.secondary">
+                                {item.aspect}
+                              </Typography>
+                              <Typography variant="body2" sx={{ textAlign: 'right' }}>
+                                {item.value}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                sx={{ textAlign: 'right', color: 'secondary.main', fontWeight: 500 }}
+                              >
+                                {beforeAfterData.after.items[idx].value}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </>
+              )}
             </>
-          ) : undefined;
+          );
 
           // Collapse logic:
           // - Manual navigation: collapse all except selected
           // - Auto (streaming): only completed chapters collapse
-          const isCollapsed = manualNavigation
-            ? !expandedChapters.has(chapter.id)
-            : index < activeCard && chapter.status === 'completed' && !expandedChapters.has(chapter.id);
+          // - If chapter has highlight, always expand it
+          const isCollapsed = chapterHasHighlight
+            ? false
+            : manualNavigation
+              ? !expandedChapters.has(chapter.id)
+              : index < activeCard && chapter.status === 'completed' && !expandedChapters.has(chapter.id);
 
           return (
             <StreamingChapterCard
@@ -177,8 +189,9 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
               sectionRef={(el) => {
                 if (el) sectionRefs.current.set(chapter.id, el);
               }}
-              extraContent={beforeAfterTable}
+              extraContent={extraContent}
               instant={instant}
+              highlightVersion={highlightVersion}
             />
           );
         })}
@@ -189,16 +202,51 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
 
 interface SiteEvolutionJourneyProps {
   showHero?: boolean;
+  highlightVersion?: string | null;
 }
 
-export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJourneyProps) {
+export default function SiteEvolutionJourney({ showHero = true, highlightVersion }: SiteEvolutionJourneyProps) {
   const [activeChapter, setActiveChapter] = useState<string>('chapter-1');
   const [expandedChapters, setExpandedChapters] = useState<Set<string>>(new Set());
   const [streamingComplete, setStreamingComplete] = useState(false);
   const [manualNavigation, setManualNavigation] = useState(false);
   const [skipAnimation, setSkipAnimation] = useState(false);
   const sectionRefs = useRef<Map<string, HTMLElement>>(new Map());
+  const hasScrolledToHighlight = useRef(false);
   const theme = useTheme();
+
+  // If there's a highlight version, skip animation and scroll to it
+  useEffect(() => {
+    if (highlightVersion && !hasScrolledToHighlight.current) {
+      // Skip animation to show content immediately
+      setSkipAnimation(true);
+      setStreamingComplete(true);
+
+      // Find the chapter containing this version
+      const targetChapter = getChapterByVersion(highlightVersion);
+      if (targetChapter) {
+        // Expand the target chapter
+        setExpandedChapters(new Set([targetChapter.id]));
+        setActiveChapter(targetChapter.id);
+        setManualNavigation(true);
+
+        // Scroll to the specific milestone after a short delay for DOM to update
+        setTimeout(() => {
+          const milestoneElement = document.getElementById(`milestone-${highlightVersion}`);
+          const element = milestoneElement || sectionRefs.current.get(targetChapter.id);
+          if (element) {
+            const offset = 200; // Account for sticky headers + some padding
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo({
+              top: elementPosition - offset,
+              behavior: 'smooth',
+            });
+          }
+          hasScrolledToHighlight.current = true;
+        }, 100);
+      }
+    }
+  }, [highlightVersion]);
 
   // Calculate progress from shared data
   const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
@@ -424,6 +472,7 @@ export default function SiteEvolutionJourney({ showHero = true }: SiteEvolutionJ
                 onToggleChapter={toggleChapter}
                 onChapterChange={handleChapterChange}
                 instant={skipAnimation}
+                highlightVersion={highlightVersion}
               />
             </Box>
           </Box>

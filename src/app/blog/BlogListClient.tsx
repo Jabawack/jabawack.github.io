@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Box,
   Container,
@@ -227,63 +228,89 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
                       },
                     }}
                   >
-                    <Stack spacing={1.5}>
-                      {/* Title first */}
-                      <Typography
-                        variant="h5"
-                        sx={{
-                          fontWeight: 600,
-                          color: 'text.primary',
-                        }}
-                      >
-                        {post.title}
-                      </Typography>
-
-                      {/* Metadata second */}
-                      <Stack
-                        direction="row"
-                        spacing={2}
-                        alignItems="center"
-                        flexWrap="wrap"
-                        useFlexGap
-                      >
-                        <Typography variant="caption" color="text.secondary">
-                          {formatDate(post.date)}
-                          {post.updatedOn && ` · Updated ${formatDate(post.updatedOn)}`}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {post.readingTime}
-                        </Typography>
-                        {post.version && (
-                          <Tag
-                            label={`v${post.version}`}
-                            size="small"
-                            variant="outlined"
-                            sx={{ height: 20, fontSize: '0.7rem' }}
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
+                      {/* Thumbnail - prefer thumbnail field, fall back to image */}
+                      {(post.thumbnail || post.image) && (
+                        <Box
+                          sx={{
+                            position: 'relative',
+                            width: { xs: '100%', sm: 200 },
+                            minWidth: { sm: 200 },
+                            aspectRatio: '16 / 9',
+                            borderRadius: 1,
+                            overflow: 'hidden',
+                            backgroundColor: 'background.default',
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Image
+                            src={post.thumbnail || post.image!}
+                            alt={post.title}
+                            fill
+                            style={{ objectFit: 'cover' }}
+                            sizes="(max-width: 600px) 100vw, 200px"
                           />
+                        </Box>
+                      )}
+
+                      <Stack spacing={1.5} sx={{ flexGrow: 1 }}>
+                        {/* Title first */}
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontWeight: 600,
+                            color: 'text.primary',
+                          }}
+                        >
+                          {post.title}
+                        </Typography>
+
+                        {/* Metadata second */}
+                        <Stack
+                          direction="row"
+                          spacing={2}
+                          alignItems="center"
+                          flexWrap="wrap"
+                          useFlexGap
+                        >
+                          <Typography variant="caption" color="text.secondary">
+                            {formatDate(post.date)}
+                            {post.updatedOn && ` · Updated ${formatDate(post.updatedOn)}`}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            {post.readingTime}
+                          </Typography>
+                          {post.version && (
+                            <Tag
+                              label={post.version}
+                              size="small"
+                              variant="outlined"
+                              sx={{ height: 20, fontSize: '0.7rem' }}
+                            />
+                          )}
+                        </Stack>
+
+                        {/* Description */}
+                        <Typography variant="body2" color="text.secondary">
+                          {post.description}
+                        </Typography>
+                        {post.tags.length > 0 && (
+                          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                            {post.tags.map((tag) => (
+                              <Tag
+                                key={tag}
+                                label={tag}
+                                variant="secondary"
+                                selected={selectedTag === tag}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleTagClick(tag);
+                                }}
+                              />
+                            ))}
+                          </Stack>
                         )}
                       </Stack>
-
-                      {/* Description */}
-                      <Typography variant="body2" color="text.secondary">
-                        {post.description}
-                      </Typography>
-                      {post.tags.length > 0 && (
-                        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                          {post.tags.map((tag) => (
-                            <Tag
-                              key={tag}
-                              label={tag}
-                              variant="secondary"
-                              selected={selectedTag === tag}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleTagClick(tag);
-                              }}
-                            />
-                          ))}
-                        </Stack>
-                      )}
                     </Stack>
                   </Paper>
                 </Grid>

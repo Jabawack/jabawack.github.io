@@ -34,25 +34,32 @@ const TAB_MAP: Record<string, number> = {
   components: 3,
 };
 
+const TAB_NAMES = ['journey', 'roadmap', 'changelog', 'components'];
+
 export default function SiteEvolutionClient() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
+  const highlightParam = searchParams.get('highlight');
   const initialTab = tabParam && TAB_MAP[tabParam] !== undefined ? TAB_MAP[tabParam] : 0;
 
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [highlightVersion, setHighlightVersion] = useState<string | null>(highlightParam);
   const theme = useTheme();
 
-  // Update tab when URL param changes
+  // Update tab and highlight when URL params change
   useEffect(() => {
     if (tabParam && TAB_MAP[tabParam] !== undefined) {
       const newTab = TAB_MAP[tabParam];
       setActiveTab(newTab);
       // Reset scroll for non-changelog tabs (changelog handles its own scroll)
-      if (newTab !== 2) {
+      // Skip reset if we have a highlight param (let Journey handle scrolling)
+      if (newTab !== 2 && !highlightParam) {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }
     }
-  }, [tabParam]);
+    // Update highlight version when param changes
+    setHighlightVersion(highlightParam);
+  }, [tabParam, highlightParam]);
 
   const { total: totalMilestones, completed: completedMilestones } = getMilestoneStats();
   const milestoneProgressPercent = getMilestoneProgress();
@@ -136,6 +143,9 @@ export default function SiteEvolutionClient() {
             value={activeTab}
             onChange={(_, newValue) => {
               setActiveTab(newValue);
+              // Update URL with tab param (preserves on reload)
+              const newUrl = `/portfolio/site-evolution/?tab=${TAB_NAMES[newValue]}`;
+              window.history.replaceState(null, '', newUrl);
               // Reset scroll for non-changelog tabs (changelog handles its own scroll)
               if (newValue !== 2) {
                 window.scrollTo({ top: 0, behavior: 'instant' });
@@ -181,9 +191,9 @@ export default function SiteEvolutionClient() {
       </Box>
 
       {/* Tab Content */}
-      {activeTab === 0 && <SiteEvolutionJourney showHero={false} />}
+      {activeTab === 0 && <SiteEvolutionJourney showHero={false} highlightVersion={highlightVersion} />}
       {activeTab === 1 && <SiteEvolutionRoadmap />}
-      {activeTab === 2 && <SiteEvolutionChangelog />}
+      {activeTab === 2 && <SiteEvolutionChangelog highlightVersion={highlightVersion} />}
       {activeTab === 3 && (
         <Box sx={{ px: 2 }}>
           <StorybookEmbed height="calc(100vh - 64px - 48px - 200px)" />

@@ -19,7 +19,7 @@
     "screenshot:after": "tsx scripts/screenshot/cli.ts --after",
     "screenshot:story": "tsx scripts/screenshot/cli.ts --story",
     "screenshot:url": "tsx scripts/screenshot/cli.ts --url",
-    "screenshot:gif": "tsx scripts/screenshot/record-gif.ts"
+    "screenshot:video": "tsx scripts/screenshot/record-video.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",

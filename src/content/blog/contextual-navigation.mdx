@@ -1,0 +1,58 @@
+---
+title: "Back to the Journey: Contextual Navigation"
+date: "2026-01-22"
+description: "Connecting the dots between blog posts, changelog, and journey with bidirectional navigation and visual highlights"
+tags: ["UX", "Navigation", "Blog", "Polish"]
+author: "TK"
+version: "v2.6.2"
+image: "/images/blog/contextual-navigation/hero.png"
+---
+
+# Back to the Journey: Contextual Navigation
+
+Content lives in silos. The changelog shows *what* changed. The journey tells *why*. Blog posts explain *how*. But users don't think in silos—they follow threads.
+
+## The Navigation Problem
+
+Before this update, navigation was one-way:
+- **Changelog** → Blog (via "Read the story" button)
+- **Blog** → nowhere (dead end)
+- **Journey** → nowhere (no blog links)
+
+A user reading about v2.6.1's click-to-skip feature had no way to return to see it in context of the broader journey. They'd have to manually navigate back, find the right tab, scroll to the right section.
+
+That's friction. Unnecessary friction.
+
+## The Solution: Bidirectional Links
+
+Now every blog post with a version shows a "Back to the Journey" link. Click it, and you're taken directly to the Journey tab with:
+1. The chapter auto-expanded
+2. The specific milestone highlighted with a pulsing animation
+3. Smooth scroll to the right position
+
+The journey now shows "Read the story" links for any milestone that has a related blog post.
+
+## Implementation Details
+
+The highlight system uses URL parameters:
+```
+/portfolio/site-evolution/?tab=journey&highlight=v2.6.1
+```
+
+When the Journey component detects a `highlight` parameter:
+1. Skip the streaming animation (instant load)
+2. Find the chapter containing that version
+3. Expand it and scroll into view
+4. Apply a highlight animation to the matching milestone
+
+## Hero Images and Thumbnails
+
+Blog posts can now have hero images displayed at the top. The blog listing shows thumbnails for posts that have images—making the list more scannable and visually engaging.
+
+The hero image for this post? A nod to "Back to the Future"—because navigating between past versions and present documentation felt like time travel.
+
+## The Pattern
+
+This is a recurring theme: **reduce cognitive load by connecting related content**. Users shouldn't have to remember where they saw something or manually navigate between views. The system should maintain context for them.
+
+Every link should answer: "Where did I come from, and where can I go next?"

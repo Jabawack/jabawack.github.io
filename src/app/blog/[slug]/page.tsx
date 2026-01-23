@@ -5,9 +5,7 @@ import { siteConfig } from '@/config/seo';
 import BlogPostHeader from './BlogPostHeader';
 import BlogPostContent from './BlogPostContent';
 import BlogAuthorFooter from '@/components/BlogAuthorFooter';
-import { Box, Container, Stack, Button } from '@mui/material';
-import Link from 'next/link';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Box, Container, Stack } from '@mui/material';
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -55,15 +53,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <Box component="main" sx={{ py: 8 }}>
       <Container maxWidth="md">
         <Stack spacing={4}>
-          <Button
-            component={Link}
-            href="/blog/"
-            startIcon={<ArrowBackIcon />}
-            sx={{ alignSelf: 'flex-start' }}
-          >
-            Back to Blog
-          </Button>
-
           <Box component="article">
             <BlogPostHeader post={post} />
             <BlogPostContent>

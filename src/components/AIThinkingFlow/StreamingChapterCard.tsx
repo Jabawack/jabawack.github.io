@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import {
   Box,
   Card,
@@ -11,11 +12,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
+import ArticleIcon from '@mui/icons-material/Article';
 import Tag from '@/components/Tag';
 import { Chapter } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
+import { getUpdateByVersion } from '@/data/updates';
 import { THINKING_WORDS } from './constants';
 
 // Blinking cursor
@@ -78,6 +83,16 @@ const SkeletonLine = styled(Box, {
   animation: `${shimmer} 1.5s infinite`,
 }));
 
+// Highlight animation for milestone
+const highlightGlow = keyframes`
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 167, 38, 0.15);
+  }
+`;
+
 interface StreamingChapterCardProps {
   chapter: Chapter;
   chapterIndex: number;
@@ -91,6 +106,7 @@ interface StreamingChapterCardProps {
   extraContent?: React.ReactNode;
   collapsed?: boolean;
   instant?: boolean;
+  highlightVersion?: string | null;
 }
 
 type Phase = 'waiting' | 'status' | 'streaming' | 'complete';
@@ -108,6 +124,7 @@ export function StreamingChapterCard({
   extraContent,
   collapsed = false,
   instant = false,
+  highlightVersion,
 }: StreamingChapterCardProps) {
   const [phase, setPhase] = useState<Phase>('waiting');
   const [statusCharIndex, setStatusCharIndex] = useState(0);
@@ -425,14 +442,50 @@ export function StreamingChapterCard({
                     {chapter.milestones.map((milestone) => {
                       const MilestoneIcon = statusConfig[milestone.status].icon;
                       const milestoneColor = statusConfig[milestone.status].color;
+                      const isHighlighted = highlightVersion === milestone.version;
+                      const update = getUpdateByVersion(milestone.version);
+                      const blogSlug = update?.blogSlug;
                       return (
-                        <ListItem key={milestone.version} disableGutters sx={{ py: 0.5 }}>
+                        <ListItem
+                          key={milestone.version}
+                          id={`milestone-${milestone.version}`}
+                          disableGutters
+                          sx={{
+                            py: 0.5,
+                            px: 1,
+                            mx: -1,
+                            borderRadius: 1,
+                            ...(isHighlighted && {
+                              animation: `${highlightGlow} 2s ease-in-out infinite`,
+                              border: '1px solid',
+                              borderColor: 'secondary.main',
+                            }),
+                          }}
+                          secondaryAction={
+                            blogSlug && (
+                              <Tooltip title="Read the story">
+                                <IconButton
+                                  component={Link}
+                                  href={`/blog/${blogSlug}/?from=journey`}
+                                  size="small"
+                                  onClick={(e) => e.stopPropagation()}
+                                  sx={{
+                                    color: 'text.secondary',
+                                    '&:hover': { color: 'secondary.main' },
+                                  }}
+                                >
+                                  <ArticleIcon fontSize="small" />
+                                </IconButton>
+                              </Tooltip>
+                            )
+                          }
+                        >
                           <ListItemIcon sx={{ minWidth: 32 }}>
                             <MilestoneIcon sx={{ fontSize: 18, color: milestoneColor }} />
                           </ListItemIcon>
                           <ListItemText
                             primary={
-                              <Typography variant="body2">
+                              <Typography variant="body2" sx={isHighlighted ? { fontWeight: 600 } : undefined}>
                                 <Box component="span" sx={{ color: 'secondary.main', fontFamily: 'monospace', mr: 1 }}>
                                   {milestone.version}
                                 </Box>

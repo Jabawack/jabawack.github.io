@@ -111,3 +111,68 @@ export const LongReadingTime: Story = {
     },
   },
 };
+
+export const WithHeroImage: Story = {
+  args: {
+    post: {
+      ...baseMockPost,
+      image: '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Post header with a hero image displayed above the metadata.',
+      },
+    },
+  },
+};
+
+export const WithHeroImageAndVersion: Story = {
+  args: {
+    post: {
+      ...baseMockPost,
+      version: '2.6.1',
+      image: '/images/blog/ai-loading-visual-polish/01-streaming-thinking.png',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Post with hero image and version tag - shows "Back to the Journey" link.',
+      },
+    },
+  },
+};
+
+export const WithReturnLink: Story = {
+  args: {
+    post: {
+      ...baseMockPost,
+      version: '2.5.0',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Post with version shows "Back to the Journey" link that returns to Site Evolution with highlight.',
+      },
+    },
+  },
+};
+
+export const WithUpdatedDate: Story = {
+  args: {
+    post: {
+      ...baseMockPost,
+      updatedOn: '2026-01-20',
+    },
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Post header showing both original and updated dates.',
+      },
+    },
+  },
+};

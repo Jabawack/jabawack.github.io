@@ -54,7 +54,7 @@ export const chapters: Chapter[] = [
     id: 'chapter-3',
     title: 'Chapter 3: Polish & UX',
     status: 'completed',
-    versions: 'v2.2.0 → v2.6.1',
+    versions: 'v2.2.0 → v2.6.2',
     story: [
       'Infrastructure complete, focus shifts to the experiential layer—microinteractions and feedback loops that build user confidence. Every enhancement follows one question: "Does this reduce friction or add it?"',
       'This case study (v2.2.0) transforms the rebuild process itself into content. Progress bars, chapter navigation, and before/after comparisons turn transparency into engagement. Users don\'t just see a portfolio—they see how it\'s made.',
@@ -72,6 +72,7 @@ export const chapters: Chapter[] = [
       { version: 'v2.5.0', title: 'MDX Blog (Articles, RSS feed)', status: 'completed' },
       { version: 'v2.6.0', title: 'orbit-lab-project Portfolio Card (3D globe visualization)', status: 'completed' },
       { version: 'v2.6.1', title: 'Click-to-Skip Animation (Respecting user time)', status: 'completed' },
+      { version: 'v2.6.2', title: 'Contextual Navigation (Back to the Journey)', status: 'completed' },
     ],
   },
   {

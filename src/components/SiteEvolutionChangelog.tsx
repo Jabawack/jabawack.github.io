@@ -93,12 +93,17 @@ function getStatusIcon(status: UpdateStatus) {
   }
 }
 
-export default function SiteEvolutionChangelog() {
+interface SiteEvolutionChangelogProps {
+  highlightVersion?: string | null;
+}
+
+export default function SiteEvolutionChangelog({ highlightVersion }: SiteEvolutionChangelogProps) {
   const [statusFilter, setStatusFilter] = useState<UpdateStatus | 'all'>('all');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set(['v2.1.0']));
   const theme = useTheme();
   const itemRefs = useRef<Map<string, HTMLElement>>(new Map());
   const hasScrolledRef = useRef(false);
+  const hasScrolledToHighlightRef = useRef(false);
   const cancelScrollRef = useRef<(() => void) | null>(null);
 
   const filteredUpdates =
@@ -140,6 +145,29 @@ export default function SiteEvolutionChangelog() {
       }
     };
   }, []);
+
+  // Scroll to highlighted version when coming from blog
+  useEffect(() => {
+    if (!highlightVersion || hasScrolledToHighlightRef.current) return;
+
+    // Find the update that matches this version
+    const targetUpdate = updates.find((u) => u.version === highlightVersion);
+    if (!targetUpdate) return;
+
+    // Expand the card and scroll to it
+    setExpandedIds((prev) => new Set([...prev, targetUpdate.id]));
+
+    const timeoutId = setTimeout(() => {
+      const element = itemRefs.current.get(targetUpdate.id);
+      if (element) {
+        hasScrolledToHighlightRef.current = true;
+        hasScrolledRef.current = true; // Prevent default scroll
+        cancelScrollRef.current = smoothScrollTo(element, 800);
+      }
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [highlightVersion]);
 
   const toggleExpanded = (id: string) => {
     setExpandedIds((prev) => {
@@ -227,6 +255,7 @@ export default function SiteEvolutionChangelog() {
             <Stack spacing={3}>
               {filteredUpdates.map((update) => {
                 const isExpanded = expandedIds.has(update.id);
+                const isHighlighted = highlightVersion && update.version === highlightVersion;
 
                 return (
                   <Box
@@ -262,6 +291,18 @@ export default function SiteEvolutionChangelog() {
                         '&:hover': update.details
                           ? { borderColor: 'secondary.main' }
                           : {},
+                        ...(isHighlighted && {
+                          borderColor: 'secondary.main',
+                          animation: 'highlightPulse 2s ease-in-out infinite',
+                          '@keyframes highlightPulse': {
+                            '0%, 100%': {
+                              boxShadow: `0 0 0 0 ${theme.palette.secondary.main}40`,
+                            },
+                            '50%': {
+                              boxShadow: `0 0 20px 4px ${theme.palette.secondary.main}20`,
+                            },
+                          },
+                        }),
                       }}
                       onClick={() => update.details && toggleExpanded(update.id)}
                     >
@@ -340,7 +381,7 @@ export default function SiteEvolutionChangelog() {
                         <Box sx={{ mt: 2 }}>
                           <Button
                             component={Link}
-                            href={`/blog/${update.blogSlug}/`}
+                            href={`/blog/${update.blogSlug}/?from=changelog`}
                             size="small"
                             startIcon={<ArticleIcon />}
                             onClick={(e) => e.stopPropagation()}

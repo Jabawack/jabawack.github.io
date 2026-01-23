@@ -18,9 +18,10 @@ const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
  * Optional fields:
  * - published: Set to false to hide from listings (default: true)
  * - updatedOn: Last update date in ISO format
- * - image: Featured/OG image path
+ * - image: Featured/OG image path (used as hero in post)
+ * - thumbnail: Small image for blog list cards (falls back to image)
  * - category: Primary category
- * - version: Associated site version (e.g., "2.5.0")
+ * - version: Associated site version (e.g., "v2.5.0")
  */
 export interface BlogFrontmatter {
   title: string;
@@ -31,6 +32,7 @@ export interface BlogFrontmatter {
   published?: boolean;
   updatedOn?: string;
   image?: string;
+  thumbnail?: string;
   category?: string;
   version?: string;
 }
@@ -46,6 +48,7 @@ export interface BlogPostMeta {
   published: boolean;
   updatedOn?: string;
   image?: string;
+  thumbnail?: string;
   category?: string;
   version?: string;
 }
@@ -66,6 +69,7 @@ interface ParsedFrontmatter {
   published: boolean;
   updatedOn?: string;
   image?: string;
+  thumbnail?: string;
   category?: string;
   version?: string;
 }
@@ -80,6 +84,7 @@ function parseFrontmatter(data: Record<string, unknown>): ParsedFrontmatter {
     published: data.published !== false, // Default to true
     updatedOn: typeof data.updatedOn === 'string' ? data.updatedOn : undefined,
     image: typeof data.image === 'string' ? data.image : undefined,
+    thumbnail: typeof data.thumbnail === 'string' ? data.thumbnail : undefined,
     category: typeof data.category === 'string' ? data.category : undefined,
     version: typeof data.version === 'string' ? data.version : undefined,
   };
@@ -117,6 +122,7 @@ export function getAllPosts(includeUnpublished = false): BlogPostMeta[] {
         published: frontmatter.published,
         updatedOn: frontmatter.updatedOn,
         image: frontmatter.image,
+        thumbnail: frontmatter.thumbnail,
         category: frontmatter.category,
         version: frontmatter.version,
       };
@@ -152,6 +158,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     published: frontmatter.published,
     updatedOn: frontmatter.updatedOn,
     image: frontmatter.image,
+    thumbnail: frontmatter.thumbnail,
     category: frontmatter.category,
     version: frontmatter.version,
     content,

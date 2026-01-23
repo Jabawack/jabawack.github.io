@@ -150,3 +150,52 @@ export const ManyPosts: Story = {
     },
   },
 };
+
+const postsWithThumbnails: BlogPostMeta[] = [
+  {
+    ...mockPosts[0],
+    image: '/images/blog/building-mdx-blog-system/03-blog-listing.png',
+  },
+  {
+    ...mockPosts[1],
+    image: '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+  },
+  {
+    ...mockPosts[2],
+    image: '/images/blog/ai-loading-visual-polish/05-storybook-controls.png',
+  },
+  mockPosts[3], // No thumbnail
+];
+
+export const WithThumbnails: Story = {
+  args: {
+    posts: postsWithThumbnails,
+    allTags,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Blog list with thumbnail images for some posts.',
+      },
+    },
+  },
+};
+
+export const AllWithThumbnails: Story = {
+  args: {
+    posts: mockPosts.map((post, index) => ({
+      ...post,
+      image: index % 2 === 0
+        ? '/images/blog/building-mdx-blog-system/03-blog-listing.png'
+        : '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+    })),
+    allTags,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Blog list where all posts have thumbnail images.',
+      },
+    },
+  },
+};

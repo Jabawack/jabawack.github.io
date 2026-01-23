@@ -61,7 +61,7 @@ const RoadmapItem: React.FC<RoadmapItemProps> = ({ item, showVersion = true }) =
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
               {showVersion && item.version && (
                 <Tag
-                  label={`v${item.version}`}
+                  label={item.version}
                   size="small"
                   variant="secondary"
                   sx={{ fontWeight: 600, fontSize: '0.75rem', height: 24 }}

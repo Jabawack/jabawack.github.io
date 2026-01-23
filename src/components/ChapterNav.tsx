@@ -1,8 +1,8 @@
 'use client';
 
 import { Box, Stepper, Step, StepLabel, StepConnector } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { chapters, Chapter } from '@/data/chapters';
+import { styled, SxProps, Theme } from '@mui/material/styles';
+import { chapters as defaultChapters, Chapter } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
 
 // Custom styled connector
@@ -62,17 +62,21 @@ function StepIcon({ status, active }: StepIconProps) {
 export interface ChapterNavProps {
   activeChapterId: string;
   onChapterClick?: (chapterId: string) => void;
+  chapters?: Chapter[];
+  sx?: SxProps<Theme>;
+  showTitle?: boolean;
 }
 
-export function ChapterNav({ activeChapterId, onChapterClick }: ChapterNavProps) {
+export function ChapterNav({ activeChapterId, onChapterClick, chapters = defaultChapters, sx, showTitle }: ChapterNavProps) {
   return (
-    <Stepper
-      activeStep={chapters.findIndex((c) => c.id === activeChapterId)}
-      orientation="vertical"
-      connector={<DotConnector />}
-      sx={{ '& .MuiStepLabel-root': { py: 0 } }}
-    >
-      {chapters.map((chapter, index) => (
+    <Box sx={sx}>
+      <Stepper
+        activeStep={chapters.findIndex((c) => c.id === activeChapterId)}
+        orientation="vertical"
+        connector={<DotConnector />}
+        sx={{ '& .MuiStepLabel-root': { py: 0 } }}
+      >
+        {chapters.map((chapter, index) => (
         <Step key={chapter.id} completed={false}>
           <StepLabel
             StepIconComponent={() => (
@@ -101,11 +105,12 @@ export function ChapterNav({ activeChapterId, onChapterClick }: ChapterNavProps)
               }),
             }}
           >
-            Chapter {index + 1}
+            {showTitle ? chapter.title : `Chapter ${index + 1}`}
           </StepLabel>
         </Step>
       ))}
-    </Stepper>
+      </Stepper>
+    </Box>
   );
 }
 

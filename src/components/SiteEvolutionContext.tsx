@@ -53,7 +53,7 @@ export const SiteEvolutionContext: React.FC<SiteEvolutionContextProps> = ({ vers
           />
           <Box>
             <Typography variant="body2" sx={{ fontWeight: 600 }}>
-              Part of v{version} · {chapter.title}
+              Part of {version} · {chapter.title}
             </Typography>
             <Typography variant="caption" color="text.secondary">
               {update.title}
