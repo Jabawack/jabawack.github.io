@@ -116,7 +116,7 @@ export const WithHeroImage: Story = {
   args: {
     post: {
       ...baseMockPost,
-      image: '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+      image: '/images/blog/orbit-lab-project-journey/01-globe-overview.jpg',
     },
   },
   parameters: {

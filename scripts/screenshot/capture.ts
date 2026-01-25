@@ -72,10 +72,12 @@ export async function captureScreenshot(
     const dir = path.dirname(outputPath);
     fs.mkdirSync(dir, { recursive: true });
 
-    // Capture screenshot
+    // Capture screenshot as JPEG with quality 80 for smaller file sizes
     await page.screenshot({
       path: outputPath,
       clip: target.clip,
+      type: outputPath.endsWith('.jpg') || outputPath.endsWith('.jpeg') ? 'jpeg' : 'png',
+      quality: outputPath.endsWith('.jpg') || outputPath.endsWith('.jpeg') ? 80 : undefined,
     });
 
     return { success: true, path: outputPath };
@@ -99,13 +101,13 @@ export async function captureBlogScreenshots(
   console.log(`Output: ${outputDir}\n`);
 
   for (const target of config.targets) {
-    const outputPath = path.join(outputDir, `${target.id}.png`);
+    const outputPath = path.join(outputDir, `${target.id}.jpg`);
     console.log(`  ${target.name}...`);
 
     const result = await captureScreenshot(page, target, outputPath);
 
     if (result.success) {
-      console.log(`    ✓ ${target.id}.png`);
+      console.log(`    ✓ ${target.id}.jpg`);
       captured.push(target.id);
     } else {
       console.log(`    ✗ Failed: ${result.error}`);

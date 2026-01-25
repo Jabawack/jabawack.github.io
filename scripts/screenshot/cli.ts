@@ -64,7 +64,7 @@ async function captureBeforeAfter(
     // Capture main Storybook view
     const sbPath = path.join(
       outputDir,
-      `${phase}-storybook-${timestamp}.png`
+      `${phase}-storybook-${timestamp}.jpg`
     );
     await page.screenshot({ path: sbPath });
     console.log(`  ✓ Storybook: ${path.basename(sbPath)}`);
@@ -77,7 +77,7 @@ async function captureBeforeAfter(
     await page.goto(CONFIG.DEV_URL, { timeout: 5000 });
     await page.waitForTimeout(1000);
 
-    const devPath = path.join(outputDir, `${phase}-home-${timestamp}.png`);
+    const devPath = path.join(outputDir, `${phase}-home-${timestamp}.jpg`);
     await page.screenshot({ path: devPath });
     console.log(`  ✓ Dev server: ${path.basename(devPath)}`);
 
@@ -95,7 +95,7 @@ async function captureBeforeAfter(
         const filename = pagePath.replace(/\//g, '-').replace(/^-|-$/g, '');
         const pageCaptPath = path.join(
           outputDir,
-          `${phase}-${filename || 'home'}-${timestamp}.png`
+          `${phase}-${filename || 'home'}-${timestamp}.jpg`
         );
         await page.screenshot({ path: pageCaptPath });
         console.log(`  ✓ ${pagePath}: ${path.basename(pageCaptPath)}`);
@@ -178,10 +178,10 @@ Examples:
   npx tsx scripts/screenshot/cli.ts --after ai-loading-polish
 
   # Capture specific Storybook story
-  npx tsx scripts/screenshot/cli.ts --story components-aithinkingflow--reveal-streaming --output ./screenshot.png
+  npx tsx scripts/screenshot/cli.ts --story components-aithinkingflow--reveal-streaming --output ./screenshot.jpg
 
   # Capture from URL
-  npx tsx scripts/screenshot/cli.ts --url http://localhost:3000/blog --output ./blog.png
+  npx tsx scripts/screenshot/cli.ts --url http://localhost:3000/blog --output ./blog.jpg
 `);
       return;
     }

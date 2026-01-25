@@ -25,7 +25,7 @@ export default function Home() {
       id: 'donation-mentoring',
       title: 'Donation Mentoring',
       description: 'A mentoring platform that pairs one-on-one sessions with UNICEF donations.',
-      image: '/images/portfolio/donation-mentoring/current.png',
+      image: '/images/portfolio/donation-mentoring/current.jpg',
       tags: ['Next.js', 'UNICEF', 'Social Impact'],
       link: '/portfolio/donation-mentoring/',
       imageStyle: 'cover' as const,

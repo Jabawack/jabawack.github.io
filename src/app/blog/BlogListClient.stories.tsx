@@ -158,11 +158,11 @@ const postsWithThumbnails: BlogPostMeta[] = [
   },
   {
     ...mockPosts[1],
-    image: '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+    image: '/images/blog/orbit-lab-project-journey/01-globe-overview.jpg',
   },
   {
     ...mockPosts[2],
-    image: '/images/blog/ai-loading-visual-polish/05-storybook-controls.png',
+    image: '/images/blog/ai-loading-visual-polish/05-storybook-controls.jpg',
   },
   mockPosts[3], // No thumbnail
 ];
@@ -187,7 +187,7 @@ export const AllWithThumbnails: Story = {
       ...post,
       image: index % 2 === 0
         ? '/images/blog/building-mdx-blog-system/03-blog-listing.png'
-        : '/images/blog/orbit-lab-project-journey/01-globe-overview.png',
+        : '/images/blog/orbit-lab-project-journey/01-globe-overview.jpg',
     })),
     allTags,
   },

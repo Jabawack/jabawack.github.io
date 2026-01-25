@@ -195,9 +195,9 @@ export default function SiteEvolutionClient() {
       {activeTab === 1 && <SiteEvolutionRoadmap />}
       {activeTab === 2 && <SiteEvolutionChangelog highlightVersion={highlightVersion} />}
       {activeTab === 3 && (
-        <Box sx={{ px: 2 }}>
-          <StorybookEmbed height="calc(100vh - 64px - 48px - 200px)" />
-        </Box>
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <StorybookEmbed height="calc(100vh - 280px)" minHeight={700} />
+        </Container>
       )}
     </Box>
   );
