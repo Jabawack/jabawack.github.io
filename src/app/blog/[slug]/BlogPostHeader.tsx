@@ -49,7 +49,7 @@ export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
               src={post.image}
               alt={post.title}
               fill
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'cover', objectPosition: 'top' }}
               priority
             />
           </Box>

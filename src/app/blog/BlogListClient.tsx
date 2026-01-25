@@ -247,7 +247,7 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
                             src={post.thumbnail || post.image!}
                             alt={post.title}
                             fill
-                            style={{ objectFit: 'cover' }}
+                            style={{ objectFit: 'cover', objectPosition: 'top' }}
                             sizes="(max-width: 600px) 100vw, 200px"
                           />
                         </Box>

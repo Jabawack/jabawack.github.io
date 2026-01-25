@@ -28,6 +28,7 @@ export async function createPage(): Promise<Page> {
   const context = await b.newContext({
     viewport: CONFIG.VIEWPORT,
     deviceScaleFactor: CONFIG.DEVICE_SCALE_FACTOR,
+    colorScheme: 'dark', // Default to dark mode for screenshots
   });
   return context.newPage();
 }
@@ -38,6 +39,11 @@ export async function captureScreenshot(
   outputPath: string
 ): Promise<{ success: boolean; path?: string; error?: string }> {
   try {
+    // Set dark mode in localStorage before navigating
+    await page.addInitScript(() => {
+      localStorage.setItem('theme-mode', 'dark');
+    });
+
     // Navigate to URL
     await page.goto(target.url, {
       timeout: CONFIG.NAVIGATION_TIMEOUT,

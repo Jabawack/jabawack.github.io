@@ -472,8 +472,8 @@ export default function DonationMentoringClient() {
                                 <Tag key={t} label={t} size="small" variant="secondary" />
                               ))}
                             </Stack>
-                            {/* My Role - only show for versions without bento (v2, v1) */}
-                            {v.myRole && !v.bentoMetrics && (
+                            {/* My Role - only show for archived versions (current version shows role in BentoBox above) */}
+                            {v.myRole && v.status !== 'current' && (
                               <Box
                                 sx={{
                                   display: 'inline-flex',
