@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Box, Stack } from '@mui/material';
 import { chapters, Chapter } from '@/data/chapters';
 import { ChapterNav } from './ChapterNav';
@@ -44,6 +44,9 @@ interface FullControlsArgs {
   navWidth: number;
   labelSuffix: keyof typeof labelPresets;
   instant: boolean;
+  dwellDuration: number;
+  enableAutoCollapse: boolean;
+  showCollapseCountdown: boolean;
 }
 
 export const FullWithControls: StoryObj<FullControlsArgs> = {
@@ -53,6 +56,9 @@ export const FullWithControls: StoryObj<FullControlsArgs> = {
     navWidth: 180,
     labelSuffix: 'default',
     instant: false,
+    dwellDuration: 3500,
+    enableAutoCollapse: true,
+    showCollapseCountdown: true,
   },
   argTypes: {
     containerWidth: {
@@ -72,10 +78,27 @@ export const FullWithControls: StoryObj<FullControlsArgs> = {
       control: 'boolean',
       description: 'Skip streaming animation',
     },
+    dwellDuration: {
+      control: { type: 'range', min: 500, max: 10000, step: 500 },
+      description: 'Time before auto-collapse (ms)',
+      table: { category: 'Collapse Countdown' },
+    },
+    enableAutoCollapse: {
+      control: 'boolean',
+      description: 'Enable auto-collapse with countdown',
+      table: { category: 'Collapse Countdown' },
+    },
+    showCollapseCountdown: {
+      control: 'boolean',
+      description: 'Show the countdown progress bar',
+      table: { category: 'Collapse Countdown' },
+    },
   },
-  render: ({ containerWidth, navWidth, labelSuffix, instant }) => {
+  render: ({ containerWidth, navWidth, labelSuffix, instant, dwellDuration, enableAutoCollapse, showCollapseCountdown }) => {
     const [active, setActive] = useState('chapter-3');
+    const [activeCard, setActiveCard] = useState(0);
     const [expandedChapters, setExpandedChapters] = useState<Set<string>>(new Set(['chapter-3']));
+    const [readyToCollapse, setReadyToCollapse] = useState<Set<string>>(new Set());
 
     const toggleChapter = (chapterId: string) => {
       setExpandedChapters((prev) => {
@@ -93,6 +116,10 @@ export const FullWithControls: StoryObj<FullControlsArgs> = {
       setExpandedChapters(new Set([chapterId]));
       setActive(chapterId);
     };
+
+    const handleReadyToCollapse = useCallback((chapterId: string) => {
+      setReadyToCollapse((prev) => new Set(prev).add(chapterId));
+    }, []);
 
     // Create modified chapters with custom labels
     const modifiedChapters = useMemo(() => {
@@ -130,7 +157,18 @@ export const FullWithControls: StoryObj<FullControlsArgs> = {
             <Box sx={{ flexGrow: 1 }}>
               <Stack spacing={2}>
                 {modifiedChapters.map((chapter, index) => {
-                  const isCollapsed = chapter.status === 'completed' && !expandedChapters.has(chapter.id);
+                  // Collapse after dwell period (if enabled) or based on expanded state
+                  const isCollapsed = enableAutoCollapse && !instant
+                    ? readyToCollapse.has(chapter.id) && !expandedChapters.has(chapter.id)
+                    : chapter.status === 'completed' && !expandedChapters.has(chapter.id);
+
+                  // Enable countdown for completed chapters past active card
+                  const shouldEnableCountdown = enableAutoCollapse &&
+                    !instant &&
+                    chapter.status === 'completed' &&
+                    index < activeCard &&
+                    !readyToCollapse.has(chapter.id);
+
                   return (
                     <StreamingChapterCard
                       key={chapter.id}
@@ -141,8 +179,11 @@ export const FullWithControls: StoryObj<FullControlsArgs> = {
                       statusDuration={600}
                       collapsed={isCollapsed}
                       onToggleCollapse={() => toggleChapter(chapter.id)}
-                      onComplete={() => {}}
+                      onComplete={() => setActiveCard(index + 1)}
                       instant={instant}
+                      dwellDuration={dwellDuration}
+                      onReadyToCollapse={shouldEnableCountdown ? () => handleReadyToCollapse(chapter.id) : undefined}
+                      showCollapseCountdown={showCollapseCountdown}
                     />
                   );
                 })}

@@ -32,10 +32,11 @@ interface RecordOptions {
   duration: number;
   clickAt?: number;
   theme?: 'dark' | 'light';
+  startAfter?: number;  // Wait this long before starting the meaningful recording
 }
 
 async function recordVideo(options: RecordOptions): Promise<void> {
-  const { url, output, duration, clickAt, theme = 'dark' } = options;
+  const { url, output, duration, clickAt, theme = 'dark', startAfter = 0 } = options;
   const outputDir = path.dirname(output);
   const outputName = path.basename(output, '.mp4');
 
@@ -63,9 +64,25 @@ async function recordVideo(options: RecordOptions): Promise<void> {
   const page = await context.newPage();
   console.log(`Recording: ${output}`);
   console.log(`  URL: ${url}`);
-  console.log(`  Duration: ${duration}ms${clickAt ? `, click at ${clickAt}ms` : ''}`);
+  console.log(`  Duration: ${duration}ms${startAfter ? ` (after ${startAfter}ms wait)` : ''}${clickAt ? `, click at ${clickAt}ms` : ''}`);
+
+  // Set background color before navigation to prevent white flash at start
+  const bgColor = theme === 'dark' ? '#121212' : '#ffffff';
+  await page.evaluate((bg) => {
+    document.documentElement.style.backgroundColor = bg;
+    document.body.style.backgroundColor = bg;
+  }, bgColor);
 
   await page.goto(url, { waitUntil: 'networkidle' });
+
+  // Extra wait to ensure page is fully rendered (prevents initial flash)
+  await page.waitForTimeout(500);
+
+  // Wait before the meaningful recording starts (animation warm-up)
+  if (startAfter > 0) {
+    console.log(`  Waiting ${startAfter}ms for animation...`);
+    await page.waitForTimeout(startAfter);
+  }
 
   if (clickAt !== undefined) {
     await page.waitForTimeout(clickAt);
@@ -75,6 +92,14 @@ async function recordVideo(options: RecordOptions): Promise<void> {
   } else {
     await page.waitForTimeout(duration);
   }
+
+  // Prevent white flash: clear page with matching background before closing
+  await page.evaluate((bg) => {
+    document.body.style.transition = 'none';
+    document.body.innerHTML = '';
+    document.body.style.backgroundColor = bg;
+  }, bgColor);
+  await page.waitForTimeout(100); // Brief pause to ensure frame is captured
 
   await context.close();
   await browser.close();
@@ -118,6 +143,7 @@ Options:
   --url <url>         URL to record (required)
   --output <path>     Output MP4 path (required)
   --duration <ms>     Recording duration in milliseconds (default: 5000)
+  --start-after <ms>  Wait this long before recording (for animations to reach desired state)
   --click-at <ms>     Click body at this time (optional)
   --theme <mode>      Theme mode: dark or light (default: dark)
   --help              Show this help
@@ -133,6 +159,7 @@ Requires:
     url: get('--url')!,
     output: get('--output')!,
     duration: parseInt(get('--duration') || '5000', 10),
+    startAfter: get('--start-after') ? parseInt(get('--start-after')!, 10) : undefined,
     clickAt: get('--click-at') ? parseInt(get('--click-at')!, 10) : undefined,
     theme: (get('--theme') as 'dark' | 'light') || 'dark',
   };

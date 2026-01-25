@@ -73,7 +73,7 @@ export default function RootLayout({
       <body>
         <ThemeRegistry>
           <Navigation />
-          {children}
+          <main>{children}</main>
           <Footer />
         </ThemeRegistry>
       </body>

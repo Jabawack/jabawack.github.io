@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import {
   Box,
@@ -107,6 +107,66 @@ interface StreamingChapterCardProps {
   collapsed?: boolean;
   instant?: boolean;
   highlightVersion?: string | null;
+  // Collapse countdown props
+  dwellDuration?: number;           // Time in ms before auto-collapse (default: 3500)
+  onReadyToCollapse?: () => void;   // Called when dwell period ends
+  showCollapseCountdown?: boolean;  // Whether to show countdown UI (default: true when onReadyToCollapse provided)
+}
+
+// Reusable hook for countdown with pause-on-hover
+function useCollapseCountdown({
+  enabled,
+  duration,
+  onComplete,
+}: {
+  enabled: boolean;
+  duration: number;
+  onComplete: () => void;
+}) {
+  const [progress, setProgress] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const startTimeRef = useRef<number | null>(null);
+  const pausedAtRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (!enabled || isPaused) {
+      if (isPaused && startTimeRef.current !== null) {
+        // Store progress when paused
+        pausedAtRef.current = progress;
+      }
+      return;
+    }
+
+    // Resume from paused progress or start fresh
+    const resumeFrom = pausedAtRef.current;
+    const remainingDuration = duration * (1 - resumeFrom);
+    startTimeRef.current = Date.now();
+
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - startTimeRef.current!;
+      const newProgress = resumeFrom + (elapsed / duration) * (1 - resumeFrom);
+      const clampedProgress = Math.min(newProgress, 1);
+      setProgress(clampedProgress);
+
+      if (clampedProgress >= 1) {
+        clearInterval(interval);
+        onComplete();
+      }
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [enabled, isPaused, duration, onComplete]);
+
+  // Reset when disabled
+  useEffect(() => {
+    if (!enabled) {
+      setProgress(0);
+      pausedAtRef.current = 0;
+      startTimeRef.current = null;
+    }
+  }, [enabled]);
+
+  return { progress, isPaused, setIsPaused };
 }
 
 type Phase = 'waiting' | 'status' | 'streaming' | 'complete';
@@ -125,6 +185,9 @@ export function StreamingChapterCard({
   collapsed = false,
   instant = false,
   highlightVersion,
+  dwellDuration = 3500,
+  onReadyToCollapse,
+  showCollapseCountdown,
 }: StreamingChapterCardProps) {
   const [phase, setPhase] = useState<Phase>('waiting');
   const [statusCharIndex, setStatusCharIndex] = useState(0);
@@ -136,6 +199,29 @@ export function StreamingChapterCard({
     return word.replace(/\.+$/, ''); // Remove trailing dots
   });
   const [dotCount, setDotCount] = useState(1);
+
+  // Collapse countdown - only for completed chapters with auto-collapse enabled
+  const shouldShowCountdown = showCollapseCountdown ?? !!onReadyToCollapse;
+  const countdownEnabled = phase === 'complete' &&
+    chapter.status === 'completed' &&
+    !!onReadyToCollapse &&
+    !collapsed;
+
+  const handleCountdownComplete = useCallback(() => {
+    onReadyToCollapse?.();
+  }, [onReadyToCollapse]);
+
+  const { progress: countdownProgress, setIsPaused: setCountdownPaused } = useCollapseCountdown({
+    enabled: countdownEnabled,
+    duration: dwellDuration,
+    onComplete: handleCountdownComplete,
+  });
+
+  // Calculate opacity fade (starts at 60% progress, fades to 85% opacity)
+  const FADE_START = 0.6;
+  const countdownOpacity = countdownEnabled && countdownProgress > FADE_START
+    ? 1 - ((countdownProgress - FADE_START) / (1 - FADE_START)) * 0.15
+    : 1;
 
   const StatusIcon = statusConfig[chapter.status].icon;
   const statusColor = statusConfig[chapter.status].color;
@@ -315,8 +401,14 @@ export function StreamingChapterCard({
       component="section"
     >
       <Card
+        onMouseEnter={() => setCountdownPaused(true)}
+        onMouseLeave={() => setCountdownPaused(false)}
         sx={{
           p: 3,
+          position: 'relative',
+          overflow: 'hidden',
+          opacity: countdownOpacity,
+          transition: 'opacity 0.1s ease-out',
           ...(skippedToComplete && {
             animation: `${fadeUp} 0.4s ease-out both`,
             animationDelay: `${chapterIndex * 100}ms`,
@@ -512,6 +604,55 @@ export function StreamingChapterCard({
           {/* Extra content (e.g., Before/After table) - shown when complete */}
           {isComplete && extraContent}
         </Stack>
+
+        {/* Collapse countdown progress bar with message */}
+        {countdownEnabled && shouldShowCountdown && (
+          <Box
+            sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            {/* Message */}
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'text.disabled',
+                fontSize: '0.7rem',
+                mb: 0.5,
+                opacity: 0.8,
+              }}
+            >
+              Hover to pause • Collapsing soon
+            </Typography>
+            {/* Progress bar */}
+            <Box
+              sx={{
+                width: '100%',
+                height: 6,
+                bgcolor: 'action.hover',
+                position: 'relative',
+              }}
+            >
+              <Box
+                sx={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  height: '100%',
+                  width: `${(1 - countdownProgress) * 100}%`,
+                  bgcolor: 'secondary.main',
+                  transition: 'width 50ms linear',
+                }}
+              />
+            </Box>
+          </Box>
+        )}
       </Card>
     </Box>
   );

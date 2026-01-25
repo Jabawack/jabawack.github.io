@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Typography, Stack, Box } from '@mui/material';
 import Tag from '@/components/Tag';
 import SiteEvolutionContext from '@/components/SiteEvolutionContext';
-import { GifPlayer } from '@/components/GifPlayer';
+import { VideoPlayer } from '@/components/VideoPlayer';
 import BlogBackLink from './BlogBackLink';
 import type { BlogPostMeta } from '@/lib/blog';
 
@@ -30,10 +30,10 @@ export default function BlogPostHeader({ post }: BlogPostHeaderProps) {
       {/* Back link - shows either "Back to the Journey" or "Back to Blog" based on referrer */}
       <BlogBackLink version={post.version} />
 
-      {/* Hero image - use GifPlayer for animated content */}
+      {/* Hero image - use VideoPlayer for animated content */}
       {post.image && (
-        post.image.endsWith('.gif') ? (
-          <GifPlayer src={post.image} alt={post.title} />
+        post.image.endsWith('.mp4') ? (
+          <VideoPlayer src={post.image} alt={post.title} />
         ) : (
           <Box
             sx={{

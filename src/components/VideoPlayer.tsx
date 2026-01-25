@@ -4,31 +4,39 @@ import { useState, useCallback, useRef } from 'react';
 import { Box, IconButton } from '@mui/material';
 import ReplayIcon from '@mui/icons-material/Replay';
 
-interface GifPlayerProps {
+interface VideoPlayerProps {
   src: string;
   alt: string;
-  duration?: number; // Not used for video, kept for API compatibility
   width?: number | string;
 }
 
 /**
  * Video player that plays once then shows a replay button.
- * Uses MP4 video instead of GIF to prevent auto-looping.
+ * Plays MP4 videos without auto-looping.
  */
-export function GifPlayer({ src, alt, width = '100%' }: GifPlayerProps) {
+export function VideoPlayer({ src, alt, width = '100%' }: VideoPlayerProps) {
   const [showReplay, setShowReplay] = useState(false);
+  const [progress, setProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Convert .gif path to .mp4
-  const videoSrc = src.replace(/\.gif($|\?)/, '.mp4$1');
+  const handleTimeUpdate = useCallback(() => {
+    if (videoRef.current) {
+      const { currentTime, duration } = videoRef.current;
+      if (duration > 0) {
+        setProgress((currentTime / duration) * 100);
+      }
+    }
+  }, []);
 
   const handleEnded = useCallback(() => {
     setShowReplay(true);
+    setProgress(100);
   }, []);
 
   const handleReplay = useCallback(() => {
     if (videoRef.current) {
       setShowReplay(false);
+      setProgress(0);
       videoRef.current.currentTime = 0;
       videoRef.current.play();
     }
@@ -49,10 +57,11 @@ export function GifPlayer({ src, alt, width = '100%' }: GifPlayerProps) {
       <Box
         component="video"
         ref={videoRef}
-        src={videoSrc}
+        src={src}
         autoPlay
         muted
         playsInline
+        onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
         sx={{
           width: '100%',
@@ -60,6 +69,29 @@ export function GifPlayer({ src, alt, width = '100%' }: GifPlayerProps) {
           display: 'block',
         }}
       />
+
+      {/* Progress bar */}
+      {!showReplay && (
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 4,
+            bgcolor: 'rgba(255, 255, 255, 0.2)',
+          }}
+        >
+          <Box
+            sx={{
+              height: '100%',
+              width: `${progress}%`,
+              bgcolor: 'secondary.main',
+              transition: 'width 100ms linear',
+            }}
+          />
+        </Box>
+      )}
 
       {/* Replay overlay */}
       {showReplay && (

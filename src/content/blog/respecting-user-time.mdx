@@ -5,11 +5,11 @@ description: "Adding a click-to-skip feature to the Site Evolution animation - b
 tags: ["UX", "Animation", "Polish", "Portfolio"]
 author: "TK"
 version: "v2.6.1"
-image: "/images/blog/respecting-user-time/hero.gif"
+image: "/images/blog/respecting-user-time/hero.mp4"
 thumbnail: "/images/blog/respecting-user-time/hero.svg"
 ---
 
-import { GifPlayer } from '@/components/GifPlayer';
+import { VideoPlayer } from '@/components/VideoPlayer';
 
 # Respecting User Time: Click to Skip
 
@@ -41,10 +41,9 @@ The streaming animation is ~10-15 seconds long. That's an eternity in web time. 
 
 This is what every repeat visitor had to sit through:
 
-<GifPlayer
-  src="/images/blog/respecting-user-time/01-before-waiting.gif"
+<VideoPlayer
+  src="/images/blog/respecting-user-time/01-before-waiting.mp4"
   alt="Waiting for animation to complete"
-  duration={7000}
 />
 
 Six seconds of this clip. And the full animation is longer. Every. Single. Visit.
@@ -176,10 +175,9 @@ Giving users control doesn't diminish the experience - it respects their autonom
 
 Click anywhere. Done.
 
-<GifPlayer
-  src="/images/blog/respecting-user-time/02-after-skip.gif"
+<VideoPlayer
+  src="/images/blog/respecting-user-time/02-after-skip.mp4"
   alt="Click to skip with smooth transition"
-  duration={5000}
 />
 
 The experience gap closed - what felt like a barrier is now a choice.

@@ -62,6 +62,12 @@ interface JourneyContentProps {
 
 function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters, manualNavigation, onToggleChapter, onChapterChange, instant, highlightVersion }: JourneyContentProps) {
   const [activeCard, setActiveCard] = useState(0);
+  const [readyToCollapseChapters, setReadyToCollapseChapters] = useState<Set<string>>(new Set());
+
+  // Mark a chapter as ready to collapse (after dwell period)
+  const handleReadyToCollapse = useCallback((chapterId: string) => {
+    setReadyToCollapseChapters((prev) => new Set(prev).add(chapterId));
+  }, []);
 
   // Update active chapter when streaming moves to next card
   useEffect(() => {
@@ -167,13 +173,20 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
 
           // Collapse logic:
           // - Manual navigation: collapse all except selected
-          // - Auto (streaming): only completed chapters collapse
+          // - Auto (streaming): collapse only after dwell period completes
           // - If chapter has highlight, always expand it
           const isCollapsed = chapterHasHighlight
             ? false
             : manualNavigation
               ? !expandedChapters.has(chapter.id)
-              : index < activeCard && chapter.status === 'completed' && !expandedChapters.has(chapter.id);
+              : readyToCollapseChapters.has(chapter.id) && !expandedChapters.has(chapter.id);
+
+          // Enable auto-collapse countdown for completed chapters that aren't the active one
+          const enableAutoCollapse = !manualNavigation &&
+            !instant &&
+            chapter.status === 'completed' &&
+            index < activeCard &&
+            !readyToCollapseChapters.has(chapter.id);
 
           return (
             <StreamingChapterCard
@@ -186,6 +199,7 @@ function JourneyContent({ sectionRefs, theme, beforeAfterData, expandedChapters,
               collapsed={isCollapsed}
               onToggleCollapse={() => onToggleChapter(chapter.id)}
               onComplete={() => setActiveCard(index + 1)}
+              onReadyToCollapse={enableAutoCollapse ? () => handleReadyToCollapse(chapter.id) : undefined}
               sectionRef={(el) => {
                 if (el) sectionRefs.current.set(chapter.id, el);
               }}

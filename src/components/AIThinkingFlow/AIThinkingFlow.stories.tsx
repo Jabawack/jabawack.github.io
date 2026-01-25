@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Box, Card, Stack, Typography, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
 import { chapters } from '@/data/chapters';
@@ -60,6 +60,10 @@ interface RevealStoryArgs {
   typingSpeed?: number;
   statusDuration?: number;
   messageInterval?: number;
+  // Collapse countdown
+  dwellDuration?: number;
+  enableAutoCollapse?: boolean;
+  showCollapseCountdown?: boolean;
 }
 
 // ============================================
@@ -96,6 +100,21 @@ const meta: Meta = {
       description: 'How long "Thinking..." status shows before content streams',
       table: { category: 'Timing' },
     },
+    dwellDuration: {
+      control: { type: 'range', min: 500, max: 10000, step: 500 },
+      description: 'Time before auto-collapse after streaming completes (ms)',
+      table: { category: 'Collapse Countdown' },
+    },
+    enableAutoCollapse: {
+      control: 'boolean',
+      description: 'Enable auto-collapse with countdown after streaming completes',
+      table: { category: 'Collapse Countdown' },
+    },
+    showCollapseCountdown: {
+      control: 'boolean',
+      description: 'Show the countdown progress bar',
+      table: { category: 'Collapse Countdown' },
+    },
   },
   args: {
     skeletonDuration: 1500,
@@ -103,6 +122,9 @@ const meta: Meta = {
     staggerDelay: 200,
     typingSpeed: 8,
     statusDuration: 600,
+    dwellDuration: 3500,
+    enableAutoCollapse: true,
+    showCollapseCountdown: true,
   },
   // Clear storage on story change for fresh testing
   decorators: [
@@ -124,9 +146,18 @@ type Story = StoryObj<RevealStoryArgs>;
 
 export const RevealStreaming: Story = {
   name: '1. Streaming (AI-style)',
-  render: ({ cardCount, typingSpeed = 8, statusDuration = 600, staggerDelay = 200 }: RevealStoryArgs) => {
+  render: ({
+    cardCount,
+    typingSpeed = 8,
+    statusDuration = 600,
+    staggerDelay = 200,
+    dwellDuration = 3500,
+    enableAutoCollapse = true,
+    showCollapseCountdown = true,
+  }: RevealStoryArgs) => {
     const [activeCard, setActiveCard] = useState(0);
     const [expandedChapters, setExpandedChapters] = useState<Set<number>>(new Set());
+    const [readyToCollapse, setReadyToCollapse] = useState<Set<number>>(new Set());
 
     const toggleChapter = (index: number) => {
       setExpandedChapters((prev) => {
@@ -139,6 +170,10 @@ export const RevealStreaming: Story = {
         return next;
       });
     };
+
+    const handleReadyToCollapse = useCallback((index: number) => {
+      setReadyToCollapse((prev) => new Set(prev).add(index));
+    }, []);
 
     // Calculate delay between cards - each card waits for previous to complete
     const getCardDelay = (index: number) => {
@@ -161,7 +196,18 @@ export const RevealStreaming: Story = {
           {Array.from({ length: cardCount }).map((_, i) => {
             const chapter = chapters[i];
             if (!chapter) return null;
-            const isCollapsed = i < activeCard && chapter.status === 'completed' && !expandedChapters.has(i);
+
+            // Collapse after dwell period (if enabled) or immediately (if disabled)
+            const isCollapsed = enableAutoCollapse
+              ? readyToCollapse.has(i) && !expandedChapters.has(i)
+              : i < activeCard && chapter.status === 'completed' && !expandedChapters.has(i);
+
+            // Enable countdown for completed chapters that are past active but not yet ready
+            const shouldEnableCountdown = enableAutoCollapse &&
+              chapter.status === 'completed' &&
+              i < activeCard &&
+              !readyToCollapse.has(i);
+
             return (
               <StreamingChapterCard
                 key={i}
@@ -173,6 +219,9 @@ export const RevealStreaming: Story = {
                 collapsed={isCollapsed}
                 onToggleCollapse={() => toggleChapter(i)}
                 onComplete={() => setActiveCard(i + 1)}
+                dwellDuration={dwellDuration}
+                onReadyToCollapse={shouldEnableCountdown ? () => handleReadyToCollapse(i) : undefined}
+                showCollapseCountdown={showCollapseCountdown}
               />
             );
           })}
@@ -348,6 +397,69 @@ export const SkeletonOnly: Story = {
       <AIThinkingFlowSkeleton visible cardCount={cardCount} />
     </Box>
   ),
+};
+
+export const CollapseCountdown: Story = {
+  name: 'Collapse Countdown',
+  args: {
+    dwellDuration: 3500,
+    showCollapseCountdown: true,
+  },
+  argTypes: {
+    dwellDuration: {
+      control: { type: 'range', min: 1000, max: 10000, step: 500 },
+      description: 'Time before auto-collapse (ms)',
+    },
+    showCollapseCountdown: {
+      control: 'boolean',
+      description: 'Show the countdown progress bar',
+    },
+  },
+  render: ({ dwellDuration = 3500, showCollapseCountdown = true }: RevealStoryArgs) => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [showCountdown, setShowCountdown] = useState(false);
+    const chapter = chapters[0]; // Use first chapter
+
+    const handleComplete = useCallback(() => {
+      // Start countdown after streaming completes
+      setShowCountdown(true);
+    }, []);
+
+    const handleReadyToCollapse = useCallback(() => {
+      setIsCollapsed(true);
+      setShowCountdown(false);
+    }, []);
+
+    const handleToggle = useCallback(() => {
+      setIsCollapsed((prev) => !prev);
+      setShowCountdown(false);
+    }, []);
+
+    return (
+      <Box sx={{ maxWidth: 700, mx: 'auto' }}>
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2, textAlign: 'center' }}>
+          {showCountdown
+            ? 'Hover the card to pause countdown. Click header to collapse early.'
+            : isCollapsed
+              ? 'Click the collapsed card to expand.'
+              : 'Watch the card stream, then see the countdown before collapse.'}
+        </Typography>
+        <StreamingChapterCard
+          chapter={chapter}
+          chapterIndex={0}
+          delay={0}
+          speed={8}
+          statusDuration={600}
+          collapsed={isCollapsed}
+          onToggleCollapse={handleToggle}
+          onComplete={handleComplete}
+          dwellDuration={dwellDuration}
+          onReadyToCollapse={showCountdown ? handleReadyToCollapse : undefined}
+          showCollapseCountdown={showCollapseCountdown}
+        />
+      </Box>
+    );
+  },
 };
 
 export const StatusTypewriter: Story = {
