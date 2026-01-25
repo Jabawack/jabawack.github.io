@@ -1,12 +1,16 @@
 'use client';
 
-import { Box, Container, Typography, Stack, Grid, Paper } from '@mui/material';
+import { Box, Container, Typography, Stack, Grid, Paper, Button } from '@mui/material';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import EmailIcon from '@mui/icons-material/Email';
 import Tag from '@/components/Tag';
+import StatCard from '@/components/StatCard';
 
 const skills = {
   frontend: ['React', 'Redux', 'TypeScript', 'Next.js', 'JavaScript'],
   backend: ['Python', 'Django', 'Node.js', 'REST APIs', 'Celery'],
-  ux: ['User Research', 'Prototyping', 'Usability Testing', 'A/B Testing', 'Eye-tracking'],
+  ux: ['Prototyping', 'Usability Testing', 'A/B Testing', 'Eye-tracking'],
   tools: ['GitHub Actions', 'CI/CD', 'WebSocket', 'SSE', 'Langfuse'],
 };
 
@@ -16,37 +20,101 @@ export default function AboutClient() {
       <Container maxWidth="lg">
         <Stack spacing={6}>
           {/* Header */}
-          <Box>
-            <Typography
-              variant="h1"
-              sx={{
-                fontWeight: 700,
-                mb: 2,
-              }}
-            >
-              About Me
-            </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              sx={{ maxWidth: 700 }}
-            >
-              I&apos;m Taeho (TK) Kim, a Fullstack UX Engineer with over 20 years of experience
-              building scalable web applications and user-centric interfaces.
-            </Typography>
-          </Box>
+          <Grid container spacing={4} alignItems="flex-start">
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                }}
+              >
+                About Me
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                I focus on the why behind technical decisions, bridging engineering and
+                product to build systems that work for real users. I lead frontend
+                architecture, shape cross-team standards, and care deeply about the
+                details that make software feel right.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <StatCard
+                stats={[
+                  { value: '20+', label: 'Years', color: 'primary.light' },
+                  { value: 5, label: 'Patents', color: 'success.light' },
+                  { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                ]}
+              >
+                <Grid container spacing={2}>
+                  <Grid size={4}>
+                    <Button
+                      variant="text"
+                      size="small"
+                      fullWidth
+                      startIcon={<LinkedInIcon />}
+                      href="https://linkedin.com/in/tkhfes"
+                      target="_blank"
+                      sx={{ color: 'text.primary' }}
+                    >
+                      LinkedIn
+                    </Button>
+                  </Grid>
+                  <Grid size={4}>
+                    <Button
+                      variant="text"
+                      size="small"
+                      fullWidth
+                      startIcon={<GitHubIcon />}
+                      href="https://github.com/jabawack"
+                      target="_blank"
+                      sx={{ color: 'text.primary' }}
+                    >
+                      GitHub
+                    </Button>
+                  </Grid>
+                  <Grid size={4}>
+                    <Button
+                      variant="text"
+                      size="small"
+                      fullWidth
+                      startIcon={<EmailIcon />}
+                      href="mailto:tk.hfes@gmail.com"
+                      sx={{ color: 'text.primary' }}
+                    >
+                      Email
+                    </Button>
+                  </Grid>
+                </Grid>
+              </StatCard>
+            </Grid>
+          </Grid>
 
           {/* Bio Section */}
           <Paper sx={{ p: 4 }}>
             <Typography variant="h5" gutterBottom sx={{ fontWeight: 600 }}>
               Background
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-              With deep expertise in React, Python, and Django, I&apos;ve led cross-functional
-              teams and implemented robust CI/CD pipelines. My work includes scaling fintech
-              platforms, integrating complex data sources, and enhancing real-time workflows.
-              I hold multiple patents and am passionate about crafting intuitive products
-              and mentoring engineers.
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
+              Currently at Powder, I&apos;m building LLM-powered workflows and real-time
+              data integrations for a fintech platform. Previously, I led frontend
+              architecture at Real Capital Innovation, which was later{' '}
+              <Box component="span" sx={{ fontStyle: 'italic', color: 'text.primary' }}>
+                acquired by Addepar
+              </Box>{' '}
+              and evolved into Navigator, a portfolio analysis tool supporting
+              advisor workflows at scale.
+            </Typography>
+            <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
+              Before fintech, I designed touchscreen interfaces for Siemens cardiology
+              ultrasound systems. Earlier, I spent 8 years at Samsung leading SmartTV
+              platform development and contributing to Galaxy cloud services, where I
+              authored multiple patents related to interface design and system behavior.
+            </Typography>
+            <Typography variant="body1" sx={{ lineHeight: 1.8, fontStyle: 'italic' }}>
+              My background in both Computer Science and Human Factors shapes how I
+              approach technical decisions, always considering how real users will
+              interact with the systems I build.
             </Typography>
           </Paper>
 
