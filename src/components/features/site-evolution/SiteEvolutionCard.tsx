@@ -9,7 +9,7 @@ import {
   Stack,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
 import BuildIcon from '@mui/icons-material/Build';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Link from 'next/link';

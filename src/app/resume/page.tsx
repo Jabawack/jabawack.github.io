@@ -1,9 +1,10 @@
-import { Box, Container, Typography, Stack, Button, Paper } from '@mui/material';
+import { Box, Container, Typography, Stack, Button, Paper, Grid } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { getMetadata } from '@/config/seo';
 
 export const metadata = getMetadata('/resume/');
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ProfileCard from '@/components/ui/ProfileCard';
 
 const RESUME_PDF_PATH = '/resume/TK_SWE_Resume.pdf';
 
@@ -13,20 +14,31 @@ export default function ResumePage() {
       <Container maxWidth="lg">
         <Stack spacing={6}>
           {/* Header */}
-          <Box>
-            <Typography
-              variant="h1"
-              sx={{
-                fontWeight: 700,
-                mb: 2,
-              }}
-            >
-              Resume
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600 }}>
-              Download my resume or view it inline below.
-            </Typography>
-          </Box>
+          <Grid container spacing={4} alignItems="flex-start">
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                }}
+              >
+                Resume
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Download my resume or view it inline below.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <ProfileCard
+                stats={[
+                  { value: '20+', label: 'Years', color: 'primary.light' },
+                  { value: 5, label: 'Patents', color: 'success.light' },
+                  { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                ]}
+              />
+            </Grid>
+          </Grid>
 
           {/* Download Buttons */}
           <Stack direction="row" spacing={2}>

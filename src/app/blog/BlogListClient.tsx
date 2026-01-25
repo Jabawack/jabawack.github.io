@@ -19,7 +19,8 @@ import {
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
+import ProfileCard from '@/components/ui/ProfileCard';
 import type { BlogPostMeta } from '@/lib/blog';
 import type { SelectChangeEvent } from '@mui/material';
 
@@ -103,20 +104,31 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
       <Container maxWidth="lg">
         <Stack spacing={4}>
           {/* Header */}
-          <Box>
-            <Typography
-              variant="h1"
-              sx={{
-                fontWeight: 700,
-                mb: 2,
-              }}
-            >
-              Blog
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 700 }}>
-              Articles about web development, design, and technology.
-            </Typography>
-          </Box>
+          <Grid container spacing={4} alignItems="flex-start">
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                }}
+              >
+                Blog
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Articles about web development, design, and technology.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <ProfileCard
+                stats={[
+                  { value: posts.length, label: 'Posts', color: 'primary.light' },
+                  { value: allTags.length, label: 'Topics', color: 'success.light' },
+                  { value: 2026, label: 'Since', color: 'secondary.light' },
+                ]}
+              />
+            </Grid>
+          </Grid>
 
           {/* Filters */}
           <Paper sx={{ p: 3 }}>

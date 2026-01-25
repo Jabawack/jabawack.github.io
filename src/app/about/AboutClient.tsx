@@ -1,11 +1,8 @@
 'use client';
 
-import { Box, Container, Typography, Stack, Grid, Paper, Button } from '@mui/material';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import EmailIcon from '@mui/icons-material/Email';
-import Tag from '@/components/Tag';
-import StatCard from '@/components/StatCard';
+import { Box, Container, Typography, Stack, Grid, Paper } from '@mui/material';
+import Tag from '@/components/ui/Tag';
+import ProfileCard from '@/components/ui/ProfileCard';
 
 const skills = {
   frontend: ['React', 'Redux', 'TypeScript', 'Next.js', 'JavaScript'],
@@ -39,54 +36,13 @@ export default function AboutClient() {
               </Typography>
             </Grid>
             <Grid size={{ xs: 12, md: 5 }}>
-              <StatCard
+              <ProfileCard
                 stats={[
                   { value: '20+', label: 'Years', color: 'primary.light' },
                   { value: 5, label: 'Patents', color: 'success.light' },
                   { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
                 ]}
-              >
-                <Grid container spacing={2}>
-                  <Grid size={4}>
-                    <Button
-                      variant="text"
-                      size="small"
-                      fullWidth
-                      startIcon={<LinkedInIcon />}
-                      href="https://linkedin.com/in/tkhfes"
-                      target="_blank"
-                      sx={{ color: 'text.primary' }}
-                    >
-                      LinkedIn
-                    </Button>
-                  </Grid>
-                  <Grid size={4}>
-                    <Button
-                      variant="text"
-                      size="small"
-                      fullWidth
-                      startIcon={<GitHubIcon />}
-                      href="https://github.com/jabawack"
-                      target="_blank"
-                      sx={{ color: 'text.primary' }}
-                    >
-                      GitHub
-                    </Button>
-                  </Grid>
-                  <Grid size={4}>
-                    <Button
-                      variant="text"
-                      size="small"
-                      fullWidth
-                      startIcon={<EmailIcon />}
-                      href="mailto:tk.hfes@gmail.com"
-                      sx={{ color: 'text.primary' }}
-                    >
-                      Email
-                    </Button>
-                  </Grid>
-                </Grid>
-              </StatCard>
+              />
             </Grid>
           </Grid>
 

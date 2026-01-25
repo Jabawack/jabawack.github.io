@@ -3,7 +3,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { Box, Stack } from '@mui/material';
 import { chapters, Chapter } from '@/data/chapters';
 import { ChapterNav } from './ChapterNav';
-import { StreamingChapterCard } from './AIThinkingFlow';
+import { StreamingChapterCard } from '../ai-thinking-flow';
 import SiteEvolutionJourney from './SiteEvolutionJourney';
 
 // Shared helper for calculating chapter delays

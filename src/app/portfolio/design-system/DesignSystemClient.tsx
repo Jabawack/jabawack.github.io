@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import WidgetsIcon from '@mui/icons-material/Widgets';
-import StorybookEmbed from '@/components/StorybookEmbed';
+import StorybookEmbed from '@/components/features/storybook/StorybookEmbed';
 
 export default function DesignSystemClient() {
   return (

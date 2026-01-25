@@ -13,8 +13,8 @@ import {
 import { useTheme, alpha } from '@mui/material/styles';
 import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import SiteEvolutionCard from '@/components/SiteEvolutionCard';
-import Tag from '@/components/Tag';
+import SiteEvolutionCard from '@/components/features/site-evolution/SiteEvolutionCard';
+import Tag from '@/components/ui/Tag';
 import { getHeroGradient, getTextGradient } from '@/theme';
 
 export default function Home() {

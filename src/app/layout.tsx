@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import ThemeRegistry from '@/components/ThemeRegistry';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import ThemeRegistry from '@/components/layout/ThemeRegistry';
+import Navigation from '@/components/layout/Navigation';
+import Footer from '@/components/layout/Footer';
 import { siteConfig } from '@/config/seo';
 import '@/styles/globals.css';
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   description:
     'Fullstack UX Engineer with 20+ years building scalable web apps with React, Python, and Django. Passionate about crafting intuitive products and mentoring engineers.',
-  keywords: ['Fullstack Developer', 'UX Engineer', 'React', 'TypeScript', 'Python', 'Django', 'Portfolio'],
+  keywords: ['Fullstack Engineer', 'UX Engineer', 'React', 'TypeScript', 'Python', 'Django', 'Portfolio'],
   authors: [{ name: 'TK' }],
   creator: 'TK',
   icons: {

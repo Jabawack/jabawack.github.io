@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import {
   Box,
   Container,
@@ -13,13 +13,17 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Popover,
+  TextField,
+  InputAdornment,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link';
-import { projects, type Project } from '@/data/projects';
-import Tag from '@/components/Tag';
+import { projects } from '@/data/projects';
+import Tag from '@/components/ui/Tag';
+import ProfileCard from '@/components/ui/ProfileCard';
 
-type CategoryFilter = 'all' | Project['category'];
+type StatusFilter = 'all' | 'live' | 'archived';
 
 interface TagListProps {
   tags: string[];
@@ -176,50 +180,204 @@ function TagList({ tags }: TagListProps) {
   );
 }
 
+// Curated filter tags (consolidated for cleaner filtering)
+const CURATED_TAGS = [
+  'React',
+  'UX/UI',
+  'Responsive',
+  'WebGL',
+  'Next.js',
+  'TypeScript',
+  'Leadership',
+  'Social Impact',
+  'Prototyping',
+  'Branding',
+  'WordPress',
+];
+
+// Number of tags to show by default (up to and including 'Branding')
+const DEFAULT_VISIBLE_TAGS = 9;
+
 export default function PortfolioClient() {
-  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [showAllTags, setShowAllTags] = useState(false);
   const theme = useTheme();
 
-  const filteredProjects =
-    categoryFilter === 'all'
-      ? projects
-      : projects.filter((p) => p.category === categoryFilter);
+  // Get all unique tags sorted by frequency
+  const allTags = useMemo(() => {
+    const tagCount = new Map<string, number>();
+    projects.forEach((p) => {
+      p.tags.forEach((tag) => {
+        tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
+      });
+    });
+    return Array.from(tagCount.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag]) => tag);
+  }, []);
+
+  // Tags to display based on toggle
+  // When collapsed: first N curated tags
+  // When expanded: all curated tags first (in order), then remaining tags sorted by frequency
+  const { displayTags, hiddenCount } = useMemo(() => {
+    const curatedInUse = CURATED_TAGS.filter((tag) => allTags.includes(tag));
+    const remainingTags = allTags.filter((tag) => !CURATED_TAGS.includes(tag));
+    const allDisplayableTags = [...curatedInUse, ...remainingTags];
+
+    if (!showAllTags) {
+      const visible = curatedInUse.slice(0, DEFAULT_VISIBLE_TAGS);
+      return {
+        displayTags: visible,
+        hiddenCount: allDisplayableTags.length - visible.length,
+      };
+    }
+
+    return { displayTags: allDisplayableTags, hiddenCount: 0 };
+  }, [allTags, showAllTags]);
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((p) => {
+      // Status filter
+      if (statusFilter !== 'all' && p.status !== statusFilter) return false;
+
+      // Search filter (title and description)
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        const matchesTitle = p.title.toLowerCase().includes(query);
+        const matchesDescription = p.description.toLowerCase().includes(query);
+        const matchesTags = p.tags.some((tag) => tag.toLowerCase().includes(query));
+        if (!matchesTitle && !matchesDescription && !matchesTags) return false;
+      }
+
+      // Tag filter (must have ALL selected tags)
+      if (selectedTags.length > 0) {
+        const hasAllTags = selectedTags.every((tag) => p.tags.includes(tag));
+        if (!hasAllTags) return false;
+      }
+
+      return true;
+    });
+  }, [statusFilter, searchQuery, selectedTags]);
+
+  const handleTagClick = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('all');
+    setSelectedTags([]);
+    setShowAllTags(false);
+  };
+
+  const hasActiveFilters = searchQuery || statusFilter !== 'all' || selectedTags.length > 0;
 
   return (
     <Box component="main" sx={{ py: 8 }}>
       <Container maxWidth="lg">
         <Stack spacing={6}>
           {/* Header */}
-          <Box>
-            <Typography
-              variant="h1"
-              sx={{
-                fontWeight: 700,
-                mb: 2,
-              }}
-            >
-              Portfolio
-            </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 600 }}>
-              A collection of projects spanning UX design, frontend development, and full-stack
-              applications.
-            </Typography>
-          </Box>
+          <Grid container spacing={4} alignItems="flex-start">
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Typography
+                variant="h1"
+                sx={{
+                  fontWeight: 700,
+                  mb: 2,
+                }}
+              >
+                Portfolio
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                A collection of projects from professional work, side projects, and case studies.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <ProfileCard
+                stats={[
+                  { value: projects.length, label: 'Projects', color: 'primary.light' },
+                  { value: projects.filter((p) => p.status === 'live').length, label: 'Live', color: 'success.light' },
+                  { value: projects.filter((p) => p.tags.includes('Social Impact')).length, label: 'Social Impact', color: 'secondary.light' },
+                ]}
+              />
+            </Grid>
+          </Grid>
 
           {/* Filters */}
-          <Box>
-            <ToggleButtonGroup
-              value={categoryFilter}
-              exclusive
-              onChange={(_, value) => value && setCategoryFilter(value)}
-              size="small"
-            >
-              <ToggleButton value="all">All</ToggleButton>
-              <ToggleButton value="ux">UX</ToggleButton>
-              <ToggleButton value="frontend">Frontend</ToggleButton>
-              <ToggleButton value="fullstack">Full Stack</ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
+          <Stack spacing={3}>
+            {/* Search and Status */}
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems="center">
+              <TextField
+                placeholder="Search projects..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                size="small"
+                sx={{ minWidth: 250 }}
+                slotProps={{
+                  input: {
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon fontSize="small" />
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+              <ToggleButtonGroup
+                value={statusFilter}
+                exclusive
+                onChange={(_, value) => value && setStatusFilter(value)}
+                size="small"
+              >
+                <ToggleButton value="all">All</ToggleButton>
+                <ToggleButton value="live">Live</ToggleButton>
+                <ToggleButton value="archived">Archived</ToggleButton>
+              </ToggleButtonGroup>
+              {hasActiveFilters && (
+                <Tag
+                  label="Clear filters"
+                  onClick={clearFilters}
+                  onDelete={clearFilters}
+                  size="small"
+                  variant="default"
+                  selected
+                />
+              )}
+            </Stack>
+
+            {/* Tags */}
+            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap alignItems="center">
+              {displayTags.map((tag) => (
+                <Tag
+                  key={tag}
+                  label={tag}
+                  size="small"
+                  variant="default"
+                  selected={selectedTags.includes(tag)}
+                  onClick={() => handleTagClick(tag)}
+                />
+              ))}
+              {(hiddenCount > 0 || showAllTags) && (
+                <Tag
+                  label={showAllTags ? 'Show less' : `+${hiddenCount} more`}
+                  size="small"
+                  variant="outlined"
+                  onClick={() => setShowAllTags(!showAllTags)}
+                  sx={{ fontStyle: 'italic' }}
+                />
+              )}
+            </Stack>
+
+            {/* Results count */}
+            <Typography variant="body2" color="text.secondary">
+              {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+              {hasActiveFilters ? ' found' : ''}
+            </Typography>
+          </Stack>
 
           {/* Projects Grid */}
           <Grid container spacing={3}>
@@ -291,7 +449,7 @@ export default function PortfolioClient() {
                       <Tag
                         label={project.status === 'archived' ? 'archived' : 'live'}
                         size="small"
-                        variant={project.status === 'live' ? 'success' : 'outlined'}
+                        variant={project.status === 'live' ? 'success' : 'default'}
                         sx={{ height: 20, fontSize: '0.7rem' }}
                       />
                     </Stack>

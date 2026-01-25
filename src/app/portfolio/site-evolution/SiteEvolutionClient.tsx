@@ -21,10 +21,10 @@ import WidgetsIcon from '@mui/icons-material/Widgets';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import BuildIcon from '@mui/icons-material/Build';
 import { getMilestoneStats, getMilestoneProgress } from '@/data/chapters';
-import SiteEvolutionJourney from '@/components/SiteEvolutionJourney';
-import SiteEvolutionRoadmap from '@/components/SiteEvolutionRoadmap';
-import SiteEvolutionChangelog from '@/components/SiteEvolutionChangelog';
-import StorybookEmbed from '@/components/StorybookEmbed';
+import SiteEvolutionJourney from '@/components/features/site-evolution/SiteEvolutionJourney';
+import SiteEvolutionRoadmap from '@/components/features/site-evolution/SiteEvolutionRoadmap';
+import SiteEvolutionChangelog from '@/components/features/site-evolution/SiteEvolutionChangelog';
+import StorybookEmbed from '@/components/features/storybook/StorybookEmbed';
 import { getProgressGradient } from '@/theme';
 
 const TAB_MAP: Record<string, number> = {

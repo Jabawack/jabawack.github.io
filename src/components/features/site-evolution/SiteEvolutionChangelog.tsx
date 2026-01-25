@@ -18,7 +18,7 @@ import {
   Button,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
 import { getLineColor } from '@/theme';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';

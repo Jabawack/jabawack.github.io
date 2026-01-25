@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import { Typography, Stack, Box } from '@mui/material';
-import Tag from '@/components/Tag';
-import SiteEvolutionContext from '@/components/SiteEvolutionContext';
-import { VideoPlayer } from '@/components/VideoPlayer';
+import Tag from '@/components/ui/Tag';
+import SiteEvolutionContext from '@/components/features/site-evolution/SiteEvolutionContext';
+import { VideoPlayer } from '@/components/ui/VideoPlayer';
 import BlogBackLink from './BlogBackLink';
 import type { BlogPostMeta } from '@/lib/blog';
 

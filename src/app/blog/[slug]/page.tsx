@@ -4,7 +4,7 @@ import { getAllSlugs, getPostBySlug } from '@/lib/blog';
 import { siteConfig } from '@/config/seo';
 import BlogPostHeader from './BlogPostHeader';
 import BlogPostContent from './BlogPostContent';
-import BlogAuthorFooter from '@/components/BlogAuthorFooter';
+import BlogAuthorFooter from '@/components/features/blog/BlogAuthorFooter';
 import { Box, Container, Stack } from '@mui/material';
 
 interface BlogPostPageProps {

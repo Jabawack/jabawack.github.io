@@ -17,7 +17,7 @@ import {
 } from '@mui/material';
 import { styled, keyframes } from '@mui/material/styles';
 import ArticleIcon from '@mui/icons-material/Article';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
 import { Chapter } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
 import { getUpdateByVersion } from '@/data/updates';

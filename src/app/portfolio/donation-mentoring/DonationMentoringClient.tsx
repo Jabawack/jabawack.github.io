@@ -31,8 +31,8 @@ import TouchAppIcon from '@mui/icons-material/TouchApp';
 import StarIcon from '@mui/icons-material/Star';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
 import TranslateIcon from '@mui/icons-material/Translate';
-import Tag from '@/components/Tag';
-import { BentoBox } from '@/components/BentoBox';
+import Tag from '@/components/ui/Tag';
+import { BentoBox } from '@/components/ui/BentoBox';
 
 interface Version {
   version: string;

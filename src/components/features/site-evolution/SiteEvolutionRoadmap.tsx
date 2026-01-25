@@ -14,7 +14,7 @@ import {
   ListItemText,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';

@@ -4,7 +4,7 @@ import { Box, Card, Stack, Typography, Divider } from '@mui/material';
 import { motion } from 'framer-motion';
 import { chapters } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
-import Tag from '@/components/Tag';
+import Tag from '@/components/ui/Tag';
 import { AIThinkingFlowSkeleton } from './AIThinkingFlowSkeleton';
 import { StreamingChapterCard } from './StreamingChapterCard';
 import { THINKING_WORDS } from './constants';

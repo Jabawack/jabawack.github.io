@@ -13,9 +13,9 @@ import {
 } from '@mui/material';
 import { useTheme, alpha, Theme } from '@mui/material/styles';
 import BuildIcon from '@mui/icons-material/Build';
-import Tag from '@/components/Tag';
-import { ChapterNav } from '@/components/ChapterNav';
-import { StreamingChapterCard } from '@/components/AIThinkingFlow';
+import Tag from '@/components/ui/Tag';
+import { ChapterNav } from '@/components/features/site-evolution/ChapterNav';
+import { StreamingChapterCard } from '@/components/features/ai-thinking-flow';
 import { chapters, getMilestoneStats, getChapterByVersion } from '@/data/chapters';
 import { statusConfig } from '@/config/statusConfig';
 import { getGradientBackground, getProgressGradient } from '@/theme';
