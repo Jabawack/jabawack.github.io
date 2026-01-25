@@ -6,7 +6,7 @@ export interface Project {
   image: string;
   imageStyle: 'contain' | 'cover';
   tags: string[];
-  category: 'ux' | 'frontend' | 'fullstack' | 'design';
+  category: 'ux' | 'frontend' | 'fullstack';
   status: 'live' | 'archived';
   featured: boolean;
   link?: string;
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     image: '/images/logo.png',
     imageStyle: 'contain',
     tags: ['Next.js', 'React 19', 'MUI v7', 'TypeScript'],
-    category: 'fullstack',
+    category: 'ux',
     status: 'live',
     featured: true,
     link: '/portfolio/site-evolution/',
@@ -154,7 +154,7 @@ export const projects: Project[] = [
     image: '/v2017/portfolio/Orange-Theme/images/001.jpg',
     imageStyle: 'cover',
     tags: ['CSS', 'Design', 'Layout'],
-    category: 'design',
+    category: 'ux',
     status: 'archived',
     featured: false,
     link: '/v2017/portfolio/Orange-Theme/index.html',

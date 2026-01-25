@@ -217,7 +217,6 @@ export default function PortfolioClient() {
               <ToggleButton value="all">All</ToggleButton>
               <ToggleButton value="ux">UX</ToggleButton>
               <ToggleButton value="frontend">Frontend</ToggleButton>
-              <ToggleButton value="design">Design</ToggleButton>
               <ToggleButton value="fullstack">Full Stack</ToggleButton>
             </ToggleButtonGroup>
           </Box>
