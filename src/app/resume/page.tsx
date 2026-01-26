@@ -25,9 +25,33 @@ export default function ResumePage() {
               >
                 Resume
               </Typography>
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
                 Download my resume or view it inline below.
               </Typography>
+              {/* Download Buttons */}
+              <Stack direction="row" spacing={2}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<DownloadIcon />}
+                  component="a"
+                  href={RESUME_PDF_PATH}
+                  download
+                >
+                  Download PDF
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  startIcon={<OpenInNewIcon />}
+                  component="a"
+                  href={RESUME_PDF_PATH}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open in New Tab
+                </Button>
+              </Stack>
             </Grid>
             <Grid size={{ xs: 12, md: 5 }}>
               <ProfileCard
@@ -39,31 +63,6 @@ export default function ResumePage() {
               />
             </Grid>
           </Grid>
-
-          {/* Download Buttons */}
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<DownloadIcon />}
-              component="a"
-              href={RESUME_PDF_PATH}
-              download
-            >
-              Download PDF
-            </Button>
-            <Button
-              variant="outlined"
-              color="secondary"
-              startIcon={<OpenInNewIcon />}
-              component="a"
-              href={RESUME_PDF_PATH}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open in New Tab
-            </Button>
-          </Stack>
 
           {/* PDF Embed */}
           <Paper
