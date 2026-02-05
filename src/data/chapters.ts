@@ -73,11 +73,12 @@ export const chapters: Chapter[] = [
     id: 'chapter-4',
     title: 'Chapter 4: Content & Growth',
     status: 'completed',
-    versions: 'v2.5.0 → v2.6.3',
+    versions: 'v2.5.0 → v2.7.0',
     story: [
       'With the foundation polished, the portfolio expands into new territory. orbit-lab-project (v2.5.0) represents a deliberate push into 3D web graphics—React Three Fiber, shader programming, GPU-accelerated rendering. Skills increasingly relevant as web experiences become more immersive. The result: a flight visualization globe deployed on Vercel, opening doors to creative coding.',
       'The MDX Blog (v2.6.0) transforms the portfolio from static showcase to living knowledge base. A portfolio shows what you\'ve done; a blog shows how you think. MDX enables embedded interactivity—code examples, diagrams, videos. The first post documents the orbit-lab-project journey in real-time.',
       'With the blog in place, documentation becomes a first-class feature. Each enhancement gets its own story—not just release notes, but the reasoning behind decisions. Click-to-Skip (v2.6.1) respects user time. Contextual Navigation (v2.6.2) creates bidirectional links between Journey, Changelog, and Blog. Loading Card UX (v2.6.3) adds a dwell period before collapse—small touches that respect attention.',
+      'Ask Prism (v2.7.0) showcases AI engineering capabilities—a document analytics platform with visual citations. The project demonstrates LangGraph RAG pipelines, multi-model verification, and a comprehensive AI Elements component library with 40+ patterns for displaying chain-of-thought reasoning, tool usage, and conversational AI interfaces.',
     ],
     milestones: [
       { version: 'v2.5.0', title: 'orbit-lab-project (3D globe visualization)', status: 'completed' },
@@ -85,13 +86,14 @@ export const chapters: Chapter[] = [
       { version: 'v2.6.1', title: 'Click-to-Skip Animation (Respecting user time)', status: 'completed' },
       { version: 'v2.6.2', title: 'Contextual Navigation (Back to the Journey)', status: 'completed' },
       { version: 'v2.6.3', title: 'Loading Card UX (A Breath Before Collapse)', status: 'completed' },
+      { version: 'v2.7.0', title: 'Ask Prism (AI Document Analytics Platform)', status: 'completed' },
     ],
   },
   {
     id: 'chapter-5',
     title: 'Chapter 5: Landing Page Evolution',
     status: 'planned',
-    versions: 'v2.7.0 → v2.9.0',
+    versions: 'v2.8.0 → v2.10.0',
     story: [
       'First impressions matter. The landing page is the portfolio\'s handshake—it needs to communicate who I am, what I do, and why it matters, all within seconds. The current bento-style layout works, but modern portfolio sites have raised the bar with scroll-driven storytelling and purposeful animation.',
       'The redesign draws inspiration from contemporary SaaS landing pages: a clear hero section with a strong call-to-action ("Download Resume"), tabbed skill showcases that let visitors explore at their own pace, and scroll-triggered text reveals that create emphasis without overwhelming.',
@@ -99,9 +101,9 @@ export const chapters: Chapter[] = [
       'This chapter represents a shift from "functional portfolio" to "memorable experience." Each section is a dedicated component, built for reusability and tested in Storybook. The goal: a landing page that demonstrates not just what I\'ve built, but how I think about building.',
     ],
     milestones: [
-      { version: 'v2.7.0', title: 'Landing Page Foundation (Hero, navbar, skills showcase)', status: 'planned' },
-      { version: 'v2.8.0', title: 'Advanced Sections (Project spotlight, portfolio gallery)', status: 'planned' },
-      { version: 'v2.9.0', title: 'Social Proof & Polish (Testimonials grid, accessibility)', status: 'planned' },
+      { version: 'v2.8.0', title: 'Landing Page Foundation (Hero, navbar, skills showcase)', status: 'planned' },
+      { version: 'v2.9.0', title: 'Advanced Sections (Project spotlight, portfolio gallery)', status: 'planned' },
+      { version: 'v2.10.0', title: 'Social Proof & Polish (Testimonials grid, accessibility)', status: 'planned' },
     ],
   },
 ];

@@ -123,11 +123,11 @@ export const updates: Update[] = [
   // ===================
   // ROADMAP (Committed, versioned)
   // ===================
-  // Chapter 4: Landing Page Evolution
+  // Chapter 5: Landing Page Evolution
   {
-    id: 'v2.9.0',
+    id: 'v2.10.0',
     date: 'TBD',
-    version: 'v2.9.0',
+    version: 'v2.10.0',
     title: 'Landing Page Polish',
     description: 'Testimonials grid and final polish for new landing page.',
     category: 'ux',
@@ -142,9 +142,9 @@ export const updates: Update[] = [
     ],
   },
   {
-    id: 'v2.8.0',
+    id: 'v2.9.0',
     date: 'TBD',
-    version: 'v2.8.0',
+    version: 'v2.9.0',
     title: 'Landing Page Advanced Sections',
     description: 'Project spotlight and portfolio gallery with parallax effects.',
     category: 'ux',
@@ -158,9 +158,9 @@ export const updates: Update[] = [
     ],
   },
   {
-    id: 'v2.7.0',
+    id: 'v2.8.0',
     date: 'TBD',
-    version: 'v2.7.0',
+    version: 'v2.8.0',
     title: 'Landing Page Foundation',
     description: 'New hero section with CTA, skills showcase, and scroll animations.',
     category: 'ux',
@@ -192,6 +192,25 @@ export const updates: Update[] = [
       'Storybook controls for testing',
     ],
     blogSlug: 'chapter-collapse-ux',
+  },
+  {
+    id: 'v2.7.0',
+    date: '2026-02-02',
+    version: 'v2.7.0',
+    title: 'Ask Prism',
+    description: 'Document Analytics Platform with AI component showcase and Chain of Thought Storybook.',
+    category: 'feature',
+    status: 'completed',
+    tier: 'roadmap',
+    tags: ['LangGraph', 'RAG', 'AI/ML', 'Supabase', 'Storybook'],
+    details: [
+      'Portfolio card and dedicated case study page',
+      'Document Q&A with visual citations and bounding box highlighting',
+      'Multi-model verification pipeline (GPT-5 Mini + Claude Haiku)',
+      'Chain of Thought component added to Storybook',
+      'AI Elements patterns for transparent AI reasoning',
+    ],
+    blogSlug: 'ask-prism-ai-components',
   },
   {
     id: 'v2.6.2',

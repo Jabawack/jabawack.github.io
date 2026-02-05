@@ -34,6 +34,14 @@ const pages: Record<string, { title: string; description: string }> = {
     title: 'Donation Mentoring',
     description: 'A mentoring platform that pairs one-on-one sessions with UNICEF donations.',
   },
+  '/portfolio/ask-prism/': {
+    title: 'Ask Prism',
+    description: 'Document Analytics Platform with visual citations - LangGraph RAG pipeline with multi-model verification.',
+  },
+  '/portfolio/orbit-lab/': {
+    title: 'Orbit Lab',
+    description: '3D flight tracking visualization with React Three Fiber and three-globe - real-time aircraft on an interactive globe.',
+  },
   '/portfolio/design-system/': {
     title: 'Design System',
     description: 'Storybook component library showcasing the UI building blocks of this portfolio.',

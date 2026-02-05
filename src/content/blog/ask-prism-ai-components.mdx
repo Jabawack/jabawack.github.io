@@ -1,0 +1,158 @@
+---
+title: "Building Ask Prism: AI Components and Chain of Thought Visualization"
+date: "2026-02-02"
+description: "A document analytics platform that showcases AI UI patterns—from chain of thought displays to visual citations with bounding box highlighting"
+tags: ["AI/ML", "LangGraph", "RAG", "React", "UI Components"]
+author: "TK"
+published: true
+image: "/images/blog/ask-prism-ai-components/hero.jpg"
+---
+
+import { VideoPlayer } from '@/components/ui/VideoPlayer';
+
+# Building Ask Prism: AI Components and Chain of Thought Visualization
+
+AI interfaces are evolving. Users no longer accept black-box responses—they want transparency. They want to see the AI *thinking*.
+
+<VideoPlayer src="/images/blog/ask-prism-ai-components/demo.mp4" alt="Ask Prism Table Assistant demo showing AI-powered chain of thought" />
+
+[Ask Prism](https://github.com/Jabawack/ask-prism) is a document analytics platform I built to explore this space. Upload a PDF, ask a question, get an answer with **visual citations**—click a citation and the PDF scrolls to the exact passage, highlighted with bounding boxes.
+
+But the real experiment was the UI layer: how do you visualize AI reasoning in a way that builds trust?
+
+## The Problem with AI Interfaces
+
+Most AI chat interfaces follow the same pattern: user types, AI responds, text appears. The interaction feels like talking to a wall that occasionally talks back.
+
+This creates problems:
+
+| Issue | User Impact |
+|-------|-------------|
+| **No visibility into processing** | Users don't know if the AI is working or stuck |
+| **No explainability** | Answers appear without reasoning |
+| **No verification** | Users can't check if the answer is accurate |
+| **No grounding** | Responses float without connection to source material |
+
+Ask Prism tackles all four.
+
+## Chain of Thought Visualization
+
+The chain of thought component shows AI reasoning steps in real-time. I've ported this component to this portfolio's [Design System](/storybook/?path=/docs/components-chainofthought--docs) so you can interact with it directly.
+
+```tsx
+<ChainOfThought defaultOpen>
+  <ChainOfThoughtHeader>Processed in 4.2s</ChainOfThoughtHeader>
+  <ChainOfThoughtContent>
+    <ChainOfThoughtStep
+      label="Analyzing query"
+      description="Parsed user intent and extracted key entities"
+      status="complete"
+    />
+    <ChainOfThoughtStep
+      label="Retrieving relevant chunks"
+      status="active"
+    />
+    <ChainOfThoughtStep
+      label="Generating answer"
+      status="pending"
+    />
+  </ChainOfThoughtContent>
+</ChainOfThought>
+```
+
+The component auto-collapses when complete—inspired by ChatGPT's thinking display. Users see the work happening, then the UI cleans up.
+
+**[Try the interactive demo in Storybook](/storybook/?path=/story/components-chainofthought--processing-animation)**
+
+This serves multiple purposes:
+
+1. **Progress indication** - Users know the system is working
+2. **Transparency** - The AI's approach is visible
+3. **Trust building** - Showing verification steps signals rigor
+4. **Educational** - Users learn how RAG systems work
+
+## AI Elements Component Library
+
+Ask Prism includes a comprehensive AI Elements library with 40+ components for building AI interfaces:
+
+| Category | Components |
+|----------|------------|
+| **Reasoning** | Chain of thought, reasoning steps, plan display |
+| **Messages** | User/assistant messages, tool calls, artifacts |
+| **Verification** | Confirmation dialogs, checkpoints, test results |
+| **Citations** | Inline citations, sources panel, snippets |
+| **Processing** | Loaders, shimmer effects, queue displays |
+| **Code** | Code blocks, terminal output, stack traces |
+
+These components are built with [Flowbite](https://flowbite.com/)—a Tailwind component library. The AI Elements extend Flowbite's patterns for AI-specific use cases.
+
+## Visual Citations with Bounding Boxes
+
+The killer feature: clicking a citation scrolls the PDF viewer to the exact location and highlights the source text.
+
+How it works:
+
+1. **PDF parsing** extracts text with position data (bounding boxes)
+2. **Chunks** preserve bbox coordinates alongside text
+3. **LLM response** includes citation references
+4. **PDF viewer** (react-pdf-highlighter-extended) renders highlights
+
+This solves the "hallucination verification" problem. Users can instantly check if the AI's answer matches the source.
+
+## Multi-Model Verification Pipeline
+
+Ask Prism doesn't trust a single model. The verification pipeline uses multiple LLMs:
+
+```
+Query → GPT-5 Mini (primary answer)
+         ↓
+      Claude Haiku 4.5 (verification)
+         ↓
+      o3 (reconciliation if disagreement)
+         ↓
+      Final answer with confidence score
+```
+
+Research shows dual verification achieves ~96% accuracy vs ~85% baseline. The extra latency is worth the reliability for document analysis.
+
+## Why This Matters for AI UX
+
+The AI interface patterns from Ask Prism apply broadly:
+
+- **Chain of thought** for any multi-step AI process
+- **Visual grounding** for any retrieval-augmented system
+- **Multi-model verification** for high-stakes applications
+- **Collapsible reasoning** for power users who want details
+
+As AI moves from novelty to infrastructure, these UI patterns become table stakes. Users will expect transparency, not magic.
+
+## Tech Stack
+
+| Component | Choice |
+|-----------|--------|
+| Frontend | Next.js 15 + TypeScript |
+| PDF Parsing | Reducto + pdfjs-dist (dual parser) |
+| PDF Viewer | react-pdf + react-pdf-highlighter-extended |
+| Database | Supabase (PostgreSQL + pgvector) |
+| Agent Framework | LangGraph |
+| Observability | LangSmith |
+| Primary LLM | GPT-5 Mini |
+| Verification LLM | Claude Haiku 4.5 |
+
+## What I Learned
+
+Building Ask Prism reinforced several principles:
+
+1. **Transparency > Speed** - Users prefer seeing 5 seconds of reasoning over 3 seconds of silence
+2. **Grounding builds trust** - Clickable citations transform skepticism into verification
+3. **Component libraries compound** - 40+ AI components now ready for future projects
+4. **Multi-model > single-model** - Verification catches hallucinations before users do
+
+The project started as a document Q&A tool. It became a showcase for AI interface patterns.
+
+---
+
+**Links:**
+- [View on GitHub](https://github.com/Jabawack/ask-prism)
+- [View Case Study](/portfolio/ask-prism/)
+- [ChainOfThought in Storybook](/storybook/?path=/docs/components-chainofthought--docs)

@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import CloseIcon from '@mui/icons-material/Close';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -789,6 +790,41 @@ export default function DonationMentoringClient() {
               ))}
             </Stack>
           </Box>
+
+          {/* Learn More Footer */}
+          <Card sx={{ bgcolor: alpha(theme.palette.primary.main, 0.1) }}>
+            <CardContent sx={{ p: 3 }}>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Learn More
+              </Typography>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                <Button
+                  variant="contained"
+                  startIcon={<OpenInNewIcon />}
+                  href="https://www.donation-mentoring.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Live Demo
+                </Button>
+                <Button
+                  variant="outlined"
+                  href="/blog/donation-mentoring-case-study/"
+                >
+                  Read the Full Story
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<GitHubIcon />}
+                  href="https://github.com/jaedongshin/donation-mentoring"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Source Code
+                </Button>
+              </Stack>
+            </CardContent>
+          </Card>
         </Stack>
       </Container>
 

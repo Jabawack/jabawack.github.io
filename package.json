@@ -1,6 +1,6 @@
 {
   "name": "jabawack-portfolio",
-  "version": "2.6.3",
+  "version": "2.7.0",
   "private": true,
   "scripts": {
     "dev": "concurrently -n next,storybook -c cyan,magenta \"next dev\" \"storybook dev -p 6006 --ci\"",
