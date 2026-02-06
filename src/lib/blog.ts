@@ -1,9 +1,38 @@
+/**
+ * blog.ts - Blog post utilities with auto version detection
+ *
+ * ARCHITECTURE: Single Source of Truth
+ * ------------------------------------
+ * - Version is auto-detected from updates.ts via blogSlug field
+ * - No need to set `version` in frontmatter (it's derived)
+ * - To link a blog post to a version: add blogSlug field in updates.ts
+ *
+ * Example in updates.ts:
+ *   { version: 'v2.5.0', blogSlug: 'orbit-lab-project-journey', ... }
+ *
+ * Then orbit-lab-project-journey.mdx automatically shows v2.5.0
+ */
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import readingTime from 'reading-time';
+import { getUpdateByBlogSlug } from '@/data/updates';
 
 const BLOG_DIR = path.join(process.cwd(), 'src/content/blog');
+
+/**
+ * Auto-detect version from updates.ts by blogSlug
+ * Falls back to frontmatter version if specified
+ */
+function getVersionForSlug(slug: string, frontmatterVersion?: string): string | undefined {
+  // If version is explicitly set in frontmatter, use it
+  if (frontmatterVersion) {
+    return frontmatterVersion;
+  }
+  // Otherwise, look up from updates.ts by blogSlug
+  const update = getUpdateByBlogSlug(slug);
+  return update?.version;
+}
 
 /**
  * Frontmatter schema for blog posts
@@ -124,7 +153,7 @@ export function getAllPosts(includeUnpublished = false): BlogPostMeta[] {
         image: frontmatter.image,
         thumbnail: frontmatter.thumbnail,
         category: frontmatter.category,
-        version: frontmatter.version,
+        version: getVersionForSlug(slug, frontmatter.version),
       };
     })
     .filter((post) => includeUnpublished || post.published);
@@ -160,7 +189,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     image: frontmatter.image,
     thumbnail: frontmatter.thumbnail,
     category: frontmatter.category,
-    version: frontmatter.version,
+    version: getVersionForSlug(slug, frontmatter.version),
     content,
   };
 }

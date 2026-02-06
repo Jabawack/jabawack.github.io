@@ -1,7 +1,28 @@
+/**
+ * updates.ts - Single Source of Truth for all versions/milestones
+ *
+ * ARCHITECTURE:
+ * -------------
+ * - This file is the ONLY place to add/edit versions
+ * - chapters.ts derives milestones from here via getUpdatesByChapter()
+ * - blog.ts auto-detects version from here via getUpdateByBlogSlug()
+ *
+ * TO ADD A NEW VERSION:
+ * 1. Add entry here with: version, chapter, status, tier: 'roadmap'
+ * 2. Optional: add blogSlug to link to a blog post
+ * 3. Done! chapters.ts and blog.ts will pick it up automatically
+ *
+ * TIER SYSTEM:
+ * - 'roadmap': Committed work with versions (shown in Changelog)
+ * - 'backlog': Prioritized features without versions
+ * - 'icebox': Ideas for future consideration
+ */
 export type UpdateStatus = 'completed' | 'in-progress' | 'planned';
 export type UpdateCategory = 'feature' | 'enhancement' | 'bugfix' | 'design' | 'ux' | 'infrastructure';
 export type UpdateTier = 'roadmap' | 'backlog' | 'icebox';
 export type UpdatePriority = 'high' | 'medium' | 'low';
+
+export type ChapterId = 'chapter-1' | 'chapter-2' | 'chapter-3' | 'chapter-4' | 'chapter-5';
 
 export interface Update {
   id: string;
@@ -16,6 +37,7 @@ export interface Update {
   tags: string[];
   details?: string[];
   blogSlug?: string;         // Optional - link to related blog post
+  chapter?: ChapterId;       // Which chapter this update belongs to
 }
 
 export const updates: Update[] = [
@@ -133,6 +155,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'planned',
     tier: 'roadmap',
+    chapter: 'chapter-5',
     tags: ['Landing Page', 'Bento Grid', 'Social Proof'],
     details: [
       'Testimonials bento grid with metrics',
@@ -150,6 +173,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'planned',
     tier: 'roadmap',
+    chapter: 'chapter-5',
     tags: ['Landing Page', 'Parallax', 'Carousel'],
     details: [
       'Project Spotlight with split layout carousel',
@@ -166,6 +190,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'planned',
     tier: 'roadmap',
+    chapter: 'chapter-5',
     tags: ['Landing Page', 'Hero', 'Framer Motion', 'CTA'],
     details: [
       'Enhanced navbar with shrink-on-scroll',
@@ -176,24 +201,6 @@ export const updates: Update[] = [
     ],
   },
   {
-    id: 'v2.6.3',
-    date: '2026-01-24',
-    version: 'v2.6.3',
-    title: 'Loading Card UX',
-    description: 'Add dwell period before auto-collapse so users can absorb content before cards fold away.',
-    category: 'ux',
-    status: 'completed',
-    tier: 'roadmap',
-    tags: ['UX', 'Animation', 'Accessibility', 'Polish'],
-    details: [
-      'Countdown progress bar before auto-collapse',
-      'Hover to pause countdown',
-      'Opacity fade indicates imminent collapse',
-      'Storybook controls for testing',
-    ],
-    blogSlug: 'chapter-collapse-ux',
-  },
-  {
     id: 'v2.7.0',
     date: '2026-02-02',
     version: 'v2.7.0',
@@ -202,6 +209,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-4',
     tags: ['LangGraph', 'RAG', 'AI/ML', 'Supabase', 'Storybook'],
     details: [
       'Portfolio card and dedicated case study page',
@@ -213,6 +221,25 @@ export const updates: Update[] = [
     blogSlug: 'ask-prism-ai-components',
   },
   {
+    id: 'v2.6.3',
+    date: '2026-01-24',
+    version: 'v2.6.3',
+    title: 'Loading Card UX',
+    description: 'Add dwell period before auto-collapse so users can absorb content before cards fold away.',
+    category: 'ux',
+    status: 'completed',
+    tier: 'roadmap',
+    chapter: 'chapter-4',
+    tags: ['UX', 'Animation', 'Accessibility', 'Polish'],
+    details: [
+      'Countdown progress bar before auto-collapse',
+      'Hover to pause countdown',
+      'Opacity fade indicates imminent collapse',
+      'Storybook controls for testing',
+    ],
+    blogSlug: 'chapter-collapse-ux',
+  },
+  {
     id: 'v2.6.2',
     date: '2026-01-22',
     version: 'v2.6.2',
@@ -221,6 +248,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-4',
     tags: ['UX', 'Navigation', 'Blog', 'Polish'],
     details: [
       '"Back to the Journey" link in blog posts with scroll-to-highlight',
@@ -240,6 +268,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-4',
     tags: ['UX', 'Animation', 'Polish', 'Accessibility'],
     details: [
       'Click anywhere to skip streaming animation',
@@ -258,6 +287,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-4',
     tags: ['MDX', 'Blog', 'Content', 'RSS'],
     details: [
       'MDX blog setup with syntax highlighting',
@@ -276,6 +306,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-4',
     tags: ['Three.js', 'React Three Fiber', 'WebGL', '3D', 'Portfolio'],
     details: [
       'Portfolio card linking to orbit-lab-project on Vercel',
@@ -293,6 +324,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-3',
     tags: ['Storybook', 'Design System', 'Components', 'Documentation', 'Vitest'],
     details: [
       'Storybook 10 with Vite framework (@storybook/nextjs-vite)',
@@ -313,6 +345,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-3',
     tags: ['Theme', 'Dark Mode', 'Light Mode', 'UX'],
     details: [
       'Light/dark mode toggle in navigation',
@@ -331,6 +364,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-3',
     tags: ['UX', 'Navigation', 'MUI Stepper', 'Scroll-spy'],
     details: [
       'Replaced accordions with scrollable sections for visible content length',
@@ -350,6 +384,7 @@ export const updates: Update[] = [
     category: 'ux',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-3',
     tags: ['UX', 'Storytelling', 'Case Study', 'MUI Accordion', 'MUI Tabs'],
     details: [
       'Hero progress bar showing overall completion',
@@ -369,6 +404,7 @@ export const updates: Update[] = [
     category: 'infrastructure',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-2',
     tags: ['Architecture', 'Performance', 'SEO'],
     details: [
       'Centralize SEO config in single file',
@@ -386,6 +422,7 @@ export const updates: Update[] = [
     category: 'enhancement',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-2',
     tags: ['SEO', 'Portfolio', 'Metadata'],
     details: [
       'Added Bay Area K Group (BAKG) nonprofit project',
@@ -403,6 +440,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-2',
     tags: ['Components', 'Responsive', 'Navigation'],
     details: [
       'Sticky header with scroll-triggered background',
@@ -419,6 +457,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-1',
     tags: ['Next.js', 'React', 'MUI', 'TypeScript'],
     details: [
       'Migrated from static HTML/CSS/jQuery to Next.js App Router',
@@ -437,6 +476,7 @@ export const updates: Update[] = [
     category: 'feature',
     status: 'completed',
     tier: 'roadmap',
+    chapter: 'chapter-1',
     tags: ['Materialize', 'jQuery', 'Legacy'],
     details: [
       'Built with Materialize CSS framework',
@@ -453,3 +493,17 @@ export const getBacklogUpdates = () => updates.filter((u) => u.tier === 'backlog
 export const getIceboxUpdates = () => updates.filter((u) => u.tier === 'icebox');
 export const getUpdateByVersion = (version: string) => updates.find((u) => u.version === version);
 export const getUpdateByBlogSlug = (blogSlug: string) => updates.find((u) => u.blogSlug === blogSlug);
+
+/**
+ * Get all roadmap updates for a specific chapter, sorted by version (oldest first)
+ */
+export const getUpdatesByChapter = (chapterId: ChapterId): Update[] => {
+  return updates
+    .filter((u) => u.tier === 'roadmap' && u.chapter === chapterId)
+    .sort((a, b) => {
+      // Sort by version number (v1.0.0 before v2.0.0)
+      const versionA = a.version || '';
+      const versionB = b.version || '';
+      return versionA.localeCompare(versionB, undefined, { numeric: true });
+    });
+};
