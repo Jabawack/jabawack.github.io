@@ -46,6 +46,10 @@ const pages: Record<string, { title: string; description: string }> = {
     title: 'Design System',
     description: 'Storybook component library showcasing the UI building blocks of this portfolio.',
   },
+  '/portfolio/manuscript-alert/': {
+    title: 'Manuscript Alert',
+    description: 'Research paper aggregator for Alzheimer\'s & neuroimaging - fetches from PubMed, arXiv, bioRxiv, medRxiv with smart keyword matching.',
+  },
   '/blog/': {
     title: 'Blog',
     description: 'Articles about web development, design, and technology.',

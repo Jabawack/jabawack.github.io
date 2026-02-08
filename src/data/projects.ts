@@ -71,7 +71,7 @@ export const projects: Project[] = [
     category: 'fullstack',
     status: 'live',
     featured: true,
-    link: 'https://github.com/dknkim/Manuscript_alert',
+    link: '/portfolio/manuscript-alert/',
     year: '2025 - Present',
     role: 'Contributor',
   },
