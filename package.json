@@ -13,7 +13,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o out/storybook",
+    "build-storybook": "rm -rf out/storybook && storybook build -o out/storybook",
     "screenshot": "tsx scripts/screenshot/cli.ts",
     "screenshot:before": "tsx scripts/screenshot/cli.ts --before",
     "screenshot:after": "tsx scripts/screenshot/cli.ts --after",
