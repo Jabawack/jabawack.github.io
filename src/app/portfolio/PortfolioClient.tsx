@@ -19,7 +19,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import Link from 'next/link';
-import { projects } from '@/data/projects';
+import { sortedProjects, projects } from '@/data/projects';
 import Tag from '@/components/ui/Tag';
 import ProfileCard from '@/components/ui/ProfileCard';
 
@@ -238,7 +238,7 @@ export default function PortfolioClient() {
   }, [allTags, showAllTags]);
 
   const filteredProjects = useMemo(() => {
-    return projects.filter((p) => {
+    return sortedProjects.filter((p) => {
       // Status filter
       if (statusFilter !== 'all' && p.status !== statusFilter) return false;
 

@@ -10,7 +10,9 @@ export interface Project {
   status: 'live' | 'archived';
   featured: boolean;
   link?: string;
-  year: string;
+  year: string;              // Display text: "2026", "2025 - Present"
+  startDate?: string;        // For sorting: "2026-02", "2025-08" (YYYY-MM format)
+  pinned?: boolean;          // Always appears first regardless of date
   role: string;
 }
 
@@ -28,6 +30,8 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/site-evolution/',
     year: '2017 - Present',
+    startDate: '2026-01',  // v2 rebuild started Jan 2026
+    pinned: true,          // Always first - main portfolio showcase
     role: 'Fullstack Engineer',
   },
   {
@@ -43,6 +47,7 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/ask-prism/',
     year: '2026',
+    startDate: '2026-02',
     role: 'Fullstack Engineer',
   },
   {
@@ -58,6 +63,7 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/orbit-lab/',
     year: '2026',
+    startDate: '2026-01',
     role: 'Fullstack Engineer',
   },
   {
@@ -73,6 +79,7 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/manuscript-alert/',
     year: '2025 - Present',
+    startDate: '2025-08',
     role: 'Contributor',
   },
   {
@@ -88,6 +95,7 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/design-system/',
     year: '2026',
+    startDate: '2026-01',
     role: 'Component Library',
   },
   {
@@ -103,6 +111,7 @@ export const projects: Project[] = [
     featured: true,
     link: '/portfolio/donation-mentoring/',
     year: '2025 - Present',
+    startDate: '2025-12',
     role: 'Fullstack Engineer',
   },
   {
@@ -207,4 +216,62 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
+/**
+ * Parse startDate (YYYY-MM) or fall back to year string
+ * Returns a comparable number: YYYYMM (e.g., 202602 for Feb 2026)
+ */
+function parseSortDate(project: Project): number {
+  // Use startDate if available (YYYY-MM format)
+  if (project.startDate) {
+    const [year, month] = project.startDate.split('-').map(Number);
+    return year * 100 + (month || 1);
+  }
+
+  // Fall back to parsing year string
+  const match = project.year.match(/^(\d{4})/);
+  const year = match ? parseInt(match[1], 10) : 0;
+  return year * 100 + 1; // Default to January if no month
+}
+
+/**
+ * Sort projects with priority:
+ * 1. Pinned projects first (by pinned order if number, otherwise by date)
+ * 2. Live projects by date (newest first)
+ * 3. Archived projects by date (newest first)
+ */
+function sortProjects(a: Project, b: Project): number {
+  // Pinned projects always first
+  if (a.pinned && !b.pinned) return -1;
+  if (!a.pinned && b.pinned) return 1;
+
+  // If both pinned, sort by pinned order (if number) or date
+  if (a.pinned && b.pinned) {
+    // If using numbered pins, sort by number
+    if (typeof a.pinned === 'number' && typeof b.pinned === 'number') {
+      return a.pinned - b.pinned;
+    }
+  }
+
+  // Live projects before archived
+  if (a.status === 'live' && b.status === 'archived') return -1;
+  if (a.status === 'archived' && b.status === 'live') return 1;
+
+  // Within same status, sort by date descending (newest first)
+  const dateA = parseSortDate(a);
+  const dateB = parseSortDate(b);
+  if (dateA !== dateB) {
+    return dateB - dateA;
+  }
+
+  // If same date, "Present" projects come first
+  const aIsPresent = a.year.includes('Present');
+  const bIsPresent = b.year.includes('Present');
+  if (aIsPresent && !bIsPresent) return -1;
+  if (!aIsPresent && bIsPresent) return 1;
+
+  return 0;
+}
+
+// Sorted exports: pinned → live (by date) → archived (by date)
+export const sortedProjects = [...projects].sort(sortProjects);
+export const featuredProjects = sortedProjects.filter((p) => p.featured);

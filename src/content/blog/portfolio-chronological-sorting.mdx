@@ -1,0 +1,122 @@
+---
+title: "Adding Chronological Sorting to the Portfolio"
+date: "2026-02-08"
+description: "Why manual array ordering doesn't scale, and how automatic sorting by date keeps projects organized"
+tags: ["Portfolio", "UX", "TypeScript", "Data Architecture"]
+author: "TK"
+published: true
+image: "/images/blog/portfolio-sorting/01-hero.jpg"
+---
+
+# Adding Chronological Sorting to the Portfolio
+
+When I added the Manuscript Alert project to my portfolio, I placed it after Orbit Lab in the `projects.ts` array. The result? A 2025 project appearing before a 2026 project. The ordering was wrong.
+
+## The Problem
+
+The portfolio grid was displaying projects in the order they appeared in the data file:
+
+```typescript
+// projects.ts - manual ordering
+export const projects: Project[] = [
+  { title: 'Orbit Lab', year: '2026' },
+  { title: 'Manuscript Alert', year: '2025 - Present' },
+  { title: 'Design System', year: '2026' },
+  // ...
+];
+```
+
+Every time I added a new project, I had to manually figure out where to insert it in the array. This approach has problems:
+
+1. **Error-prone** - Easy to put projects in the wrong position
+2. **Cognitive load** - Need to mentally sort while editing
+3. **No single source of truth** - The `year` field exists but isn't used for ordering
+
+## The Solution
+
+Add an optional `startDate` field for precise sorting, while keeping `year` for display:
+
+```typescript
+export interface Project {
+  // ... other fields
+  year: string;        // Display: "2026", "2025 - Present"
+  startDate?: string;  // Sorting: "2026-02", "2025-08" (YYYY-MM)
+}
+```
+
+Then sort by date with month-level precision:
+
+```typescript
+/**
+ * Parse startDate (YYYY-MM) or fall back to year string
+ * Returns comparable number: YYYYMM (e.g., 202602 for Feb 2026)
+ */
+function parseSortDate(project: Project): number {
+  if (project.startDate) {
+    const [year, month] = project.startDate.split('-').map(Number);
+    return year * 100 + (month || 1);
+  }
+
+  // Fall back to parsing year string
+  const match = project.year.match(/^(\d{4})/);
+  return match ? parseInt(match[1], 10) * 100 + 1 : 0;
+}
+
+function sortByDate(a: Project, b: Project): number {
+  const dateA = parseSortDate(a);
+  const dateB = parseSortDate(b);
+
+  if (dateA !== dateB) {
+    return dateB - dateA; // Descending (newest first)
+  }
+
+  // Same date: "Present" projects come first
+  const aIsPresent = a.year.includes('Present');
+  const bIsPresent = b.year.includes('Present');
+  if (aIsPresent && !bIsPresent) return -1;
+  if (!aIsPresent && bIsPresent) return 1;
+
+  return 0;
+}
+
+export const sortedProjects = [...projects].sort(sortByDate);
+```
+
+## Why Month-Level Precision?
+
+As more projects are added in the same year, year-level sorting isn't enough:
+
+| Project | startDate | Parsed | Display |
+|---------|-----------|--------|---------|
+| Ask Prism | `2026-02` | 202602 | Feb 2026 |
+| Orbit Lab | `2026-01` | 202601 | Jan 2026 |
+| Design System | `2026-01` | 202601 | Jan 2026 |
+| Manuscript Alert | `2025-08` | 202508 | Aug 2025 |
+| Donation Mentoring | `2025-06` | 202506 | Jun 2025 |
+
+The `year` field stays human-readable ("2025 - Present") while `startDate` provides precise sorting.
+
+## The Result
+
+Now I can add projects to `projects.ts` in any order:
+
+```typescript
+export const projects: Project[] = [
+  { title: 'Ask Prism', year: '2026', startDate: '2026-02' },
+  { title: 'Manuscript Alert', year: '2025 - Present', startDate: '2025-08' },
+  // Order in array doesn't matter
+];
+
+// Consumers get sorted data automatically
+export const sortedProjects = [...projects].sort(sortByDate);
+export const featuredProjects = sortedProjects.filter((p) => p.featured);
+```
+
+## Lessons Learned
+
+1. **Separate display from sorting** - `year` for humans, `startDate` for machines
+2. **Plan for scale** - Year sorting works until you have multiple projects per year
+3. **Backwards compatible** - Optional `startDate` means old projects work without changes
+4. **Let data define behavior** - Stop manually ordering arrays
+
+The pattern applies beyond portfolios: whenever you have ordered data with a natural sort key, consider automatic sorting over manual positioning.

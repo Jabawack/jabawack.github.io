@@ -123,7 +123,7 @@ export default function BlogListClient({ posts, allTags }: BlogListClientProps) 
               <ProfileCard
                 stats={[
                   { value: posts.length, label: 'Posts', color: 'primary.light' },
-                  { value: allTags.length, label: 'Topics', color: 'success.light' },
+                  { value: allTags.length, label: 'Tags', color: 'success.light' },
                   { value: 2026, label: 'Since', color: 'secondary.light' },
                 ]}
               />
