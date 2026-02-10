@@ -1,122 +1,77 @@
 ---
-title: "Adding Chronological Sorting to the Portfolio"
+title: "Why My Newest Project Kept Appearing Last"
 date: "2026-02-08"
-description: "Why manual array ordering doesn't scale, and how automatic sorting by date keeps projects organized"
-tags: ["Portfolio", "UX", "TypeScript", "Data Architecture"]
+description: "The frustrating moment when I realized my portfolio was showing projects in the wrong order, and how I fixed it"
+tags: ["Portfolio", "UX"]
 author: "TK"
 published: true
 image: "/images/blog/portfolio-sorting/01-hero.jpg"
 ---
 
-# Adding Chronological Sorting to the Portfolio
+# Why My Newest Project Kept Appearing Last
 
-When I added the Manuscript Alert project to my portfolio, I placed it after Orbit Lab in the `projects.ts` array. The result? A 2025 project appearing before a 2026 project. The ordering was wrong.
+It was a Friday afternoon, and I had just finished adding Manuscript Alert to my portfolio. This was a project I'd been working on since August 2025 - a tool that helps researchers track academic papers. I was proud of it, excited to showcase it, and eager to see how it looked alongside my other work.
 
-## The Problem
+I refreshed the portfolio page. Something felt off.
 
-The portfolio grid was displaying projects in the order they appeared in the data file:
+Manuscript Alert was sitting there in the middle of the grid, sandwiched between projects from different years. Above it was Orbit Lab, a project I'd started in January 2026 - months after Manuscript Alert. Below it were older projects from early 2025. The timeline made no sense.
 
-```typescript
-// projects.ts - manual ordering
-export const projects: Project[] = [
-  { title: 'Orbit Lab', year: '2026' },
-  { title: 'Manuscript Alert', year: '2025 - Present' },
-  { title: 'Design System', year: '2026' },
-  // ...
-];
-```
+At first, I thought I'd made a typo somewhere. Maybe I'd entered the wrong year. I double-checked the project data. The years were correct: Manuscript Alert was clearly marked as "2025 - Present," and Orbit Lab was "2026." So why was the 2026 project appearing before the 2025 one?
 
-Every time I added a new project, I had to manually figure out where to insert it in the array. This approach has problems:
+## The Realization
 
-1. **Error-prone** - Easy to put projects in the wrong position
-2. **Cognitive load** - Need to mentally sort while editing
-3. **No single source of truth** - The `year` field exists but isn't used for ordering
+I stared at the screen for a moment, then it clicked.
 
-## The Solution
+My portfolio wasn't sorting projects by date at all. It was displaying them in whatever order they happened to appear in my data file. All this time, I'd been manually placing projects where I thought they should go, relying on my memory and judgment to keep things organized.
 
-Add an optional `startDate` field for precise sorting, while keeping `year` for display:
+And my memory, it turns out, is not a reliable sorting algorithm.
 
-```typescript
-export interface Project {
-  // ... other fields
-  year: string;        // Display: "2026", "2025 - Present"
-  startDate?: string;  // Sorting: "2026-02", "2025-08" (YYYY-MM)
-}
-```
+When I added Manuscript Alert, I'd simply appended it to the list without thinking about where it belonged chronologically. The result was a portfolio that looked disorganized - older projects mixed with newer ones, no clear sense of progression, no way for visitors to see my most recent work first.
 
-Then sort by date with month-level precision:
+This wasn't just a minor annoyance. For a portfolio, presentation matters. When someone visits to see what I've been working on, they should immediately see my latest projects - the ones that best represent my current skills and interests. Instead, they were getting a jumbled timeline that required mental effort to parse.
 
-```typescript
-/**
- * Parse startDate (YYYY-MM) or fall back to year string
- * Returns comparable number: YYYYMM (e.g., 202602 for Feb 2026)
- */
-function parseSortDate(project: Project): number {
-  if (project.startDate) {
-    const [year, month] = project.startDate.split('-').map(Number);
-    return year * 100 + (month || 1);
-  }
+## The Hidden Problem
 
-  // Fall back to parsing year string
-  const match = project.year.match(/^(\d{4})/);
-  return match ? parseInt(match[1], 10) * 100 + 1 : 0;
-}
+The more I thought about it, the more I realized this had been a problem for a while. Every time I added a new project, I'd scroll through the list, try to figure out where it should go, and make my best guess. Sometimes I got it right. Sometimes I didn't. And even when I did, the process required cognitive effort that could have been spent on something more valuable.
 
-function sortByDate(a: Project, b: Project): number {
-  const dateA = parseSortDate(a);
-  const dateB = parseSortDate(b);
+There's a principle in software design: data should define behavior. If I have dates on my projects - which I did - then those dates should determine the order. I shouldn't have to manually maintain something that a computer can do automatically.
 
-  if (dateA !== dateB) {
-    return dateB - dateA; // Descending (newest first)
-  }
+The year field was right there, attached to every project. "2026." "2025 - Present." "2024." All the information needed to sort correctly was already in the data. I just wasn't using it.
 
-  // Same date: "Present" projects come first
-  const aIsPresent = a.year.includes('Present');
-  const bIsPresent = b.year.includes('Present');
-  if (aIsPresent && !bIsPresent) return -1;
-  if (!aIsPresent && bIsPresent) return 1;
+## What I Wanted
 
-  return 0;
-}
+The fix I had in mind was simple in concept: newest projects should appear first, automatically. No more manual positioning. No more mental math to figure out where January 2026 falls relative to August 2025. Just add a project with its date, and let the system figure out where it belongs.
 
-export const sortedProjects = [...projects].sort(sortByDate);
-```
+But I also wanted precision. As my portfolio grew, I was accumulating multiple projects from the same year. "2026" wasn't specific enough anymore - I needed to know that Ask Prism (February 2026) came before Orbit Lab (January 2026), even though both were from the same year.
 
-## Why Month-Level Precision?
-
-As more projects are added in the same year, year-level sorting isn't enough:
-
-| Project | startDate | Parsed | Display |
-|---------|-----------|--------|---------|
-| Ask Prism | `2026-02` | 202602 | Feb 2026 |
-| Orbit Lab | `2026-01` | 202601 | Jan 2026 |
-| Design System | `2026-01` | 202601 | Jan 2026 |
-| Manuscript Alert | `2025-08` | 202508 | Aug 2025 |
-| Donation Mentoring | `2025-06` | 202506 | Jun 2025 |
-
-The `year` field stays human-readable ("2025 - Present") while `startDate` provides precise sorting.
+And for ongoing projects - the ones marked "Present" - I wanted them to get a slight priority boost. If I'm actively working on something, that's probably what visitors should see first.
 
 ## The Result
 
-Now I can add projects to `projects.ts` in any order:
+![Portfolio grid showing projects sorted by date](/images/blog/portfolio-sorting/02-portfolio-grid.jpg)
 
-```typescript
-export const projects: Project[] = [
-  { title: 'Ask Prism', year: '2026', startDate: '2026-02' },
-  { title: 'Manuscript Alert', year: '2025 - Present', startDate: '2025-08' },
-  // Order in array doesn't matter
-];
+Now when I add a project, it just appears in the right place. I don't think about ordering anymore. I don't scroll through a list trying to remember what came before what. I just add the project with its start date, and the portfolio handles the rest.
 
-// Consumers get sorted data automatically
-export const sortedProjects = [...projects].sort(sortByDate);
-export const featuredProjects = sortedProjects.filter((p) => p.featured);
-```
+The grid flows naturally from newest to oldest. Ask Prism at the top, fresh from February 2026. Then Orbit Lab from January. Then the 2025 projects in their proper sequence. Visitors see my most recent work immediately, exactly where they'd expect it.
 
-## Lessons Learned
+For ongoing projects, there's a nice touch: they float to the top of their respective time periods. Manuscript Alert, marked "2025 - Present," appears before other 2025 projects that are already complete. It signals to visitors that this is active work, something I'm still invested in.
 
-1. **Separate display from sorting** - `year` for humans, `startDate` for machines
-2. **Plan for scale** - Year sorting works until you have multiple projects per year
-3. **Backwards compatible** - Optional `startDate` means old projects work without changes
-4. **Let data define behavior** - Stop manually ordering arrays
+## The Bigger Lesson
 
-The pattern applies beyond portfolios: whenever you have ordered data with a natural sort key, consider automatic sorting over manual positioning.
+This experience reminded me of something I'd learned years ago but apparently needed to relearn: whenever you have data with a natural order, use that order. Don't rely on manual positioning for things that can be automated. Don't trust yourself to remember to put things in the right place every time.
+
+The cognitive load of maintaining manual order accumulates invisibly. Each individual decision - "where should this project go?" - takes only a few seconds. But those seconds add up, and more importantly, they introduce opportunities for error. One misplaced project, and suddenly your portfolio tells the wrong story about your career progression.
+
+There's also something freeing about removing that decision from my workflow. When I finish a new project now, I don't have to think about presentation order. I just document it with its date and move on. The system handles the rest, consistently and correctly, every single time.
+
+## What This Means for Visitors
+
+For anyone browsing my portfolio, the change is subtle but meaningful. You now see my work in the order that makes sense - most recent first, with active projects getting priority. You don't have to scroll around trying to piece together a timeline. The progression is clear.
+
+If you're interested in what I'm working on right now, it's at the top. If you want to see how my work has evolved over time, just scroll down. The portfolio tells its own story, in the right order, without requiring any effort on your part to decode it.
+
+That's how it should have been from the start. Sometimes the best improvements are the ones that remove friction you didn't even know was there.
+
+---
+
+*Curious about the technical implementation? The solution uses month-level date precision to sort projects automatically while keeping display dates human-readable. Feel free to [explore the code](https://github.com/jabawack/jabawack.github.io) if you're interested in the details.*
