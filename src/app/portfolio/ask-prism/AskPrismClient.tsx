@@ -23,6 +23,8 @@ import StorageIcon from '@mui/icons-material/Storage';
 import SearchIcon from '@mui/icons-material/Search';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
+import ScannerIcon from '@mui/icons-material/Scanner';
 import Tag from '@/components/ui/Tag';
 import { BentoBox, BentoItem } from '@/components/ui/BentoBox';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
@@ -57,11 +59,23 @@ export default function AskPrismClient() {
       icon: <FactCheckIcon sx={{ fontSize: 20 }} />,
     },
     {
+      id: 'llms',
+      label: 'LLMs',
+      value: '3 Models',
+      icon: <AutoAwesomeIcon sx={{ fontSize: 20 }} />,
+    },
+    {
       id: 'stack',
       label: 'Key Stack',
       value: 'LangGraph + Supabase + pgvector',
       colSpan: 2,
       icon: <StorageIcon sx={{ fontSize: 20 }} />,
+    },
+    {
+      id: 'parsing',
+      label: 'Parsing',
+      value: 'Dual',
+      icon: <ScannerIcon sx={{ fontSize: 20 }} />,
     },
   ];
 

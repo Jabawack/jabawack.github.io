@@ -20,6 +20,7 @@ import FlightIcon from '@mui/icons-material/Flight';
 import SpeedIcon from '@mui/icons-material/Speed';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
+import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import Tag from '@/components/ui/Tag';
 import { BentoBox, BentoItem } from '@/components/ui/BentoBox';
 
@@ -39,6 +40,13 @@ export default function OrbitLabClient() {
       label: 'Live Flights',
       value: 'Real-time',
       icon: <FlightIcon sx={{ fontSize: 20 }} />,
+    },
+    {
+      id: 'aircraft',
+      label: 'Aircraft',
+      value: '1,000+',
+      rowSpan: 2,
+      icon: <AirplanemodeActiveIcon sx={{ fontSize: 20 }} />,
     },
     {
       id: 'render',
