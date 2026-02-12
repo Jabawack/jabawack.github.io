@@ -12,143 +12,75 @@ import { VideoPlayer } from '@/components/ui/VideoPlayer';
 
 # Building Ask Prism: AI Components and Chain of Thought Visualization
 
-AI interfaces are evolving. Users no longer accept black-box responses—they want transparency. They want to see the AI *thinking*.
+I was building a document Q&A tool when I ran into a wall. The AI worked great—it could answer questions about uploaded PDFs with impressive accuracy. But every time I demo'd it to someone, I got the same reaction: a slight squint, a pause, then "but how do I know it's not making this up?"
+
+That question changed everything.
 
 <VideoPlayer src="/images/blog/ask-prism-ai-components/demo.mp4" alt="Ask Prism Table Assistant demo showing AI-powered chain of thought" />
 
-[Ask Prism](https://github.com/Jabawack/ask-prism) is a document analytics platform I built to explore this space. Upload a PDF, ask a question, get an answer with **visual citations**—click a citation and the PDF scrolls to the exact passage, highlighted with bounding boxes.
+## The Waiting Game
 
-But the real experiment was the UI layer: how do you visualize AI reasoning in a way that builds trust?
+Picture this: you upload a 50-page contract, type a question, and hit enter. Then... nothing. A spinning circle. Maybe a "Processing..." message. Five seconds pass. Ten. Is it working? Is it stuck? Did it crash?
 
-## The Problem with AI Interfaces
+I watched testers do this over and over. They'd wait a few seconds, then start clicking around. Refresh the page. Try again. The AI was actually working fine—it just wasn't *showing* its work.
 
-Most AI chat interfaces follow the same pattern: user types, AI responds, text appears. The interaction feels like talking to a wall that occasionally talks back.
+This is the curse of the black box. Modern AI can do remarkable things, but if users can't see what's happening, they don't trust it. And if they don't trust it, they won't use it.
 
-This creates problems:
+I realized the product wasn't a document Q&A tool. It was a *trust* problem wearing a document Q&A costume.
 
-| Issue | User Impact |
-|-------|-------------|
-| **No visibility into processing** | Users don't know if the AI is working or stuck |
-| **No explainability** | Answers appear without reasoning |
-| **No verification** | Users can't check if the answer is accurate |
-| **No grounding** | Responses float without connection to source material |
+## The Moment of Clarity
 
-Ask Prism tackles all four.
+The breakthrough came from an unlikely place: watching someone use ChatGPT. When it introduced that little "Thinking..." indicator with the collapsing steps, I noticed something change in how people interacted with it. The interface was showing *process*, not just *result*.
 
-## Chain of Thought Visualization
+That's when it clicked. What if the AI didn't just give you an answer, but showed you exactly how it arrived there? Not in some abstract "here's my confidence score" way, but visually—step by step, in real time.
 
-The chain of thought component shows AI reasoning steps in real-time. I've ported this component to this portfolio's [Design System](/storybook/?path=/docs/components-chainofthought--docs) so you can interact with it directly.
+I started sketching what this might look like. Analyzing your question. Searching the documents. Finding relevant passages. Generating the answer. Verifying accuracy. Each step visible, each step building confidence.
 
-```tsx
-<ChainOfThought defaultOpen>
-  <ChainOfThoughtHeader>Processed in 4.2s</ChainOfThoughtHeader>
-  <ChainOfThoughtContent>
-    <ChainOfThoughtStep
-      label="Analyzing query"
-      description="Parsed user intent and extracted key entities"
-      status="complete"
-    />
-    <ChainOfThoughtStep
-      label="Retrieving relevant chunks"
-      status="active"
-    />
-    <ChainOfThoughtStep
-      label="Generating answer"
-      status="pending"
-    />
-  </ChainOfThoughtContent>
-</ChainOfThought>
-```
+## Seeing the Thinking
 
-The component auto-collapses when complete—inspired by ChatGPT's thinking display. Users see the work happening, then the UI cleans up.
+The chain of thought display became the heart of Ask Prism. When you ask a question, you watch the AI work through its reasoning.
 
-**[Try the interactive demo in Storybook](/storybook/?path=/story/components-chainofthought--processing-animation)**
+Each step shows what's happening in plain language. "Analyzing query" tells you it understood what you asked. "Vector search" reveals it's looking through your documents. "Verification" shows it's double-checking its work. The little checkmarks accumulate, and by the time the answer appears, you've already seen the rigor behind it.
 
-This serves multiple purposes:
+The magic is in the details. Active steps show a subtle spinner. Completed steps get a checkmark. When everything finishes, the whole panel gracefully collapses—the work is done, and the UI cleans up after itself.
 
-1. **Progress indication** - Users know the system is working
-2. **Transparency** - The AI's approach is visible
-3. **Trust building** - Showing verification steps signals rigor
-4. **Educational** - Users learn how RAG systems work
+This isn't just eye candy. Testers stopped asking "how do I know it's not making this up?" They could *see* how. The five seconds of processing that used to feel like uncertainty now felt like thoroughness.
 
-## AI Elements Component Library
+**[Try the interactive demo in Storybook](/storybook/?path=/story/components-chainofthought--processing-animation)** to see the animation in action.
 
-Ask Prism includes a comprehensive AI Elements library with 40+ components for building AI interfaces:
+## The Clickable Truth
 
-| Category | Components |
-|----------|------------|
-| **Reasoning** | Chain of thought, reasoning steps, plan display |
-| **Messages** | User/assistant messages, tool calls, artifacts |
-| **Verification** | Confirmation dialogs, checkpoints, test results |
-| **Citations** | Inline citations, sources panel, snippets |
-| **Processing** | Loaders, shimmer effects, queue displays |
-| **Code** | Code blocks, terminal output, stack traces |
+But showing the thinking wasn't enough. I wanted to go further: let users verify for themselves.
 
-These components are built with [Flowbite](https://flowbite.com/)—a Tailwind component library. The AI Elements extend Flowbite's patterns for AI-specific use cases.
+When Ask Prism gives you an answer, it includes citations—little numbered markers that reference specific passages in your documents. Here's where it gets interesting: click one of those citations, and the PDF viewer scrolls directly to that passage. Not just to the page, but to the *exact spot*, highlighted with a colored box around the relevant text.
 
-## Visual Citations with Bounding Boxes
+It's the difference between "trust me" and "here, check for yourself."
 
-The killer feature: clicking a citation scrolls the PDF viewer to the exact location and highlights the source text.
+The first time I showed this to a tester, they clicked a citation, watched the PDF jump to the highlighted passage, read it, and said "oh, that's actually what it says." The skepticism evaporated. They weren't trusting the AI anymore—they were verifying it, which is even better.
 
-How it works:
+## Trust Through Redundancy
 
-1. **PDF parsing** extracts text with position data (bounding boxes)
-2. **Chunks** preserve bbox coordinates alongside text
-3. **LLM response** includes citation references
-4. **PDF viewer** (react-pdf-highlighter-extended) renders highlights
+One more layer of paranoia: what if the AI is wrong even when it sounds confident? Document analysis in professional settings demands reliability. A wrong answer about a contract clause could have real consequences.
 
-This solves the "hallucination verification" problem. Users can instantly check if the AI's answer matches the source.
+So I built in a verification step. After the primary model generates an answer, a second model reviews it. If they disagree, a third model mediates. The chain of thought display shows all of this happening—users see "Verifying accuracy" and "Cross-checked with Claude" right there in the steps.
 
-## Multi-Model Verification Pipeline
+This multi-model approach catches hallucinations before users ever see them. The research backs this up: dual verification significantly improves accuracy over single-model approaches. The extra few seconds of processing time is worth it when accuracy matters.
 
-Ask Prism doesn't trust a single model. The verification pipeline uses multiple LLMs:
+## What This Taught Me
 
-```
-Query → GPT-5 Mini (primary answer)
-         ↓
-      Claude Haiku 4.5 (verification)
-         ↓
-      o3 (reconciliation if disagreement)
-         ↓
-      Final answer with confidence score
-```
+Building Ask Prism started as an AI project and ended as a UX project. The technical challenge—RAG pipelines, vector search, PDF parsing—was just the foundation. The real work was in the interface: making the invisible visible.
 
-Research shows dual verification achieves ~96% accuracy vs ~85% baseline. The extra latency is worth the reliability for document analysis.
+Three principles emerged that I'll carry forward:
 
-## Why This Matters for AI UX
+**Transparency beats speed.** Users would rather wait five seconds with visibility than three seconds in the dark. The processing time didn't change, but the *experience* of that time transformed completely.
 
-The AI interface patterns from Ask Prism apply broadly:
+**Verification beats trust.** Don't ask users to believe you. Give them tools to check for themselves. Clickable citations turn skeptics into believers more reliably than any reassurance.
 
-- **Chain of thought** for any multi-step AI process
-- **Visual grounding** for any retrieval-augmented system
-- **Multi-model verification** for high-stakes applications
-- **Collapsible reasoning** for power users who want details
+**Show the work, then clean up.** The chain of thought display shows everything during processing, then gracefully collapses when done. It's there when you need it, invisible when you don't.
 
-As AI moves from novelty to infrastructure, these UI patterns become table stakes. Users will expect transparency, not magic.
+The components I built for Ask Prism—the chain of thought display, the citation system, the step indicators—ended up being reusable. I've ported the chain of thought component to [this portfolio's design system](/storybook/?path=/docs/components-chainofthought--docs), where you can interact with it and see how it works.
 
-## Tech Stack
-
-| Component | Choice |
-|-----------|--------|
-| Frontend | Next.js 15 + TypeScript |
-| PDF Parsing | Reducto + pdfjs-dist (dual parser) |
-| PDF Viewer | react-pdf + react-pdf-highlighter-extended |
-| Database | Supabase (PostgreSQL + pgvector) |
-| Agent Framework | LangGraph |
-| Observability | LangSmith |
-| Primary LLM | GPT-5 Mini |
-| Verification LLM | Claude Haiku 4.5 |
-
-## What I Learned
-
-Building Ask Prism reinforced several principles:
-
-1. **Transparency > Speed** - Users prefer seeing 5 seconds of reasoning over 3 seconds of silence
-2. **Grounding builds trust** - Clickable citations transform skepticism into verification
-3. **Component libraries compound** - 40+ AI components now ready for future projects
-4. **Multi-model > single-model** - Verification catches hallucinations before users do
-
-The project started as a document Q&A tool. It became a showcase for AI interface patterns.
+What started as a document Q&A tool became something more: a template for how AI interfaces should communicate with the humans using them.
 
 ---
 
