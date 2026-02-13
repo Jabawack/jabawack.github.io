@@ -47,6 +47,12 @@ export default function AskPrismClient() {
       icon: <PsychologyIcon sx={{ fontSize: 20 }} />,
     },
     {
+      id: 'llms',
+      label: 'LLMs',
+      value: '3 Models',
+      icon: <AutoAwesomeIcon sx={{ fontSize: 20 }} />,
+    },
+    {
       id: 'verification',
       label: 'Verification',
       value: 'Multi-model',
@@ -59,10 +65,10 @@ export default function AskPrismClient() {
       icon: <FactCheckIcon sx={{ fontSize: 20 }} />,
     },
     {
-      id: 'llms',
-      label: 'LLMs',
-      value: '3 Models',
-      icon: <AutoAwesomeIcon sx={{ fontSize: 20 }} />,
+      id: 'parsing',
+      label: 'Parsing',
+      value: 'Dual',
+      icon: <ScannerIcon sx={{ fontSize: 20 }} />,
     },
     {
       id: 'stack',
@@ -70,12 +76,6 @@ export default function AskPrismClient() {
       value: 'LangGraph + Supabase + pgvector',
       colSpan: 2,
       icon: <StorageIcon sx={{ fontSize: 20 }} />,
-    },
-    {
-      id: 'parsing',
-      label: 'Parsing',
-      value: 'Dual',
-      icon: <ScannerIcon sx={{ fontSize: 20 }} />,
     },
   ];
 
