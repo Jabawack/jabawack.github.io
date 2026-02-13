@@ -160,3 +160,4 @@ nohup.out
 s3_download/
 *storybook.log
 storybook-static
+test-results/

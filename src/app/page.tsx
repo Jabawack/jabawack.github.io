@@ -15,12 +15,12 @@ import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SiteEvolutionCard from '@/components/features/site-evolution/SiteEvolutionCard';
 import Tag from '@/components/ui/Tag';
-import { getHeroGradient, getTextGradient } from '@/theme';
+import { HeroSection } from '@/components/landing';
 
 export default function Home() {
   const theme = useTheme();
 
-  const featuredProjects = [
+  const featuredWork = [
     {
       id: 'donation-mentoring',
       title: 'Donation Mentoring',
@@ -43,98 +43,46 @@ export default function Home() {
 
   return (
     <Box component="main">
-      {/* Bento Hero Section */}
+      {/* Hero Section */}
+      <HeroSection />
+
+      {/* Featured Work Section */}
       <Box
         sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          py: { xs: 10, md: 8 },
-          position: 'relative',
-          overflow: 'hidden',
+          py: { xs: 8, md: 12 },
+          backgroundColor: 'background.default',
         }}
       >
-        {/* Background gradient */}
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: getHeroGradient(theme),
-            pointerEvents: 'none',
-          }}
-        />
+        <Container maxWidth="lg">
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: '1.75rem', md: '2.25rem' },
+              fontWeight: 600,
+              mb: 4,
+              textAlign: 'center',
+            }}
+          >
+            Featured Work
+          </Typography>
 
-        <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 1 }}>
           <Grid container spacing={3}>
-            {/* Intro - Plain text, not a card */}
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Box
-                sx={{
-                  height: '100%',
-                  minHeight: { xs: 280, md: 320 },
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  p: { xs: 2, md: 4 },
-                }}
-              >
-                <Typography
-                  variant="h1"
-                  sx={{
-                    fontSize: { xs: '2.25rem', sm: '3rem', md: '3.5rem' },
-                    fontWeight: 700,
-                    background: getTextGradient(theme),
-                    backgroundClip: 'text',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    mb: 2,
-                  }}
-                >
-                  Taeho (TK) Kim
-                </Typography>
-
-                <Typography
-                  variant="h2"
-                  color="text.secondary"
-                  sx={{
-                    fontSize: { xs: '1.25rem', md: '1.5rem' },
-                    fontWeight: 400,
-                    mb: 2,
-                  }}
-                >
-                  Fullstack UX Engineer
-                </Typography>
-
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{ fontSize: { xs: '1rem', md: '1.1rem' }, lineHeight: 1.7 }}
-                >
-                  20+ years building scalable web apps with React, Python, and Django.
-                  Passionate about crafting intuitive products and mentoring engineers.
-                </Typography>
-              </Box>
-            </Grid>
-
-            {/* Building in Public Card - Large */}
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Box sx={{ height: '100%', minHeight: { xs: 280, md: 320 } }}>
+            {/* Building in Public Card */}
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <Box sx={{ height: '100%', minHeight: { xs: 280, md: 300 } }}>
                 <SiteEvolutionCard />
               </Box>
             </Grid>
 
-            {/* Project Cards - Smaller */}
-            {featuredProjects.map((project) => (
-              <Grid key={project.id} size={{ xs: 12, sm: 6, md: 4 }}>
+            {/* Portfolio Items */}
+            {featuredWork.map((item) => (
+              <Grid key={item.id} size={{ xs: 12, sm: 6, md: 3 }}>
                 <Card
                   component={Link}
-                  href={project.link}
+                  href={item.link}
                   sx={{
                     height: '100%',
-                    minHeight: 240,
+                    minHeight: 300,
                     display: 'flex',
                     flexDirection: 'column',
                     textDecoration: 'none',
@@ -150,7 +98,7 @@ export default function Home() {
                       height: 120,
                       backgroundColor: theme.palette.mode === 'dark' ? '#111' : '#f5f5f5',
                       overflow: 'hidden',
-                      ...(project.imageStyle === 'contain' && {
+                      ...(item.imageStyle === 'contain' && {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -160,10 +108,10 @@ export default function Home() {
                   >
                     <Box
                       component="img"
-                      src={project.image}
-                      alt={project.title}
+                      src={item.image}
+                      alt={item.title}
                       sx={{
-                        ...(project.imageStyle === 'contain'
+                        ...(item.imageStyle === 'contain'
                           ? {
                               maxHeight: '100%',
                               maxWidth: '100%',
@@ -180,13 +128,13 @@ export default function Home() {
                   </CardMedia>
                   <CardContent sx={{ flexGrow: 1, p: 2 }}>
                     <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 0.5 }}>
-                      {project.title}
+                      {item.title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5, fontSize: '0.85rem' }}>
-                      {project.description}
+                      {item.description}
                     </Typography>
                     <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
-                      {project.tags.slice(0, 3).map((tag) => (
+                      {item.tags.slice(0, 3).map((tag) => (
                         <Tag
                           key={tag}
                           label={tag}
@@ -201,14 +149,14 @@ export default function Home() {
               </Grid>
             ))}
 
-            {/* View All Projects Card */}
-            <Grid size={{ xs: 12, sm: 12, md: 4 }}>
+            {/* View Portfolio Card */}
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Card
                 component={Link}
                 href="/portfolio/"
                 sx={{
                   height: '100%',
-                  minHeight: { xs: 100, md: 240 },
+                  minHeight: { xs: 100, md: 300 },
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -238,12 +186,12 @@ export default function Home() {
                     }}
                   >
                     <Typography variant="h6" sx={{ fontWeight: 500 }}>
-                      View All Projects
+                      View Portfolio
                     </Typography>
                     <ArrowForwardIcon />
                   </Box>
                   <Typography variant="body2" color="text.secondary" sx={{ mt: 1, opacity: 0.7 }}>
-                    Explore the full portfolio
+                    See all work
                   </Typography>
                 </CardContent>
               </Card>

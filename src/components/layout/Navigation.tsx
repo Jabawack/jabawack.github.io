@@ -19,8 +19,14 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, alpha } from '@mui/material/styles';
 import ThemeToggle from './ThemeToggle';
+
+// Navbar style states
+const navStyles = {
+  initial: { py: 1.5, logoHeight: 32 },
+  scrolled: { py: 1, logoHeight: 28 },
+};
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -67,16 +73,29 @@ export default function Navigation() {
     <>
       <AppBar
         position="fixed"
-        elevation={trigger ? 4 : 0}
+        elevation={0}
         sx={{
           backgroundColor: trigger
-            ? (isDark ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)')
+            ? alpha(isDark ? '#000' : '#fff', 0.85)
             : 'transparent',
-          transition: 'background-color 0.3s ease',
+          backdropFilter: trigger ? 'blur(12px)' : 'none',
+          WebkitBackdropFilter: trigger ? 'blur(12px)' : 'none',
+          borderBottom: trigger
+            ? `1px solid ${alpha(isDark ? '#fff' : '#000', 0.1)}`
+            : 'none',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       >
         <Container maxWidth="lg">
-          <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+          <Toolbar
+            disableGutters
+            sx={{
+              justifyContent: 'space-between',
+              py: trigger ? navStyles.scrolled.py : navStyles.initial.py,
+              minHeight: 'auto !important',
+              transition: 'padding 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          >
             {/* Logo */}
             <Link href="/">
               <Box
@@ -84,8 +103,9 @@ export default function Navigation() {
                 src="/images/logo.svg"
                 alt="TK"
                 sx={{
-                  height: 32,
+                  height: trigger ? navStyles.scrolled.logoHeight : navStyles.initial.logoHeight,
                   width: 'auto',
+                  transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               />
             </Link>
