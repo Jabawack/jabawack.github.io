@@ -1,6 +1,6 @@
 # Section 5: Project Spotlight
 
-> **Version:** v2.10.0 | **Priority:** Phase 3
+> **Version:** v2.9.0 | **Priority:** Phase 3
 
 ## Web Terms
 - **Split/Asymmetric Layout:** Unequal two-column layout

@@ -5,6 +5,9 @@ CLAUDE.md
 # Reference docs (not checked in)
 docs/reference/
 
+# Screenshot captures (dev-only reference)
+public/images/blog/_captures/
+
 # Next.js
 .next/
 out/

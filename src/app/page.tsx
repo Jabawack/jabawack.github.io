@@ -15,7 +15,7 @@ import Link from 'next/link';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import SiteEvolutionCard from '@/components/features/site-evolution/SiteEvolutionCard';
 import Tag from '@/components/ui/Tag';
-import { HeroSection } from '@/components/landing';
+import { HeroSection, SkillsShowcase, PersonalStatement } from '@/components/landing';
 
 export default function Home() {
   const theme = useTheme();
@@ -45,6 +45,12 @@ export default function Home() {
     <Box component="main">
       {/* Hero Section */}
       <HeroSection />
+
+      {/* Skills Showcase */}
+      <SkillsShowcase />
+
+      {/* Personal Statement */}
+      <PersonalStatement />
 
       {/* Featured Work Section */}
       <Box

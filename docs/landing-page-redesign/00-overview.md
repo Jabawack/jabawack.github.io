@@ -2,22 +2,19 @@
 
 ## Version Planning
 
-This redesign spans **v2.9.0 → v3.0.0** as part of a new chapter in the site evolution.
+This redesign spans **v2.8.0 → v2.10.0** as part of Chapter 5 in the site evolution.
 
 | Version | Milestone | Status |
 |---------|-----------|--------|
-| v2.9.0 | Landing Page Foundation (Hero + Navbar enhancement) | planned |
-| v2.9.1 | Skills Showcase (Tabbed interface) | planned |
-| v2.9.2 | Personal Statement (Scroll text reveal) | planned |
-| v2.10.0 | Project Spotlight (Split layout carousel) | planned |
-| v2.10.1 | Portfolio Gallery (Sticky parallax stacking) | planned |
-| v2.10.2 | Testimonials Grid (Bento layout) | planned |
-| v3.0.0 | Landing Page Complete + Polish | planned |
+| v2.8.0 | Landing Page Foundation (Hero + Navbar enhancement) | **completed** 2026-02-12 |
+| v2.8.1 | Skills Showcase + Personal Statement + ScrollIndicator | **completed** 2026-02-13 |
+| v2.9.0 | Project Spotlight + Portfolio Gallery | planned |
+| v2.10.0 | Testimonials Grid + Final Polish | planned |
 
-### Suggested Chapter Entry
+### Chapter Entry
 
-**Chapter 4: Landing Page Evolution**
-- versions: `v2.9.0 → v3.0.0`
+**Chapter 5: Landing Page Evolution**
+- versions: `v2.8.0 → v2.10.0`
 - status: `planned`
 - Story themes: scroll-driven storytelling, modern portfolio patterns, first impressions
 
@@ -43,37 +40,39 @@ Transform the portfolio landing page into a modern, scroll-driven experience tha
 - Framer Motion (add for animations)
 - Lenis (optional, for smooth scroll)
 
-## Implementation Priority
+## Implementation Progress
 
-**Phase 1 (v2.9.x):** Foundation
-- Install Framer Motion
-- Navbar shrink-on-scroll enhancement
-- Hero Section with "Download Resume" CTA
+**Phase 1 (v2.8.0) — DONE:**
+- Framer Motion integration
+- Hero Section with View Resume / View Portfolio CTAs
+- Navbar shrink-on-scroll with glassmorphism
+- Animated scroll indicator
 
-**Phase 2 (v2.9.x cont.):** Core Sections
-- Skills Showcase (Tabbed interface)
-- Personal Statement (Scroll text reveal)
-- Testimonials Grid (Bento layout)
+**Phase 2 (v2.8.1) — DONE:**
+- Skills Showcase (Tabbed interface with 5 categories)
+- Personal Statement (Scroll-triggered word-by-word color reveal)
+- ScrollIndicator reusable component
+- Storybook stories for all new components
 
-**Phase 3 (v2.10.x):** Advanced Effects
-- Project Spotlight (Split layout carousel)
-- Portfolio Gallery (Sticky parallax stacking)
-- Smooth scrolling with Lenis (optional)
+**Phase 3 (v2.9.0) — Next:**
+- Project Spotlight (Split layout carousel, replaces basic Featured Work cards)
+- Portfolio Gallery (Sticky parallax card stacking)
 
-**Phase 4 (v3.0.0):** Polish
+**Phase 4 (v2.10.0) — Future:**
+- Testimonials Grid (Bento layout with career metrics)
 - Performance optimization
 - Mobile responsive refinements
 - Accessibility audit
-- Storybook stories for new components
 
 ## File Structure
 ```
 src/components/landing/
-├── HeroSection.tsx
-├── SkillsShowcase.tsx
-├── PersonalStatement.tsx
-├── ProjectSpotlight.tsx
-├── PortfolioGallery.tsx
-├── TestimonialsGrid.tsx
+├── HeroSection.tsx          ✅ v2.8.0
+├── SkillsShowcase.tsx       ✅ v2.8.1
+├── PersonalStatement.tsx    ✅ v2.8.1
+├── ScrollIndicator.tsx      ✅ v2.8.1 (reusable, used by Hero + Statement)
+├── ProjectSpotlight.tsx     ⬜ v2.9.0
+├── PortfolioGallery.tsx     ⬜ v2.9.0
+├── TestimonialsGrid.tsx     ⬜ v2.10.0
 └── index.ts
 ```

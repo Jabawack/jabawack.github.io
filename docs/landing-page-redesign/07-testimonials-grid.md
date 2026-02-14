@@ -1,6 +1,6 @@
 # Section 7: Testimonials Grid
 
-> **Version:** v2.10.2 | **Priority:** Phase 2
+> **Version:** v2.10.0 | **Priority:** Phase 4
 
 ## Web Terms
 - **Bento Grid:** Asymmetric grid with varying cell sizes

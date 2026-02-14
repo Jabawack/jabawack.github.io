@@ -1,6 +1,6 @@
 # Section 6: Portfolio Gallery
 
-> **Version:** v2.10.1 | **Priority:** Phase 3
+> **Version:** v2.9.0 | **Priority:** Phase 3
 
 ## Web Terms
 - **Sticky Parallax:** Elements stick during scroll, creating depth

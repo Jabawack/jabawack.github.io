@@ -183,18 +183,20 @@ export const updates: Update[] = [
   },
   {
     id: 'v2.8.1',
-    date: 'TBD',
+    date: '2026-02-13',
     version: 'v2.8.1',
     title: 'Landing Page Core Sections',
     description: 'Skills showcase and personal statement with scroll animations.',
     category: 'ux',
-    status: 'planned',
+    status: 'completed',
     tier: 'roadmap',
     chapter: 'chapter-5',
+    blogSlug: 'landing-core-sections',
     tags: ['Landing Page', 'Skills', 'Scroll Animation'],
     details: [
       'Skills showcase with tabbed interface',
       'Personal statement with scroll-triggered text reveal',
+      'Reusable scroll indicator component',
     ],
   },
   {

@@ -4,9 +4,9 @@ import { useRef } from 'react';
 import { Box, Container, Typography, Button, Stack } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArticleIcon from '@mui/icons-material/Article';
 import { getHeroGradient, getTextGradient } from '@/theme';
+import ScrollIndicator from './ScrollIndicator';
 
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
@@ -174,43 +174,20 @@ export default function HeroSection() {
       </Container>
 
       {/* Scroll indicator - absolute within section, fades on scroll */}
-      <MotionBox
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.6 }}
-        style={{ opacity: scrollIndicatorOpacity }}
-        onClick={scrollToContent}
+      <Box
         sx={{
           position: 'absolute',
           bottom: { xs: 48, md: 64 },
           left: '50%',
           transform: 'translateX(-50%)',
-          cursor: 'pointer',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
         }}
       >
-        <Typography
-          variant="caption"
-          color="text.secondary"
-          sx={{ fontSize: '0.7rem', letterSpacing: 1.5, textTransform: 'uppercase', lineHeight: 1 }}
-        >
-          Scroll
-        </Typography>
-        <MotionBox
-          animate={{
-            y: [0, 8, 0],
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        >
-          <KeyboardArrowDownIcon sx={{ color: 'text.secondary', fontSize: 28 }} />
-        </MotionBox>
-      </MotionBox>
+        <ScrollIndicator
+          onClick={scrollToContent}
+          opacityValue={scrollIndicatorOpacity}
+          fadeInDelay={1}
+        />
+      </Box>
     </Box>
   );
 }
