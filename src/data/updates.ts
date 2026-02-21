@@ -126,6 +126,22 @@ export const updates: Update[] = [
     ],
   },
   {
+    id: 'backlog-mentor-custom-slugs',
+    date: 'TBD',
+    title: 'Custom Mentor Profile Slugs',
+    description: 'Let mentors set custom URL slugs for their shareable profiles on Donation Mentoring.',
+    category: 'enhancement',
+    status: 'planned',
+    tier: 'backlog',
+    priority: 'medium',
+    tags: ['Donation Mentoring', 'UX', 'Permalinks'],
+    details: [
+      'Mentor-editable slug field in profile settings',
+      'URL changes from ?m=c4fcwc2y to ?m=tk-kim',
+      'Validation for uniqueness and URL-safe characters',
+    ],
+  },
+  {
     id: 'backlog-analytics',
     date: 'TBD',
     title: 'Analytics Integration',
