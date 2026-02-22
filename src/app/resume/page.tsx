@@ -57,8 +57,8 @@ export default function ResumePage() {
               <ProfileCard
                 stats={[
                   { value: '20+', label: 'Years', color: 'primary.light' },
-                  { value: 5, label: 'Patents', color: 'success.light' },
                   { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                  { value: 5, label: 'Patents', color: 'success.light' },
                 ]}
               />
             </Grid>

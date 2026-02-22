@@ -33,8 +33,8 @@ export const Default: Story = {
     args: {
         stats: [
             { value: '20+', label: 'Years', color: 'primary.light' },
-            { value: 5, label: 'Patents', color: 'success.light' },
             { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+            { value: 5, label: 'Patents', color: 'success.light' },
         ],
     },
 };
@@ -64,8 +64,8 @@ export const WithActions: Story = {
         <StatCard
             stats={[
                 { value: '20+', label: 'Years', color: 'primary.light' },
-                { value: 5, label: 'Patents', color: 'success.light' },
                 { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                { value: 5, label: 'Patents', color: 'success.light' },
             ]}
         >
             <Grid container spacing={2}>
@@ -142,8 +142,8 @@ export const AboutPageExample: Story = {
             <StatCard
                 stats={[
                     { value: '20+', label: 'Years', color: 'primary.light' },
-                    { value: 5, label: 'Patents', color: 'success.light' },
                     { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                    { value: 5, label: 'Patents', color: 'success.light' },
                 ]}
             >
                 <Grid container spacing={2}>

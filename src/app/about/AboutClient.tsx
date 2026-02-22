@@ -78,8 +78,8 @@ export default function AboutClient() {
               <ProfileCard
                 stats={[
                   { value: '20+', label: 'Years', color: 'primary.light' },
-                  { value: 5, label: 'Patents', color: 'success.light' },
                   { value: 2, label: 'M.S. Degrees', color: 'secondary.light' },
+                  { value: 5, label: 'Patents', color: 'success.light' },
                 ]}
               />
             </Grid>
@@ -183,7 +183,7 @@ export default function AboutClient() {
                     {patent.title}
                   </Typography>
                 </Link>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 1, maxWidth: 640 }}>
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                   {patent.description}
                 </Typography>
                 <Typography variant="caption" color="text.secondary" sx={{ mt: 1.5, display: 'block' }}>

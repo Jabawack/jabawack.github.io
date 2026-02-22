@@ -164,3 +164,6 @@ s3_download/
 *storybook.log
 storybook-static
 test-results/
+
+# Playwright MCP temp screenshots
+.mcp-playwright/
