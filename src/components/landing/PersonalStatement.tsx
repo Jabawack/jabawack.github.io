@@ -8,27 +8,35 @@ import ScrollIndicator from './ScrollIndicator';
 
 const MotionSpan = motion.create('span');
 
-const statementLines = [
-  'I like making complex things feel simple.',
-  'Building apps that grow, and helping teams do the same.',
-  'Twenty years of learning, shipping, and teaching along the way.',
-  'Good code makes someone\'s day a little easier.',
+// Segments with optional accent highlights
+const statementSegments: { text: string; accent?: boolean }[] = [
+  { text: 'I like making' },
+  { text: 'complex things feel simple.', accent: true },
+  { text: 'Building apps that' },
+  { text: 'grow,', accent: true },
+  { text: 'and helping teams do the same. Twenty years of learning,' },
+  { text: 'shipping,', accent: true },
+  { text: 'and bridging along the way.' },
+  { text: 'Thoughtful design', accent: true },
+  { text: "makes someone's day a little easier." },
 ];
+
+const fullText = statementSegments.map((s) => s.text).join(' ');
 
 function Word({
   word,
   range,
   progress,
-  activeColor,
+  targetColor,
   dimColor,
 }: {
   word: string;
   range: [number, number];
   progress: ReturnType<typeof useScroll>['scrollYProgress'];
-  activeColor: string;
+  targetColor: string;
   dimColor: string;
 }) {
-  const color = useTransform(progress, range, [dimColor, activeColor]);
+  const color = useTransform(progress, range, [dimColor, targetColor]);
 
   return (
     <MotionSpan style={{ color }} aria-hidden>
@@ -50,15 +58,15 @@ export default function PersonalStatement() {
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const activeColor = theme.palette.text.primary;
+  const accentColor = theme.palette.secondary.main;
   const dimColor =
     theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.15)';
 
-  // Flatten all words for scroll mapping
-  const allWords = statementLines.flatMap((line, lineIdx) =>
-    line.split(' ').map((word, wordIdx) => ({
+  // Flatten all segments into words, preserving accent flag
+  const allWords = statementSegments.flatMap((segment) =>
+    segment.text.split(' ').map((word) => ({
       word,
-      lineIdx,
-      key: `${lineIdx}-${wordIdx}`,
+      accent: !!segment.accent,
     }))
   );
 
@@ -94,7 +102,7 @@ export default function PersonalStatement() {
           alignItems: 'center',
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="lg">
           {prefersReducedMotion ? (
             <Typography
               variant="h3"
@@ -105,44 +113,32 @@ export default function PersonalStatement() {
                 color: 'text.primary',
               }}
             >
-              {statementLines.map((line, i) => (
-                <Box key={i} component="span" sx={{ display: 'block' }}>
-                  {line}
-                </Box>
-              ))}
+              {fullText}
             </Typography>
           ) : (
             <Typography
-              component="div"
+              component="p"
               sx={{
                 fontSize: { xs: '1.5rem', sm: '2rem', md: '2.75rem' },
                 fontWeight: 600,
                 lineHeight: 1.8,
               }}
-              aria-label={statementLines.join(' ')}
+              aria-label={fullText}
             >
-              {statementLines.map((line, lineIdx) => (
-                <Box key={lineIdx} sx={{ display: 'block' }}>
-                  {line.split(' ').map((word, wordIdx) => {
-                    const globalIdx = allWords.findIndex(
-                      (w) => w.lineIdx === lineIdx && w.key === `${lineIdx}-${wordIdx}`
-                    );
-                    // Map words across 25%–75% of scroll progress
-                    const start = 0.25 + (globalIdx / totalWords) * 0.5;
-                    const end = 0.25 + ((globalIdx + 1) / totalWords) * 0.5;
-                    return (
-                      <Word
-                        key={`${lineIdx}-${wordIdx}`}
-                        word={word}
-                        range={[start, end]}
-                        progress={scrollYProgress}
-                        activeColor={activeColor}
-                        dimColor={dimColor}
-                      />
-                    );
-                  })}
-                </Box>
-              ))}
+              {allWords.map((w, idx) => {
+                const start = 0.25 + (idx / totalWords) * 0.5;
+                const end = 0.25 + ((idx + 1) / totalWords) * 0.5;
+                return (
+                  <Word
+                    key={idx}
+                    word={w.word}
+                    range={[start, end]}
+                    progress={scrollYProgress}
+                    targetColor={w.accent ? accentColor : activeColor}
+                    dimColor={dimColor}
+                  />
+                );
+              })}
             </Typography>
           )}
         </Container>
