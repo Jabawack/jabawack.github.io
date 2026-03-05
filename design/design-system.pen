@@ -1960,7 +1960,7 @@
                               "id": "UmBLy",
                               "name": "copyright",
                               "fill": "$text-secondary",
-                              "content": "2026 Taekyung Kim",
+                              "content": "2026 TK",
                               "fontFamily": "Inter",
                               "fontSize": "$body2-size",
                               "fontWeight": "normal"
