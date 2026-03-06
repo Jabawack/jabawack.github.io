@@ -5,7 +5,7 @@ description: "How we moved Manuscript Alert from a Streamlit prototype to a mode
 tags: ["Manuscript Alert", "Migration", "UX"]
 author: "TK"
 published: true
-image: "/images/blog/manuscript-alert-streamlit-cleanup/01-before-after-cleanup.jpg"
+image: "/images/blog/manuscript-alert-01-streamlit-cleanup/01-before-after-cleanup.jpg"
 ---
 
 # Saying Goodbye to Streamlit
@@ -24,7 +24,7 @@ Streamlit was the right call for the first version. It's a Python framework that
 
 For a prototype, it was perfect. We had a working app in days. Researchers could search for papers, adjust their keyword weights, export results. The whole thing lived in a single file called `app.py`.
 
-![The opening lines of app.py, a 1,562-line Streamlit monolith that mixed imports from every corner of the project](/images/blog/manuscript-alert-streamlit-cleanup/02-streamlit-monolith.jpg)
+![The opening lines of app.py, a 1,562-line Streamlit monolith that mixed imports from every corner of the project](/images/blog/manuscript-alert-01-streamlit-cleanup/02-streamlit-monolith.jpg)
 
 That single file did everything. It imported fetchers from three different paper databases, a keyword matching engine, a settings service, a data storage layer, and a custom logging system. Then it mixed all of that together with Streamlit's UI components. Search forms, result tables, settings panels, export buttons. All in one place.
 
@@ -56,7 +56,7 @@ The deciding factor wasn't which stack was trendiest. It was which one would let
 
 Once we committed to the direction, the actual cleanup was surprisingly quick. We weren't deleting the project. We were removing the Streamlit presentation layer and everything tied to it, so we could replace it with something better.
 
-![Before and after the cleanup, showing how the project went from 23 scattered items to 14 focused ones](/images/blog/manuscript-alert-streamlit-cleanup/01-before-after-cleanup.jpg)
+![Before and after the cleanup, showing how the project went from 23 scattered items to 14 focused ones](/images/blog/manuscript-alert-01-streamlit-cleanup/01-before-after-cleanup.jpg)
 
 The core logic stayed. The fetchers that talk to PubMed, bioRxiv, and arXiv? Kept. The keyword matcher that scores papers against research interests? Kept. The services that manage settings and backups? Kept. The FastAPI server that was already running alongside Streamlit? Kept.
 

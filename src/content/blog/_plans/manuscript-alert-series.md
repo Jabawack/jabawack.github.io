@@ -44,13 +44,14 @@ This series follows the real journey, commit by commit.
 
 **Blogs 1-8:** Based on completed commits (ready to write now)
 **Blog 9:** Ready — Step 2 Frontend Redesign completed (commit `c13c083`, 2026-02-28)
-**Blogs 10-14:** Based on migration steps not yet implemented (write as work completes)
+**Blog 10:** Ready — Step 3 Backend Restructure & SSE completed (commit `bdf9ea8`, 2026-03-01; fix `b424ef4`, 2026-03-02)
+**Blogs 11-14:** Based on migration steps not yet implemented (write as work completes)
 
 ---
 
 ## Blog 1: Saying Goodbye to Streamlit
 
-**Slug:** `manuscript-alert-streamlit-cleanup`
+**Slug:** `manuscript-alert-01-streamlit-cleanup`
 **Tags:** `["Manuscript Alert", "Migration", "UX"]`
 
 **Commits:**
@@ -81,7 +82,7 @@ Sometimes the hardest part of building something new is letting go of what alrea
 
 ## Blog 2: Drawing the Map Before the Journey
 
-**Slug:** `manuscript-alert-migration-plan`
+**Slug:** `manuscript-alert-02-migration-plan`
 **Tags:** `["Manuscript Alert", "Architecture", "Planning"]`
 
 **Commits:**
@@ -111,7 +112,7 @@ Before writing a single line of new code, we needed a map. This post walks throu
 
 ## Blog 3: Organizing the Workshop
 
-**Slug:** `manuscript-alert-backend-reorganization`
+**Slug:** `manuscript-alert-03-backend-reorganization`
 **Tags:** `["Manuscript Alert", "Backend", "Architecture"]`
 
 **Commits:**
@@ -141,7 +142,7 @@ Imagine trying to cook in a kitchen where pots are in the bathroom and spices ar
 
 ## Blog 4: Breaking the Monolith
 
-**Slug:** `manuscript-alert-splitting-monolith`
+**Slug:** `manuscript-alert-04-splitting-monolith`
 **Tags:** `["Manuscript Alert", "Backend", "Refactoring"]`
 
 **Commits:**
@@ -173,7 +174,7 @@ Imagine trying to cook in a kitchen where pots are in the bathroom and spices ar
 
 ## Blog 5: Finding the Right Shape
 
-**Slug:** `manuscript-alert-backend-consolidation`
+**Slug:** `manuscript-alert-05-backend-consolidation`
 **Tags:** `["Manuscript Alert", "Backend", "Architecture"]`
 
 **Commits:**
@@ -204,7 +205,7 @@ After splitting the monolith, we still had modules scattered across `backend/`. 
 
 ## Blog 6: Upgrading the Toolkit
 
-**Slug:** `manuscript-alert-frontend-modernization`
+**Slug:** `manuscript-alert-06-frontend-modernization`
 **Tags:** `["Manuscript Alert", "Frontend", "React"]`
 
 **Commits:**
@@ -235,7 +236,7 @@ Before building the new UI, we needed modern foundations. This wasn't just bumpi
 
 ## Blog 7: Building the Safety Net
 
-**Slug:** `manuscript-alert-testing-infrastructure`
+**Slug:** `manuscript-alert-07-testing-infrastructure`
 **Tags:** `["Manuscript Alert", "Testing", "Quality"]`
 
 **Commits:**
@@ -266,7 +267,7 @@ You don't install a fire alarm after the fire. Before touching any more code, we
 
 ## Blog 8: Automating Trust
 
-**Slug:** `manuscript-alert-cicd-pipeline`
+**Slug:** `manuscript-alert-08-cicd-pipeline`
 **Tags:** `["Manuscript Alert", "CI/CD", "DevOps"]`
 
 **Commits:**
@@ -299,7 +300,7 @@ Tests are only useful if they run every time. This post covers building the CI/C
 
 ## Blog 9: The New Face (Frontend Redesign - Layout & Components)
 
-**Slug:** `manuscript-alert-frontend-redesign`
+**Slug:** `manuscript-alert-09-frontend-redesign`
 **Tags:** `["Manuscript Alert", "Frontend", "UX", "Design"]`
 
 **Commits:**
@@ -333,37 +334,42 @@ This is where the migration becomes visible. Researchers don't care about router
 
 ## Blog 10: Preparing for the Cloud (Backend v2 API)
 
-**Slug:** `manuscript-alert-backend-v2-api`
+**Slug:** `manuscript-alert-10-backend-v2-api`
 **Tags:** `["Manuscript Alert", "Backend", "API", "Architecture"]`
 
 **Commits:**
 | Phase | SHA | Description |
 |-------|-----|-------------|
-| Before | Current main | Unversioned API routes |
-| After | Step 3 completion (future) | `/api/v1/` versioned routes, pydantic-settings, SSE |
+| Before | `c13c083` | Pre-restructure (Step 2 Frontend Redesign) |
+| After | `bdf9ea8` | Step 3 Backend Restructure & SSE link to FE (+1497/-146 lines, 34 files) |
+| Fix | `b424ef4` | Fix failing test + README update |
 
 **Screenshot targets:**
-- After: API endpoint table (versioned routes)
-- After: SSE streaming demo (if available)
-- Diagram: request flow with dependency injection
+- After: API endpoint table (versioned `/api/v1/` routes)
+- After: SSE streaming demo (AgentActivityStream component)
+- After: `tree backend/src/api/v1/` showing modular route structure
+- Diagram: request flow with dependency injection (`deps.py`)
 
 **Story angle:**
-The backend needs to grow up before it can move to the cloud. This post covers versioning the API (`/api/v1/`), adding proper configuration management with pydantic-settings, preparing SSE endpoints for real-time agent updates, and setting up dependency injection. All while keeping the existing frontend working.
+The backend needs to grow up before it can move to the cloud. This post covers versioning the API (`/api/v1/`), adding proper configuration management with pydantic-settings, preparing SSE endpoints for real-time agent updates, and setting up dependency injection. All while keeping the existing frontend working — the SSE stream is already wired into the frontend.
 
 **Key beats:**
 1. Why API versioning matters (backward compatibility as we evolve)
-2. pydantic-settings: configuration from env vars, not hardcoded paths
-3. SSE endpoints: preparing for real-time agent activity streams
-4. Dependency injection: clean, testable code
-5. The backward compatibility strategy: old routes still work during transition
+2. pydantic-settings: configuration from env vars, not hardcoded paths (`.env.example`)
+3. SSE endpoints: real-time agent activity streams (`events.py` + `useAgentStream.ts`)
+4. Dependency injection: clean, testable code (`deps.py` at 57 lines)
+5. New v1 routes: health, settings, papers, models, backups, kb
+6. Frontend integration: `AgentActivityStream` component (248+ lines) wired to SSE
+7. The backward compatibility strategy: old `server.py` routes still work during transition
 
 **Word target:** 1000-1200 words
+**Status:** Ready — Step 3 completed 2026-03-01 (commit `bdf9ea8`)
 
 ---
 
 ## Blog 11: Moving to the Database (Neon Postgres)
 
-**Slug:** `manuscript-alert-neon-database`
+**Slug:** `manuscript-alert-11-neon-database`
 **Tags:** `["Manuscript Alert", "Database", "Cloud"]`
 
 **Commits:**
@@ -394,7 +400,7 @@ JSON files don't scale. When you want to search, filter, and analyze thousands o
 
 ## Blog 12: Going Live (Cloud Deployment)
 
-**Slug:** `manuscript-alert-cloud-deployment`
+**Slug:** `manuscript-alert-12-cloud-deployment`
 **Tags:** `["Manuscript Alert", "Deployment", "Cloud"]`
 
 **Commits:**
@@ -425,7 +431,7 @@ From running on one laptop to accessible from anywhere. This post covers deployi
 
 ## Blog 13: Teaching the App to Think (AI Agent Pipeline)
 
-**Slug:** `manuscript-alert-ai-agents`
+**Slug:** `manuscript-alert-13-ai-agents`
 **Tags:** `["Manuscript Alert", "AI", "Agents"]`
 
 **Commits:**
@@ -456,7 +462,7 @@ What if the app could think like a researcher? Instead of just matching keywords
 
 ## Blog 14: Building a Research Memory (Knowledge Base)
 
-**Slug:** `manuscript-alert-knowledge-base`
+**Slug:** `manuscript-alert-14-knowledge-base`
 **Tags:** `["Manuscript Alert", "AI", "Knowledge Base"]`
 
 **Commits:**
@@ -502,6 +508,8 @@ The final piece: giving the app a memory. Researchers build knowledge over years
 | 11 | `642c644` | pipline fix | Blog 8 | After: green CI |
 | 12 | `036c5cd` | share initial setup | Blog 8 | After: final CI state |
 | 13 | `c13c083` | Step 2 Frontend Redesign | Blog 9 | Before/After: UI screenshots, component tree |
+| 14 | `bdf9ea8` | Step 3 Backend Restructure & SSE link to FE | Blog 10 | After: v1 routes, SSE stream, deps.py |
+| 15 | `b424ef4` | fix the failing test | Blog 10 | After: green tests, updated README |
 
 ---
 
