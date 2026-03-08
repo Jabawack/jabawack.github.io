@@ -1,0 +1,43 @@
+---
+title: "Organizing the Workshop"
+date: "2026-03-07"
+description: "DK had already added a frontend/ folder. The Python code needed a matching home. This commit gives the project clear top-level boundaries."
+tags: ["Manuscript Alert", "Backend", "Architecture"]
+author: "TK"
+published: true
+image: "/images/blog/manuscript-alert-03-backend-reorganization/01-before-after-tree.jpg"
+---
+
+# Organizing the Workshop
+
+In the [last post](/blog/manuscript-alert-02-migration-plan), I wrote out the migration plan. Seven steps from tests to AI agents. Now it was time to start the actual work.
+
+DK had already added React in a `frontend/` folder during an earlier pass at modernizing the app. But the Python code was still scattered across the project root. Six directories sitting at the top level: `config/`, `data/`, `fetchers/`, `processors/`, `services/`, `utils/`. All mixed in with `frontend/`, `docs/`, and `scripts/`. If you opened the project for the first time, nothing told you which folders were Python and which were JavaScript.
+
+With `frontend/` already in place, the natural next step was giving the backend its own home too.
+
+## The Move
+
+I created a `backend/` directory and moved every Python module into it. The internal structure stayed the same. `fetchers/` became `backend/fetchers/`. `processors/` became `backend/processors/`. Each directory got a proper `__init__.py` so Python would recognize the new package.
+
+![Six scattered Python directories consolidated into a single backend/ folder](/images/blog/manuscript-alert-03-backend-reorganization/02-before-after-tree.jpg)
+
+The project root went from fifteen items down to ten. More importantly, it now had clear boundaries. Everything inside `backend/` is Python. Everything inside `frontend/` is JavaScript. You can orient yourself at a glance.
+
+I also cleaned out 54 settings backup files that had been accumulating in `config/backups/` since October 2025. Full copies of the research configuration from old debugging sessions, still sitting in version control. That accounts for most of the commit stats: 74 files changed, but 7,976 of the deleted lines were those backup files.
+
+## Updating References
+
+Six import statements in `server.py` needed updating. `from fetchers.arxiv_fetcher` became `from backend.fetchers.arxiv_fetcher`. Two path constants (the archive directory and model presets) got `backend/` prepended. That was the extent of the code changes.
+
+![Every import path in server.py updated to point through the new backend/ directory](/images/blog/manuscript-alert-03-backend-reorganization/03-import-changes.jpg)
+
+Since we didn't have automated tests yet, I split this work across multiple days and asked DK to test throughout. He's the daily power user of the app, running searches and reviewing papers as part of his actual research workflow. Having him validate that paper searches, settings, model presets, and backups all still worked correctly was our safety net during these structural changes.
+
+## What This Set Up
+
+The commit didn't change any functionality. Researchers see no difference. But the codebase now has a structure that matches what the project actually is: a Python backend and a JavaScript frontend, each in their own space.
+
+It also made the next step possible. That 688-line `server.py` handling every API endpoint in a single file is easier to break apart when the modules it depends on are already organized under a clean package.
+
+That split is the next post.

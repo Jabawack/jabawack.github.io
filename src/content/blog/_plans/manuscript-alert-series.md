@@ -47,6 +47,30 @@ This series follows the real journey, commit by commit.
 **Blog 10:** Ready — Step 3 Backend Restructure & SSE completed (commit `bdf9ea8`, 2026-03-01; fix `b424ef4`, 2026-03-02)
 **Blogs 11-14:** Based on migration steps not yet implemented (write as work completes)
 
+## Real Backstory (for writing context)
+
+**Authors:** TK (engineering, all migration commits) and DK/Donghoon (domain expert, daily power user, tester). Blog is written from TK's perspective ("I") with DK referenced as collaborator.
+
+**How the v2 started:** DK had already added React in a `frontend/` folder but hadn't removed Streamlit. TK and DK discussed and decided to do a full v2 revamp together.
+
+**The actual execution sequence and reasoning:**
+
+1. **Backend reorganization** (`a71c920`): Since DK had already created `frontend/`, TK moved all Python code into `backend/` to keep the monorepo structure consistent. This was about giving the project clear boundaries, not about test paths.
+
+2. **Monolith split** (`b2f4d08`): Once the backend reorganization was confirmed working, TK split the 688-line `server.py` into dedicated router and service files. The primary principle applied was **Single Responsibility** (each file has one clear job). The refactor followed practical conventions (routers, services, schemas) rather than textbook SOLID.
+
+3. **README update** (`d39edcf`): TK noticed the README still had Streamlit-era instructions and updated the backend documentation.
+
+4. **Frontend modernization** (`7c92d96`): Proactive major version upgrades (Next.js 15→16, Tailwind 3→4, React 19.0→19.1). NOT security/dependabot driven. Intentional modernization before building the new UI.
+
+5. **Backend consolidation + docs** (`2c1be18`, `04decd7`): Further organization (modules under `backend/src/`) and documentation updates.
+
+6. **Tests & CI/CD** (`e220ebb`, `0903208`, `642c644`, `036c5cd`): Written AFTER all structural work was complete. TK and DK manually tested throughout the reorganization days, with DK as the daily power user validating existing features still worked. Automated tests and CI/CD were added once the codebase had its final shape, because after this point the real feature improvements were about to begin.
+
+**Key pattern:** Changes were split across multiple days intentionally. After each structural change, DK tested the app as a daily user to confirm existing features and behavior remained intact. This manual validation was the safety net before automated tests existed.
+
+**Important:** Do NOT invent motivations or reasoning not supported by the commit data or this backstory. When unsure about why a decision was made, state what happened and leave it at that. Do not fabricate design debates or tradeoff analyses.
+
 ---
 
 ## Blog 1: Saying Goodbye to Streamlit
@@ -127,14 +151,14 @@ Before writing a single line of new code, we needed a map. This post walks throu
 - Diff: side-by-side directory comparison
 
 **Story angle:**
-Imagine trying to cook in a kitchen where pots are in the bathroom and spices are in the garage. That was our codebase, with Python modules scattered across the project root next to frontend files. This post covers the first step: giving everything a home.
+DK had already added `frontend/`. The Python code needed a matching home. This commit gives the project clear top-level boundaries so both contributors can navigate it.
 
 **Key beats:**
-1. Why directory structure matters (especially in a full-stack app)
-2. The before: config/, fetchers/, processors/ all at root level alongside frontend/
-3. The move: everything into backend/ with proper __init__.py
-4. How imports change (and why this is a clean break)
-5. Setting up for the next phase: modularity
+1. The starting point: 6 Python dirs at root alongside frontend/ that DK had already created
+2. The move: everything into backend/ to match frontend/, keeping the monorepo consistent
+3. Import paths updated in server.py (6 imports, 2 path constants)
+4. 54 stale backup files cleaned out in the same commit
+5. DK validated existing features still worked after the change
 
 **Word target:** 800-1000 words
 
@@ -158,15 +182,15 @@ Imagine trying to cook in a kitchen where pots are in the bathroom and spices ar
 - Diagram: how requests flow through router → service → fetcher
 
 **Story angle:**
-688 lines. That's how long our single API file had grown. Every endpoint, every business rule, every data transformation crammed into one file. This post is about the satisfying process of splitting it apart: 5 focused routers, a proper service layer, and Pydantic schemas for type safety.
+Once the backend reorganization was confirmed working (with DK testing daily), TK split the 688-line server.py into dedicated files. The primary principle applied was Single Responsibility: each file gets one clear job.
 
 **Key beats:**
-1. The pain of a monolithic API file (can't find anything, merge conflicts, cognitive overload)
+1. 688-line server.py handling every endpoint in one file
 2. The split: health (15 lines), settings (28), papers (151), models (87), backups (56)
-3. Extracting the service layer (paper_service at 221 lines, doing the real work)
+3. Extracting the service layer (paper_service at 221 lines)
 4. Adding Pydantic schemas for request/response validation
-5. The result: each file does one thing, and does it well
-6. Stats: +816/-718 lines, but the codebase got simpler
+5. Primary principle: Single Responsibility (each file has one job). NOT a full SOLID refactor — no dependency injection, no interfaces, no abstraction layers.
+6. DK tested existing features after the split to confirm nothing broke
 
 **Word target:** 1200-1500 words
 
@@ -220,7 +244,7 @@ After splitting the monolith, we still had modules scattered across `backend/`. 
 - After: UI screenshot of the new interface (if available, run the dev server at this commit)
 
 **Story angle:**
-Before building the new UI, we needed modern foundations. This wasn't just bumping version numbers. Next.js 16, React 19, and Tailwind CSS 4 are major upgrades that change how you build. This post covers what changed, why it matters for the user experience, and how we prepared the component architecture.
+Proactive major version upgrades before building the new UI. Next.js 15→16, Tailwind 3→4, React 19.0→19.1. This was intentional modernization (not security/dependabot driven). Removed autoprefixer (no longer needed with Tailwind v4), simplified config files.
 
 **Key beats:**
 1. Why upgrade before building (don't build on old foundations)
