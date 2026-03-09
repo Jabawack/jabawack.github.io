@@ -102,6 +102,9 @@ Sometimes the hardest part of building something new is letting go of what alrea
 
 **Word target:** 1200-1500 words
 
+**Thumbnail prompt:**
+> Isometric illustration of a cozy workshop with a glowing Streamlit app on a screen being gently unplugged. Beside it, a clean empty workbench awaits with blueprints and modern tools. Soft blue and teal tones with warm amber accents. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 2: Drawing the Map Before the Journey
@@ -131,6 +134,9 @@ Before writing a single line of new code, we needed a map. This post walks throu
 6. What's on the horizon: AI-powered paper discovery
 
 **Word target:** 1000-1200 words
+
+**Thumbnail prompt:**
+> Isometric illustration of an architect's desk with a large unrolled blueprint showing a 7-step roadmap path winding through a landscape. Small milestones marked along the path with tiny flags. Compass and ruler beside the map. Blue and teal palette with golden path highlights. No text. Landscape 1200x630.
 
 ---
 
@@ -162,9 +168,12 @@ DK had already added `frontend/`. The Python code needed a matching home. This c
 
 **Word target:** 800-1000 words
 
+**Thumbnail prompt:**
+> Isometric illustration of a tidy workshop with labeled shelves and bins. Files and folders being sorted from a messy pile into neatly organized compartments labeled "backend" and "frontend". Clean lines, blue and teal tones with warm wood textures. No text. Landscape 1200x630.
+
 ---
 
-## Blog 4: Breaking the Monolith
+## Blog 4: Making Space for What's Next
 
 **Slug:** `manuscript-alert-04-splitting-monolith`
 **Tags:** `["Manuscript Alert", "Backend", "Refactoring"]`
@@ -193,6 +202,9 @@ Once the backend reorganization was confirmed working (with DK testing daily), T
 6. DK tested existing features after the split to confirm nothing broke
 
 **Word target:** 1200-1500 words
+
+**Thumbnail prompt:**
+> Isometric illustration representing "Making Space for What's Next". A bright, airy room where one wall has been opened up to reveal a spacious new addition being built. The existing room is cozy but full. The new space beyond is clean, open, and flooded with natural light. Construction is gentle, not chaotic. Blue-teal and warm wood tones. No text. Landscape 1200x630.
 
 ---
 
@@ -225,6 +237,9 @@ After splitting the monolith, we still had modules scattered across `backend/`. 
 
 **Word target:** 800-1000 words
 
+**Thumbnail prompt:**
+> Isometric illustration of puzzle pieces clicking into their final positions inside a clean container. Some pieces are labeled with subtle icons (gear, document, data). The container has a "src/" label embossed on it. Satisfying precision-fit composition. Blue and teal palette with soft green accents. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 6: Upgrading the Toolkit
@@ -256,6 +271,9 @@ Proactive major version upgrades before building the new UI. Next.js 15→16, Ta
 
 **Word target:** 1000-1200 words
 
+**Thumbnail prompt:**
+> Isometric illustration of a workbench where old tools are being swapped for shiny new modern ones. A toolbox lid open showing fresh versions of a wrench, screwdriver, and hammer, each with a small version number tag. The old tools sit in a "retired" bin nearby. Blue-teal tones with metallic silver highlights. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 7: Building the Safety Net
@@ -286,6 +304,9 @@ You don't install a fire alarm after the fire. Before touching any more code, we
 6. Setting up for CI (preview of next post)
 
 **Word target:** 1000-1200 words
+
+**Thumbnail prompt:**
+> Isometric illustration of a safety net being woven beneath a tightrope walker (representing code). The net is made of interconnected test nodes glowing green. A scoreboard shows "344 passed". Circus/acrobat theme with blue-teal palette and bright green accent for passing tests. No text. Landscape 1200x630.
 
 ---
 
@@ -320,6 +341,9 @@ Tests are only useful if they run every time. This post covers building the CI/C
 
 **Word target:** 1000-1200 words
 
+**Thumbnail prompt:**
+> Isometric illustration of a conveyor belt assembly line with code blocks moving through checkpoints. Each checkpoint has a green checkmark stamp. A robot arm performs automated quality control. Pipeline tubes connect the stations. Blue-teal industrial palette with green status lights. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 9: The New Face (Frontend Redesign - Layout & Components)
@@ -353,6 +377,9 @@ This is where the migration becomes visible. Researchers don't care about router
 
 **Word target:** 1200-1500 words
 **Status:** Ready — Step 2 completed 2026-02-28 (commit `c13c083`)
+
+**Thumbnail prompt:**
+> Isometric illustration of a building facade being renovated. The left half shows an old plain interface, the right half reveals a modern 3-column glass panel design with search, feed, and detail sections. Scaffolding and a paint roller in transition. Blue-teal palette with warm orange construction accents. No text. Landscape 1200x630.
 
 ---
 
@@ -389,6 +416,9 @@ The backend needs to grow up before it can move to the cloud. This post covers v
 **Word target:** 1000-1200 words
 **Status:** Ready — Step 3 completed 2026-03-01 (commit `bdf9ea8`)
 
+**Thumbnail prompt:**
+> Isometric illustration of a launchpad with an API rocket being prepared for takeoff. Ground crew connects versioned fuel lines (labeled v1). A control tower monitors SSE signal streams flowing to a nearby screen. Blue-teal space theme with warm exhaust glow. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 11: Moving to the Database (Neon Postgres)
@@ -419,6 +449,9 @@ JSON files don't scale. When you want to search, filter, and analyze thousands o
 6. What this unlocks: sharing data across devices, proper search
 
 **Word target:** 1000-1200 words
+
+**Thumbnail prompt:**
+> Isometric illustration of JSON files being loaded onto a conveyor belt that feeds into a glowing Postgres database cylinder. Data transforms from flat documents into structured table rows as it moves. A neon-green glow emanates from the database. Blue-teal palette with neon green accents. No text. Landscape 1200x630.
 
 ---
 
@@ -451,6 +484,9 @@ From running on one laptop to accessible from anywhere. This post covers deployi
 
 **Word target:** 1000-1200 words
 
+**Thumbnail prompt:**
+> Isometric illustration of a control room with three screens showing a live deployment. One screen shows a frontend (Vercel logo hint), one shows a backend server (Render), one shows a database (Neon). Green status indicators everywhere. A "LIVE" beacon glows on top. Blue-teal palette with celebratory warm tones. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 13: Teaching the App to Think (AI Agent Pipeline)
@@ -482,6 +518,9 @@ What if the app could think like a researcher? Instead of just matching keywords
 
 **Word target:** 1200-1500 words
 
+**Thumbnail prompt:**
+> Isometric illustration of 7 specialized robot workers on an assembly line, each doing a distinct task (searching, fetching, analyzing, deduplicating, summarizing). Research papers flow through the pipeline. A real-time activity monitor shows agent progress. Blue-teal palette with warm AI-orange glowing eyes on the robots. No text. Landscape 1200x630.
+
 ---
 
 ## Blog 14: Building a Research Memory (Knowledge Base)
@@ -512,6 +551,9 @@ The final piece: giving the app a memory. Researchers build knowledge over years
 6. What this means for researchers: personalized paper discovery
 
 **Word target:** 1200-1500 words
+
+**Thumbnail prompt:**
+> Isometric illustration of a glowing brain-shaped library where research papers float into organized shelves. A magnifying glass searches by meaning (connected dots) rather than keywords (letters). Pinecone-shaped data structures store embeddings. Blue-teal palette with warm purple knowledge-glow. No text. Landscape 1200x630.
 
 ---
 
