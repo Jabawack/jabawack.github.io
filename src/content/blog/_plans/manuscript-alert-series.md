@@ -49,7 +49,7 @@ This series follows the real journey, commit by commit.
 
 ## Real Backstory (for writing context)
 
-**Authors:** TK (engineering, all migration commits) and DK/Donghoon (domain expert, daily power user, tester). Blog is written from TK's perspective ("I") with DK referenced as collaborator.
+**Authors:** TK (engineering, all migration commits) and [DK](https://github.com/dknkim)/Donghoon (domain expert, daily power user, tester). Blog is written from TK's perspective ("I") with DK referenced as collaborator. **First mention of DK in each blog post should link to his GitHub:** `[DK](https://github.com/dknkim)`. Subsequent mentions in the same post use plain "DK".
 
 **How the v2 started:** DK had already added React in a `frontend/` folder but hadn't removed Streamlit. TK and DK discussed and decided to do a full v2 revamp together.
 

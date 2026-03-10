@@ -12,7 +12,7 @@ image: "/images/blog/manuscript-alert-03-backend-reorganization/01-before-after-
 
 In the [last post](/blog/manuscript-alert-02-migration-plan), I wrote out the migration plan. Seven steps from tests to AI agents. Now it was time to start the actual work.
 
-DK had already added React in a `frontend/` folder during an earlier pass at modernizing the app. But the Python code was still scattered across the project root. Six directories sitting at the top level: `config/`, `data/`, `fetchers/`, `processors/`, `services/`, `utils/`. All mixed in with `frontend/`, `docs/`, and `scripts/`. If you opened the project for the first time, nothing told you which folders were Python and which were JavaScript.
+[DK](https://github.com/dknkim) had already added React in a `frontend/` folder during an earlier pass at modernizing the app. But the Python code was still scattered across the project root. Six directories sitting at the top level: `config/`, `data/`, `fetchers/`, `processors/`, `services/`, `utils/`. All mixed in with `frontend/`, `docs/`, and `scripts/`. If you opened the project for the first time, nothing told you which folders were Python and which were JavaScript.
 
 With `frontend/` already in place, the natural next step was giving the backend its own home too.
 
