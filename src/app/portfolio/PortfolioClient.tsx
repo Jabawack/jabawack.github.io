@@ -200,7 +200,7 @@ const DEFAULT_VISIBLE_TAGS = 9;
 
 export default function PortfolioClient() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('live');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [showAllTags, setShowAllTags] = useState(false);
   const theme = useTheme();
@@ -269,12 +269,12 @@ export default function PortfolioClient() {
 
   const clearFilters = () => {
     setSearchQuery('');
-    setStatusFilter('all');
+    setStatusFilter('live');
     setSelectedTags([]);
     setShowAllTags(false);
   };
 
-  const hasActiveFilters = searchQuery || statusFilter !== 'all' || selectedTags.length > 0;
+  const hasActiveFilters = searchQuery || statusFilter !== 'live' || selectedTags.length > 0;
 
   return (
     <Box component="main" sx={{ py: 8 }}>

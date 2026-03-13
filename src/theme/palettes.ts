@@ -14,7 +14,7 @@ export const darkPalette: PaletteOptions = {
     paper: '#0a0a0a',
   },
   text: {
-    primary: '#e0e0e0',
+    primary: '#d4d4d4',
     secondary: '#aeaecb',
   },
   divider: 'rgba(255, 255, 255, 0.1)',

@@ -106,6 +106,7 @@ export default function Navigation() {
                   height: trigger ? navStyles.scrolled.logoHeight : navStyles.initial.logoHeight,
                   width: 'auto',
                   transition: 'height 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  ...(isDark && { filter: 'invert(1) brightness(1.5)' }),
                 }}
               />
             </Link>

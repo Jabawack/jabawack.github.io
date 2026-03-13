@@ -122,7 +122,7 @@ export default function SkillsShowcase() {
           <Typography
             variant="h2"
             sx={{
-              fontSize: { xs: '1.75rem', md: '2.25rem' },
+              fontSize: { xs: '2rem', md: '2.5rem' },
               fontWeight: 600,
               mb: 4,
               textAlign: 'center',
@@ -145,8 +145,7 @@ export default function SkillsShowcase() {
             <Tabs
               value={activeTab}
               onChange={(_, v) => setActiveTab(v)}
-              variant="scrollable"
-              scrollButtons="auto"
+              variant="fullWidth"
               sx={{
                 borderBottom: `1px solid ${theme.palette.divider}`,
                 '& .MuiTab-root': {
@@ -155,12 +154,18 @@ export default function SkillsShowcase() {
                   fontSize: { xs: '0.85rem', md: '0.95rem' },
                   minHeight: 56,
                   gap: 0.5,
-                },
-                '& .Mui-selected': {
-                  color: 'secondary.main',
+                  px: { xs: 1, md: 2 },
+                  color: theme.palette.text.secondary,
+                  '& .MuiTab-iconWrapper': {
+                    marginRight: 0.5,
+                    marginBottom: 0,
+                  },
+                  '&.Mui-selected': {
+                    color: theme.palette.secondary.main,
+                  },
                 },
                 '& .MuiTabs-indicator': {
-                  backgroundColor: 'secondary.main',
+                  backgroundColor: theme.palette.secondary.main,
                 },
               }}
             >
@@ -184,7 +189,7 @@ export default function SkillsShowcase() {
                     sx={{
                       mb: 3,
                       lineHeight: 1.8,
-                      fontSize: { xs: '0.95rem', md: '1.05rem' },
+                      fontSize: { xs: '1.05rem', md: '1.2rem' },
                     }}
                   >
                     {skillCategories[activeTab].description}
@@ -192,7 +197,13 @@ export default function SkillsShowcase() {
 
                   <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
                     {skillCategories[activeTab].tags.map((tag) => (
-                      <Tag key={tag} label={tag} size="small" variant="secondary" />
+                      <Tag
+                        key={tag}
+                        label={tag}
+                        size="small"
+                        variant="outlined"
+                        sx={{ borderColor: alpha(theme.palette.secondary.main, 0.3) }}
+                      />
                     ))}
                   </Stack>
                 </MotionBox>
