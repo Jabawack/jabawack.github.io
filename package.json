@@ -54,6 +54,7 @@
     "@types/react-dom": "^19.0.0",
     "@vitest/browser-playwright": "^4.0.17",
     "@vitest/coverage-v8": "^4.0.17",
+    "agentation": "^2.3.2",
     "concurrently": "^9.2.1",
     "playwright": "^1.57.0",
     "rehype-pretty-code": "^0.14.1",

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import ThemeRegistry from '@/components/layout/ThemeRegistry';
 import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
+import AgentationWrapper from '@/components/layout/AgentationWrapper';
 import { siteConfig } from '@/config/seo';
 import '@/styles/globals.css';
 
@@ -75,6 +76,7 @@ export default function RootLayout({
           <Navigation />
           <main>{children}</main>
           <Footer />
+          <AgentationWrapper />
         </ThemeRegistry>
       </body>
     </html>
