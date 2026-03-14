@@ -5,7 +5,7 @@ export const siteConfig = {
   name: 'TK Portfolio',
   author: 'TK',
   description:
-    'Fullstack UX Engineer with 20+ years building scalable web apps with React, Python, and Django. Passionate about crafting intuitive products and mentoring engineers.',
+    'UX Engineer with 20+ years building fullstack web apps with React, TypeScript, Python, and Next.js. From design systems to AI pipelines.',
 };
 
 // Page-specific SEO config
@@ -16,15 +16,15 @@ const pages: Record<string, { title: string; description: string }> = {
   },
   '/about/': {
     title: 'About',
-    description: 'Learn about TK - Fullstack UX Engineer with 20+ years of experience building web applications.',
+    description: 'Engineer and UX Researcher with 20+ years shipping products. 5 patents, mentors engineers, and bridges the gap between UX and fullstack engineering.',
   },
   '/resume/': {
     title: 'Resume',
-    description: "View or download TK's resume - Fullstack UX Engineer with 20+ years of experience.",
+    description: "TK's resume — React, TypeScript, Python, Django, Next.js. 20+ years fullstack engineering with UX depth. Available as PDF download.",
   },
   '/portfolio/': {
     title: 'Portfolio',
-    description: 'Explore projects by TK - web applications, UX design, and fullstack development.',
+    description: 'Projects by TK: AI document analytics, 3D flight visualization, research paper tools, and a design system. React, Python, and Next.js.',
   },
   '/portfolio/site-evolution/': {
     title: 'Site Evolution',
@@ -44,7 +44,7 @@ const pages: Record<string, { title: string; description: string }> = {
   },
   '/portfolio/design-system/': {
     title: 'Design System',
-    description: 'Storybook component library showcasing the UI building blocks of this portfolio.',
+    description: 'Material UI component library built with Storybook — design tokens, theming, and accessible React components powering this portfolio.',
   },
   '/portfolio/manuscript-alert/': {
     title: 'Manuscript Alert',
@@ -52,7 +52,7 @@ const pages: Record<string, { title: string; description: string }> = {
   },
   '/blog/': {
     title: 'Blog',
-    description: 'Articles about web development, design, and technology.',
+    description: 'Case studies and build logs: AI components, React architecture, UX decisions, and the journey from jQuery to Next.js. Written by TK.',
   },
 };
 

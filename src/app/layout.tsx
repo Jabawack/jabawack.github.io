@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     template: '%s | TK',
   },
   description:
-    'Fullstack UX Engineer with 20+ years building scalable web apps with React, Python, and Django. Passionate about crafting intuitive products and mentoring engineers.',
-  keywords: ['Fullstack Engineer', 'UX Engineer', 'React', 'TypeScript', 'Python', 'Django', 'Portfolio'],
+    'UX Engineer with 20+ years building fullstack web apps with React, TypeScript, Python, and Next.js. From design systems to AI pipelines.',
+  keywords: ['UX Engineer', 'Fullstack Engineer', 'React', 'TypeScript', 'Next.js', 'Python', 'Django', 'Frontend Engineer', 'AI', 'LLM', 'Design System', 'Portfolio'],
   authors: [{ name: 'TK' }],
   creator: 'TK',
   icons: {
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     siteName: 'TK Portfolio',
     title: 'TK | Fullstack UX Engineer',
     description:
-      'Fullstack UX Engineer with 20+ years building scalable web apps with React, Python, and Django.',
+      'UX Engineer with 20+ years building fullstack web apps with React, TypeScript, Python, and Next.js.',
     images: [
       {
         url: '/images/logo.png',
         width: 512,
         height: 512,
-        alt: 'TK - Fullstack UX Engineer',
+        alt: 'TK - UX Engineer',
       },
     ],
   },
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'TK | Fullstack UX Engineer',
     description:
-      'Fullstack UX Engineer with 20+ years building scalable web apps with React, Python, and Django.',
+      'UX Engineer with 20+ years building fullstack web apps with React, TypeScript, Python, and Next.js.',
     images: ['/images/logo.png'],
   },
   robots: {

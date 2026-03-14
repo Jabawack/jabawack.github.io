@@ -46,7 +46,7 @@ export const BlogAuthorFooter: React.FC = () => {
               Written by TK
             </Typography>
             <Typography variant="caption" color="text.secondary">
-              Software Engineer & UX Enthusiast
+              UX Engineer
             </Typography>
           </Box>
         </Stack>
