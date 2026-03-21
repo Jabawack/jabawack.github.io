@@ -1,0 +1,72 @@
+---
+title: "Testing What You Haven't Built Yet"
+date: "2026-03-21"
+description: "A broken tag input for new mentors revealed that our migration testing only covered existing users, not the people who would come next"
+tags: ["UX", "Donation Mentoring"]
+author: "TK"
+published: true
+image: "/images/blog/tag-input-parsing-fix/01-thumbnail.jpg"
+---
+
+# Testing What You Haven't Built Yet
+
+When we migrated [Donation Mentoring](https://www.donation-mentoring.org/) from Notion to a new stack with Next.js, Vercel, and Supabase, everything went smoothly. All existing mentor data came over cleanly. Profiles loaded, tags displayed, bookings worked. We verified with mentors already on the platform and felt confident in the migration.
+
+What we missed was the experience of someone who wasn't there yet.
+
+## A New Mentor's First Impression
+
+Every mentor on the platform describes their expertise through tags. These are the labels that appear on mentor cards: "Frontend", "UX", "AI", "Resume". They're how mentees browse and decide who to reach out to. Getting them right matters because they're often the first thing a mentee reads.
+
+![The Donation Mentoring mentor list showing expertise tags on each card, the labels mentors set through their profile form](/images/blog/tag-input-parsing-fix/01-thumbnail.jpg)
+
+To set these tags, mentors type comma-separated values into a text field on their profile form. "Frontend, UX, AI." Straightforward.
+
+Except for new mentors, it wasn't. Several users reported that the tag input felt broken. The moment they typed a comma, it disappeared. Adding a space after the comma caused the cursor to jump. Editing a tag in the middle of the list moved their cursor to the end. The input was actively working against them at every step.
+
+For someone filling out their profile for the first time, this was their introduction to the platform. And that introduction was telling them: this form doesn't want your input.
+
+## Why Existing Mentors Never Saw It
+
+The key detail was that existing mentors had their tags migrated from Notion. When they opened their profile, the form loaded a pre-formatted string: "Frontend, UX, AI." Already complete. Already clean. If they glanced at the field and moved on, nothing seemed wrong.
+
+![Pull Request #24 on GitHub showing the problem description and fix for the tag parsing bug](/images/blog/tag-input-parsing-fix/02-profile-form.jpg)
+
+But new mentors started with an empty field. They had to type from scratch. And typing is inherently messy. You type a word, add a comma, pause, type a space, start the next word. These intermediate states, the half-finished thoughts, are a normal part of how people interact with text fields.
+
+The form wasn't designed for that. On every keystroke, it would take whatever was in the field, split it by commas, clean up each piece, and replace the entire contents. For pre-filled tags, this was invisible. For someone mid-keystroke, it meant their commas got stripped, their spaces got eaten, and their cursor lost its place. The form was optimized for displaying finished data, not for the act of creating it.
+
+## What We Changed
+
+The fix was focused on respecting the typing experience. The form now holds whatever the mentor types exactly as they type it, commas, spaces, partial words, all of it. It only steps in to organize tags when the mentor moves on from the field. That's the natural moment where "I'm still thinking" becomes "I'm done."
+
+![A mentor card on Donation Mentoring showing expertise tags like Frontend, UX, AI that are entered through the profile form](/images/blog/tag-input-parsing-fix/03-fixed-input.jpg)
+
+If a mentor types with inconsistent spacing, like "React ,  Node.js,TypeScript", the display normalizes to "React, Node.js, TypeScript" once they move on. Clean and consistent, but only after they've finished their thought.
+
+The change was small: about 25 lines across two files. But for a new mentor trying to describe themselves to potential mentees, it turned a frustrating first experience into a seamless one.
+
+## What This Revealed About Our Testing
+
+The deeper issue wasn't the bug itself. It was that our testing only covered one type of user.
+
+We tested the migration with existing mentors: people who already had fully formed profiles. Their tags were pre-filled. Their data was clean. That's a valid test, but it only tells you whether the migration preserved what was already there. It doesn't tell you whether someone new can create something from scratch.
+
+Our automated tests reflected the same blind spot. They verified that a complete tag string parsed correctly, but they didn't simulate someone actually typing into the field character by character. They tested the destination without testing the journey.
+
+After the fix, we updated the test suite to cover both paths. The tests now simulate typing into an empty field, pausing mid-word, and moving on to trigger the cleanup. We added specific coverage for the empty-to-filled flow that every new user goes through.
+
+## The Broader Takeaway
+
+Migration testing has a natural bias toward existing data. You migrate records, verify they display correctly, and check the boxes. But the people who will use your product next aren't in your database yet. Their experience starts with empty fields, blank forms, and first-time flows. If your tests don't walk those paths, you're only validating the past.
+
+This applies beyond migrations too. Any time a feature works differently for someone with existing data versus someone starting fresh, that's a gap worth testing. Empty states, first-run experiences, onboarding flows. The users who struggle most are often the ones your test suite knows least about.
+
+The mentors who reported this bug were doing us a favor. They could have just walked away.
+
+---
+
+**Links:**
+- [Pull Request #24](https://github.com/jaedongshin/donation-mentoring/pull/24)
+- [Donation Mentoring platform](https://www.donation-mentoring.org/)
+- [Portfolio page](/portfolio/donation-mentoring/)
