@@ -10,70 +10,62 @@ image: "/images/blog/manuscript-alert-01-streamlit-cleanup/01-before-after-clean
 
 # Saying Goodbye to Streamlit
 
-This is the first post in a series about migrating [Manuscript Alert](https://github.com/dknkim/Manuscript_alert), a research paper discovery tool for Alzheimer's disease and neuroimaging researchers. The project is built and maintained by [DK](https://github.com/dknkim), with me contributing on the engineering side. This series documents the migration from a Streamlit prototype to a modern React + FastAPI application.
+Picture a food truck that's been serving your neighborhood for years. The menu is good. The regulars love it. But the line is getting longer, the kitchen can barely fit two people, and customers keep asking if you deliver. The truck got you started, but it can't take you where you need to go.
 
-## What Manuscript Alert Does
+That was Streamlit for [Manuscript Alert](https://github.com/dknkim/Manuscript_alert), the research paper discovery tool that [DK](https://github.com/dknkim) and I have been building for Alzheimer's disease and neuroimaging researchers. This is the first post in a series about moving out of the truck and into a proper restaurant.
 
-If you're a neuroscience researcher studying Alzheimer's disease, keeping up with new publications is part of the job. Papers come out constantly across PubMed, bioRxiv, and arXiv. Missing a relevant paper can mean duplicating work someone else already published, or missing a technique that could save months of lab time.
+## A Tool That Found Its Audience
 
-Manuscript Alert pulls papers from all three sources, scores them against your research interests using keyword matching, and presents the results in a single interface. Think of it as a personalized paper feed, tuned to your specific corner of neuroscience.
+If you study Alzheimer's disease, keeping up with new research is part of the job. Papers come out constantly across multiple databases. Missing a relevant one can mean duplicating someone else's work or overlooking a technique that could save months of lab time.
 
-## The Streamlit Era
+Manuscript Alert pulls papers from these databases, scores them against your research interests, and presents everything in one place. A personalized paper feed, tuned to your specific corner of neuroscience.
 
-Streamlit was the right call for the first version. It's a Python framework that turns scripts into web apps with almost zero effort. No HTML, no CSS, no JavaScript. You write Python, and Streamlit gives you a UI.
-
-For a prototype, it was perfect. We had a working app in days. Researchers could search for papers, adjust their keyword weights, export results. The whole thing lived in a single file called `app.py`.
+Streamlit was the perfect food truck for this idea. It turns scripts into web apps with almost no setup. We had a working tool in days. DK could search for papers, adjust keyword weights, export results. The whole thing ran from a single recipe book: one file, 1,562 lines, doing everything.
 
 ![The opening lines of app.py, a 1,562-line Streamlit monolith that mixed imports from every corner of the project](/images/blog/manuscript-alert-01-streamlit-cleanup/02-streamlit-monolith.jpg)
 
-That single file did everything. It imported fetchers from three different paper databases, a keyword matching engine, a settings service, a data storage layer, and a custom logging system. Then it mixed all of that together with Streamlit's UI components. Search forms, result tables, settings panels, export buttons. All in one place.
+For a while, the truck was full every day and the food was good. That was what mattered.
 
-For a while, it worked well. The researchers using it could find papers and that was what mattered.
+## When the Line Gets Too Long
 
-## Where the Limits Showed Up
+The problems weren't dramatic. They were the kind that build up quietly, one small frustration at a time.
 
-The issues weren't dramatic. They were small things that added up over time as the user base grew and new requests came in.
+DK wanted to check papers on his phone between meetings. The truck doesn't have a drive-through. A request for better sorting meant squeezing another burner into a kitchen that was already shoulder-to-shoulder. Every improvement bumped against the same three walls:
 
-A researcher wanted to check papers on mobile between meetings. Streamlit's layout doesn't adapt well to small screens. Another wanted a more customized way to sort and filter results. That meant touching the same 1,562-line file that handled everything else, from database queries to UI rendering.
+**The truck doesn't travel.** Researchers aren't always at their desks. They read papers on the train, at conferences, between experiments. A tool that only works on one laptop is like a restaurant with no front door.
 
-We started noticing a pattern. Every feature request bumped against the same three walls:
+**The menu is fixed.** Streamlit gives you a UI, but it's Streamlit's UI. You can't redesign how results look or how different views flow into each other. For a tool people rely on daily, that lack of flexibility starts to feel like a ceiling.
 
-**Mobile access.** Researchers aren't always at their desks. They read papers on the train, at conferences, between experiments. A desktop-only tool was becoming a real limitation for the people actually using it.
+**One kitchen, one cook.** With everything in one file, any change meant understanding the entire operation. DK and I would hesitate before touching anything because adjusting one dish might throw off three others.
 
-**Design flexibility.** Streamlit gives you a UI, but it's Streamlit's UI. You can't easily customize how paper cards look, how data flows between views, or how the interface responds to different workflows. For a tool people rely on daily, that lack of control matters.
+## Deciding to Move
 
-**Maintainability.** With everything in one file, adding a feature meant understanding the entire system. DK and I would sometimes hesitate to touch `app.py` because a change in one area could ripple into something unrelated. That's not sustainable for a project you want to keep improving.
+This wasn't a snap decision. We spent time comparing options and talking through what researchers actually needed.
 
-## Choosing What Comes Next
+We looked at several paths. Renovating the truck. Opening a different kind of truck. Each had tradeoffs. What tipped the balance toward building a proper restaurant was a practical question: which setup would let us serve the experience researchers were asking for?
 
-This wasn't a snap decision. We spent time comparing options and talking through what the researchers actually needed.
+Mobile-friendly paper browsing. Customizable layouts. Real-time updates when new papers match your interests. Eventually, an assistant that understands your research. That menu needs a kitchen designed for it.
 
-We looked at several paths. Sticking with Streamlit and refactoring. Moving to Django. Trying Remix. Each option had tradeoffs. What tipped the balance toward React + FastAPI was a combination of practical things: React gives us full control over the frontend experience, including mobile responsiveness. FastAPI keeps us in Python for the backend, where all the paper fetching and scoring logic already lives. And the ecosystem around both is mature enough that we wouldn't be fighting the tools.
+## Clearing the Lot
 
-The deciding factor wasn't which stack was trendiest. It was which one would let us build the experience researchers were asking for. Mobile-friendly paper browsing. Customizable layouts. Real-time updates when new papers match their interests. Eventually, AI-powered discovery and a knowledge base. That roadmap needs a frontend framework that can grow with it.
-
-## The Cleanup
-
-Once we committed to the direction, the actual cleanup was surprisingly quick. We weren't deleting the project. We were removing the Streamlit presentation layer and everything tied to it, so we could replace it with something better.
+Once we committed, the actual teardown was fast. We weren't demolishing the business. We were taking apart the truck so we could reuse the best parts in the new building.
 
 ![Before and after the cleanup, showing how the project went from 23 scattered items to 14 focused ones](/images/blog/manuscript-alert-01-streamlit-cleanup/01-before-after-cleanup.jpg)
 
-The core logic stayed. The fetchers that talk to PubMed, bioRxiv, and arXiv? Kept. The keyword matcher that scores papers against research interests? Kept. The services that manage settings and backups? Kept. The FastAPI server that was already running alongside Streamlit? Kept.
+The core stayed. Everything that fetches papers from research databases? Kept. The engine that scores papers against research interests? Kept. The services that manage settings and backups? Kept. The existing API that was already running alongside Streamlit? Kept.
 
-What we removed was the Streamlit-specific layer: `app.py` itself, the `.streamlit/` config directory, the `core/` module with its Streamlit-specific filters and paper manager, the `storage/` layer designed around Streamlit's caching model, the `ui/` components that only made sense in that context, and legacy scripts from an older deployment setup.
+What came down was the truck itself: the single-file interface, the truck-specific components, the caching designed around Streamlit's model, and the legacy scripts from an older setup. The parts that only made sense when everything had to fit in one vehicle.
 
-The final numbers: 63 files changed, 5,942 lines removed, 86 lines added. Those 86 lines were mostly updates to the README and gitignore.
+## A Foundation, Not a Finish Line
 
-## A Cleaner Starting Point
+After the commit, the lot was clear. Where there had been a cramped truck with everything piled on top of itself, there was now open ground with the kitchen equipment neatly staged and ready for the new building.
 
-After the commit, the project went from 23 top-level items to 14. Each remaining folder has a clear purpose. Fetchers fetch. Processors process. Services serve. Config configures.
+DK ran through his daily routine to make sure the core still worked without the truck around it. Paper searches across all three databases. Loading saved configurations. Checking that his keyword weights were intact. The food was fine. It just didn't have a counter to serve it from yet.
 
-More importantly, the codebase now reflects what Manuscript Alert actually is: a paper discovery engine with a clear backend, ready for a proper frontend. The Streamlit layer was a great way to get the tool into researchers' hands quickly, and it did that job well. But the needs outgrew what it could offer, and that's okay.
-
-The researchers who use Manuscript Alert care about finding relevant papers quickly, reading them wherever they are, and trusting that the tool surfaces what matters. Building that experience means giving ourselves a foundation designed for it.
+More importantly, the project now reflected what Manuscript Alert actually is: a paper discovery engine ready for a proper home. Streamlit was a great way to get the tool into researchers' hands quickly, and it did that job well. But DK's needs outgrew what a food truck could offer, and that's okay.
 
 ## What's Next
 
-This cleanup was step zero. Next, we'll map out the full migration plan: every step from here to a deployed React + FastAPI application with cloud hosting, AI-powered paper discovery, and a knowledge base that remembers what you've already read.
+The lot is cleared, but we don't have blueprints yet. Before laying a single brick, I needed to map out every step from here to a deployed application with cloud hosting, AI-powered discovery, and a knowledge base that remembers what you've already read.
 
 That plan is the subject of the next post.

@@ -10,34 +10,40 @@ image: "/images/blog/manuscript-alert-03-backend-reorganization/01-before-after-
 
 # Organizing the Workshop
 
-In the [last post](/blog/manuscript-alert-02-migration-plan), I wrote out the migration plan. Seven steps from tests to AI agents. Now it was time to start the actual work.
+In the [last post](/blog/manuscript-alert-02-migration-plan), I drew up the blueprint. Seven phases from safety inspections to a smart sous-chef. Now it was time to pick up real tools.
 
-[DK](https://github.com/dknkim) had already added React in a `frontend/` folder during an earlier pass at modernizing the app. But the Python code was still scattered across the project root. Six directories sitting at the top level: `config/`, `data/`, `fetchers/`, `processors/`, `services/`, `utils/`. All mixed in with `frontend/`, `docs/`, and `scripts/`. If you opened the project for the first time, nothing told you which folders were Python and which were JavaScript.
+Picture a workshop where every tool, every supply, and every in-progress project sits on the same bench. Drill next to the paintbrushes. Sandpaper mixed in with electrical tape. You know where everything is because you put it there, but anyone walking in for the first time would freeze in the doorway. Where do I even start?
 
-With `frontend/` already in place, the natural next step was giving the backend its own home too.
+That was our project.
 
-## The Move
+## Two Trades, One Bench
 
-I created a `backend/` directory and moved every Python module into it. The internal structure stayed the same. `fetchers/` became `backend/fetchers/`. `processors/` became `backend/processors/`. Each directory got a proper `__init__.py` so Python would recognize the new package.
+[DK](https://github.com/dknkim) had already set up a dedicated corner for the frontend work during an earlier pass at modernizing the app. But the backend (six different groups of tools and materials) was still spread across the main bench, mixed in with documentation, scripts, and DK's frontend corner. If you opened the workshop for the first time, nothing told you which tools belonged to which trade.
 
-![Six scattered Python directories consolidated into a single backend/ folder](/images/blog/manuscript-alert-03-backend-reorganization/02-before-after-tree.jpg)
+With the frontend already in its own space, the natural next step was giving the backend the same treatment. One side of the workshop for the kitchen equipment, one side for the dining room. Clear lanes, no tripping over each other.
 
-The project root went from fifteen items down to ten. More importantly, it now had clear boundaries. Everything inside `backend/` is Python. Everything inside `frontend/` is JavaScript. You can orient yourself at a glance.
+## Everything Gets Its Own Side
 
-I also cleaned out 54 settings backup files that had been accumulating in `config/backups/` since October 2025. Full copies of the research configuration from old debugging sessions, still sitting in version control. That accounts for most of the commit stats: 74 files changed, but 7,976 of the deleted lines were those backup files.
+I set up a dedicated section and moved every piece of backend equipment into it. The internal arrangement stayed the same. I wasn't reorganizing drawers, just moving them to the right side of the room.
 
-## Updating References
+![Six scattered directories consolidated into a single backend section](/images/blog/manuscript-alert-03-backend-reorganization/02-before-after-tree.jpg)
 
-Six import statements in `server.py` needed updating. `from fetchers.arxiv_fetcher` became `from backend.fetchers.arxiv_fetcher`. Two path constants (the archive directory and model presets) got `backend/` prepended. That was the extent of the code changes.
+The main bench went from fifteen items down to ten. More importantly, you could now walk in and immediately understand the layout. Everything on this side builds the kitchen. Everything on that side builds the dining room. Orient yourself at a glance.
 
-![Every import path in server.py updated to point through the new backend/ directory](/images/blog/manuscript-alert-03-backend-reorganization/03-import-changes.jpg)
+While I was at it, I cleared out 54 old backup files that had been accumulating since October. Leftover snapshots from debugging sessions, still sitting around like forgotten coffee cups on a workbench. That housekeeping accounts for most of the commit's size.
 
-Since we didn't have automated tests yet, I split this work across multiple days and asked DK to test throughout. He's the daily power user of the app, running searches and reviewing papers as part of his actual research workflow. Having him validate that paper searches, settings, model presets, and backups all still worked correctly was our safety net during these structural changes.
+## Relabeling the Connections
 
-## What This Set Up
+Moving equipment to a new bench means the power cords need to reach their new outlets. Six connections in the main server needed updating to point to the new location, plus two references to where data gets stored. A few minutes of careful work to make sure everything plugged in correctly.
 
-The commit didn't change any functionality. Researchers see no difference. But the codebase now has a structure that matches what the project actually is: a Python backend and a JavaScript frontend, each in their own space.
+![Every connection in the server updated to point through the new backend location](/images/blog/manuscript-alert-03-backend-reorganization/03-import-changes.jpg)
 
-It also made the next step possible. That 688-line `server.py` handling every API endpoint in a single file is easier to break apart when the modules it depends on are already organized under a clean package.
+Since we didn't have automated safety inspections yet (those come in a later phase), I split this work across multiple days and asked DK to test throughout. He ran through his full routine after each change: searched for Alzheimer's and neuroimaging papers across all four databases, loaded his saved search configuration, adjusted keyword weights, checked that his model presets were intact, and verified his backups. Having the person who uses the tool every day confirm that his research workflow still works was our safety net during these structural changes.
 
-That split is the next post.
+## A Workshop That Makes Sense
+
+Nothing changed for the person placing orders. DK's paper searches returned the same results. His settings loaded the same way. The tool did exactly what it did before.
+
+But the workshop now matched what the project actually is: two distinct trades working under one roof, each with their own clearly marked space. And it made the next step possible. That 688-item main counter I mentioned in the last post, the one handling every order in a single line, is much easier to break apart when the equipment it depends on is already organized on the right bench.
+
+That reorganization is the subject of the next post.

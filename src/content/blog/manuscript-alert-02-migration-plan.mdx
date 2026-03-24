@@ -10,76 +10,64 @@ image: "/images/blog/manuscript-alert-02-migration-plan/01-migration-roadmap.jpg
 
 # Drawing the Map Before the Journey
 
-In the [last post](/blog/manuscript-alert-01-streamlit-cleanup), I tore out Streamlit and cleared the ground for something new. That felt good. 5,942 lines deleted, a clean project structure, momentum building. The temptation was to start building immediately. Open a terminal, scaffold some React components, wire up an API route. Get something on screen.
+In the [last post](/blog/manuscript-alert-01-streamlit-cleanup), I cleared the lot and staged the equipment for a new build. That felt good. Momentum was building. The temptation was to start pouring concrete immediately, throw up some walls, wire in some lights, figure out the floor plan later.
 
-I didn't do that. Instead, I opened a blank document and started writing a plan.
+I didn't do that. Instead, I unrolled a blank sheet of paper and started drawing a blueprint.
 
-## The Rewrite Trap
+## The Renovation Trap
 
-There's a well-known pattern in software called the second system effect. You build something scrappy that works, learn from its problems, then rebuild it "the right way." Except the rebuild keeps growing. You add features the first version never had. You redesign things that were working fine. Months later you're still rebuilding, and the researchers who depended on the original tool are waiting.
+There's a well-known pitfall with rebuilds. You tear down the old place, learn from its flaws, and start building "the right way." Except the new design keeps growing. You add rooms the old place never had. You redesign spaces that were working fine. Months later, the building is still half-finished, and [DK](https://github.com/dknkim) (the researcher who needs this tool every day) is standing outside in the rain.
 
-I'd seen this happen on other projects. A migration that was supposed to take weeks stretching into months because nobody wrote down what "done" looked like. I didn't want that for Manuscript Alert. The people using this tool need it to keep working while I improve it.
+I'd seen this happen on other projects. A renovation that was supposed to take weeks stretching into months because nobody drew the blueprints first. I didn't want that for Manuscript Alert. DK needs the tool to keep working while I rebuild around him.
 
-So before writing any new code, I sat down and mapped out every step from where I was to where I wanted to be.
+So before picking up a single tool, I mapped out every room in the new building.
 
-## Where I Was Starting
+## The Cleared Lot
 
-After the Streamlit cleanup, here's what I had:
+After the teardown, here's what was staged and ready:
 
-A FastAPI backend in a single `server.py` file, 688 lines long. It handled every API endpoint: paper searches, settings management, model presets, backup operations. All of it in one place. The server worked, but it had the same problem `app.py` had. Everything was tangled together.
+A working kitchen with no organization. Everything the backend did lived in one long counter, 688 items deep. Paper searches, settings, configuration, backups, all laid out end to end. It worked, but finding anything meant walking the entire line.
 
-A Next.js 15 frontend with React 19 and Tailwind CSS. This was already in place from earlier work, serving as a static export that FastAPI delivered alongside the API. It had basic pages but no real component architecture. More of a shell than a finished product.
+A shell of a dining room. The frontend existed but was mostly empty. Walls and a roof, no tables or chairs. More of a placeholder than a finished space.
 
-All data stored as local files. Research settings lived in a Python file (`config/settings.py`). Backup snapshots were individual Python files with timestamps in their names. Model presets were JSON files. The paper archive was a single JSON blob. This worked fine for one person on one laptop, but it meant nothing was shared and nothing was searchable beyond basic file reads.
+All the ingredients stored in boxes on the floor. Research settings in one box, backup snapshots in another, search configurations in a third. Fine when you're cooking for one, impossible when you need to serve a team or work from a different location.
 
-No automated tests. No CI pipeline. No deployment beyond running `python server.py` on a local machine.
+And no safety inspections. No way to know if a renovation step broke something until DK sat down and tried to order.
 
-## The Seven Steps
+## Seven Steps, One Rule
 
-The plan fits on a single page. Seven steps, each one building on the last, each one leaving the app in a working state.
+The blueprint fits on a single page. Seven steps, each building on the last, each leaving the app usable while the next one gets built.
 
-**Step 1: Tests and CI.** Before changing anything structural, build a safety net. Write tests for every API endpoint, every keyword matching rule, every settings operation. Set up GitHub Actions so tests run on every push. You don't renovate a house without checking which walls are load-bearing first.
+**Step 1: Tests and CI.** Before changing anything structural, write automated checks for every workflow DK relies on. You don't start renovating without knowing which walls are load-bearing.
 
-**Step 2: Frontend Redesign.** Replace the shell with real components. A three-column layout with search controls, a paper feed, and a detail panel. Mobile-responsive from the start. This is the change researchers will actually notice.
+**Step 2: Frontend redesign.** Give researchers what they'll actually notice: a new interface with search controls, paper results, and statistics visible at once. Mobile-friendly from the start. This is where the renovation becomes real for DK.
 
-**Step 3: Backend Restructure.** Version the API. Split that 688-line server into focused modules. Add proper configuration management so the app reads settings from environment variables instead of hardcoded paths. Set up SSE (server-sent events) so the frontend can show real-time updates when the backend is processing.
+**Step 3: Backend restructure.** Reorganize the backend so each piece handles one job. Add real-time streaming so researchers can watch a search happen instead of staring at a blank screen.
 
-**Step 4: Database Migration.** Move from local files to Neon PostgreSQL. Design tables for papers, settings, versioned settings snapshots, and model presets. Keep a local fallback so the app still works without a database connection. This is what makes the tool shareable across devices and team members.
+**Step 4: Database.** Move from local files to a real database that can be searched, shared, and accessed from anywhere. Not just the one laptop where everything happens to live.
 
-**Step 5: Cloud Deployment.** Put it on the internet. Frontend on Vercel, backend on Render, database on Neon. Auto-deploy from GitHub so every merge to main goes live. The goal: researchers can access Manuscript Alert from anywhere, not just the laptop where it's installed.
+**Step 5: Cloud deployment.** Put the app on the internet. Accessible from any device, anywhere. Push a change, and the live version updates automatically.
 
-**Step 6: AI Agent Pipeline.** This is where it gets interesting. Instead of just matching keywords, build a pipeline of specialized agents that can understand research context, fetch from multiple sources in parallel, deduplicate results, and summarize trends. Seven agents working together through LangGraph, with real-time activity streaming to the frontend so researchers can watch the process happen.
+**Step 6: AI agents.** Instead of researchers manually specifying every keyword, build a team of specialized assistants that understand research context, fetch from multiple sources at once, and present a curated selection.
 
-**Step 7: Knowledge Base.** The final piece. Let the system remember what you've read. Upload PDFs, embed them with SPECTER2 (a model trained specifically on scientific papers), store the embeddings in Pinecone, and use them to find new papers that connect to your existing research. Personalized discovery instead of generic keyword matching.
+**Step 7: Knowledge base.** The final piece. Upload your own collection of papers. The system remembers what you've read and finds new work that connects to your existing research. Personalized discovery instead of starting every search from scratch.
 
 ## Why This Order
 
-The sequence isn't random. Each step protects the next.
-
-Tests come first because everything after that involves restructuring code. Without tests, you don't know when you've broken something. The frontend redesign comes before backend changes because it gives researchers an immediate improvement while I work on deeper structural changes behind the scenes.
-
-The database migration comes after the backend restructure because clean, modular code is much easier to rewire than a monolith. Deployment comes after the database because there's no point deploying an app that only stores data locally. And the AI features come last because they depend on a solid, deployed backend with real-time communication already in place.
-
-At every step, the app works. Researchers can search for papers, adjust their settings, browse results. I'm renovating a house while people are still living in it.
-
-## Why This Stack
-
-I landed on Vercel for the frontend, Render for the backend, and Neon for the database. Each choice came down to practical constraints.
+The sequence isn't random. Each phase protects the next.
 
 ![The target backend architecture, showing how requests flow from the client through the API route layer, down to services, fetchers, and external APIs](/images/blog/manuscript-alert-02-migration-plan/02-backend-architecture.jpg)
 
-Vercel is built for Next.js. Native hosting, automatic builds from GitHub, global CDN. I don't have to think about frontend infrastructure.
+Safety inspections come first because everything after involves knocking down walls and rerouting plumbing. Without inspections, you don't know when you've broken something. The dining room comes before the kitchen reorganization because it gives DK an immediate improvement while I work behind the scenes.
 
-Render gives me a proper Python server with no timeout limits. That last part matters. The AI agents in Step 6 need to run LangGraph cycles that can take 30 seconds or more. Serverless platforms like Vercel's API routes have a 10-second timeout on the free tier. That's a dealbreaker for agent workflows.
+Cold storage comes after the kitchen is reorganized because it's much easier to rewire clean, separated stations than one long tangled counter. Delivery comes after storage because there's no point opening for takeout if all the ingredients are in boxes on one floor. And the smart assistants come last because they need a fully operational kitchen with real-time communication already in place.
 
-Neon is serverless PostgreSQL. It gives me a shared database that multiple devices can connect to, with a free tier that covers my needs (512 MB). The branching feature is a bonus: I can test schema changes on a database branch before touching production data.
-
-All three have free tiers that cover a small research tool. I'm not trying to scale to millions of users. I need something reliable for a team of researchers.
+At every phase, the restaurant stays open. DK can search for papers, adjust his settings, browse results. I'm renovating while the lunch rush is happening.
 
 ## What 88 Lines Bought Us
 
-The whole plan is 88 lines of markdown. It took an afternoon to write. But it gave me something worth more than any amount of code: a clear understanding of where I'm going and how I'll get there.
+The whole blueprint is 88 lines. It took an afternoon to draft. But it gave me something worth more than any amount of construction: a clear picture of where every room goes and in what order to build them.
 
-Every future decision can point back to this document. Should I add this feature now? Check the plan. Which step does it belong to? Is the foundation for it in place? If not, I know what to build first.
+Every future decision can point back to this document. Should I add this feature now? Check the blueprint. Which phase does it belong to? Is the foundation for it poured? If not, I know what to build first.
 
-The next post covers Step 1 of the actual work: organizing the backend files into a structure that makes sense. It's less glamorous than AI agents, but you can't build a second floor before the ground floor is solid.
+The next post covers the first real construction work: giving the kitchen its own dedicated space in the building. Less glamorous than the smart sous-chef, but you can't install fancy equipment in a room that doesn't exist yet.
