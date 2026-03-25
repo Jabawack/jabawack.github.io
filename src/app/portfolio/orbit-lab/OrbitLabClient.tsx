@@ -9,12 +9,10 @@ import {
   Card,
   CardContent,
   Button,
-  Breadcrumbs,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import PublicIcon from '@mui/icons-material/Public';
 import FlightIcon from '@mui/icons-material/Flight';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -22,7 +20,8 @@ import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import SatelliteAltIcon from '@mui/icons-material/SatelliteAlt';
 import AirplanemodeActiveIcon from '@mui/icons-material/AirplanemodeActive';
 import Tag from '@/components/ui/Tag';
-import { BentoBox, BentoItem } from '@/components/ui/BentoBox';
+import { BentoItem } from '@/components/ui/BentoBox';
+import ProjectHeader from '@/components/portfolio/ProjectHeader';
 
 export default function OrbitLabClient() {
   const theme = useTheme();
@@ -82,88 +81,39 @@ export default function OrbitLabClient() {
   return (
     <Box component="main" sx={{ py: 6 }}>
       <Container maxWidth="lg">
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ mb: 3 }}
-        >
-          <Link href="/portfolio/" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <Typography variant="body2" color="text.secondary" sx={{ '&:hover': { color: 'primary.main' } }}>
-              Portfolio
-            </Typography>
-          </Link>
-          <Typography variant="body2" color="text.primary">
-            Orbit Lab
-          </Typography>
-        </Breadcrumbs>
-
-        {/* Header */}
-        <Stack spacing={4} sx={{ mb: 6 }}>
-          <Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, mb: 2 }}>
-              Orbit Lab
-            </Typography>
-            <Typography variant="h5" color="text.secondary" sx={{ mb: 3, maxWidth: 700 }}>
-              A 3D flight tracking visualization built with React Three Fiber and three-globe. Watch real-time aircraft positions on an interactive globe.
-            </Typography>
-            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-              <Button
-                variant="contained"
-                startIcon={<OpenInNewIcon />}
-                href="https://orbit-lab-project.vercel.app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Launch Demo
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<GitHubIcon />}
-                href="https://github.com/Jabawack/orbit-lab-project"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View Source
-              </Button>
-              <Button
-                variant="outlined"
-                href="/blog/orbit-lab-project-journey/"
-              >
-                Read Blog Post
-              </Button>
-            </Stack>
-          </Box>
-
-          {/* Preview Image */}
-          <Box
-            sx={{
-              borderRadius: 2,
-              overflow: 'hidden',
-              border: '1px solid',
-              borderColor: 'divider',
-            }}
-          >
-            <Box
-              component="img"
-              src="/images/portfolio/orbit-lab-project/preview.jpg"
-              alt="Orbit Lab 3D globe with flight paths"
-              sx={{
-                width: '100%',
-                height: 'auto',
-                display: 'block',
-              }}
-            />
-          </Box>
-
-          {/* Bento Box Metrics */}
-          <BentoBox
-            items={bentoItems}
-            columns={{ xs: 2, sm: 3, md: 3 }}
-            gap={2}
-            variant="glass"
-            primaryColor={theme.palette.primary.light}
-          />
-        </Stack>
+        <ProjectHeader
+          title="Orbit Lab"
+          breadcrumbLabel="Orbit Lab"
+          description="A 3D flight tracking visualization built with React Three Fiber and three-globe. Watch real-time aircraft positions on an interactive globe."
+          media={{
+            type: 'image',
+            src: '/images/portfolio/orbit-lab-project/preview.jpg',
+            alt: 'Orbit Lab 3D globe with flight paths',
+          }}
+          ctaButtons={[
+            {
+              label: 'Launch Demo',
+              href: 'https://orbit-lab-project.vercel.app',
+              variant: 'contained',
+              icon: <OpenInNewIcon />,
+              target: '_blank',
+            },
+            {
+              label: 'View Source',
+              href: 'https://github.com/Jabawack/orbit-lab-project',
+              variant: 'outlined',
+              icon: <GitHubIcon />,
+              target: '_blank',
+            },
+            {
+              label: 'Read Blog Post',
+              href: '/blog/orbit-lab-project-journey/',
+              variant: 'outlined',
+            },
+          ]}
+          bentoItems={bentoItems}
+          bentoPrimaryColor={theme.palette.primary.light}
+        />
 
         {/* Key Features */}
         <Stack spacing={4} sx={{ mb: 6 }}>
@@ -172,7 +122,6 @@ export default function OrbitLabClient() {
           </Typography>
 
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-            {/* Interactive Globe */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -185,7 +134,6 @@ export default function OrbitLabClient() {
               </CardContent>
             </Card>
 
-            {/* Real-time Data */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -198,7 +146,6 @@ export default function OrbitLabClient() {
               </CardContent>
             </Card>
 
-            {/* Flight Paths */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -211,7 +158,6 @@ export default function OrbitLabClient() {
               </CardContent>
             </Card>
 
-            {/* Performance */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>

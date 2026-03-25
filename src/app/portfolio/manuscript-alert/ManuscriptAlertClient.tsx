@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
 import {
   Box,
   Container,
@@ -10,13 +8,10 @@ import {
   Card,
   CardContent,
   Button,
-  Breadcrumbs,
   Chip,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArticleIcon from '@mui/icons-material/Article';
 import SearchIcon from '@mui/icons-material/Search';
 import SpeedIcon from '@mui/icons-material/Speed';
@@ -25,7 +20,8 @@ import StorageIcon from '@mui/icons-material/Storage';
 import SyncIcon from '@mui/icons-material/Sync';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import Tag from '@/components/ui/Tag';
-import { BentoBox, BentoItem } from '@/components/ui/BentoBox';
+import { BentoItem } from '@/components/ui/BentoBox';
+import ProjectHeader from '@/components/portfolio/ProjectHeader';
 
 export default function ManuscriptAlertClient() {
   const theme = useTheme();
@@ -89,76 +85,29 @@ export default function ManuscriptAlertClient() {
   return (
     <Box component="main" sx={{ py: 6 }}>
       <Container maxWidth="lg">
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ mb: 3 }}
-        >
-          <Link href="/portfolio/" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <Typography variant="body2" color="text.secondary" sx={{ '&:hover': { color: 'primary.main' } }}>
-              Portfolio
-            </Typography>
-          </Link>
-          <Typography variant="body2" color="text.primary">
-            Manuscript Alert
-          </Typography>
-        </Breadcrumbs>
-
-        {/* Header */}
-        <Stack spacing={4} sx={{ mb: 6 }}>
-          <Box>
-            <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
-              <Typography variant="h1" sx={{ fontWeight: 700 }}>
-                Manuscript Alert
-              </Typography>
-              <Chip label="Contributor" size="small" color="primary" variant="outlined" />
-            </Stack>
-            <Typography variant="h5" color="text.secondary" sx={{ mb: 3, maxWidth: 700 }}>
-              Research paper aggregator for Alzheimer&apos;s disease and neuroimaging researchers.
-              Stay updated with the latest publications across multiple academic databases.
-            </Typography>
-            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-              <Button
-                variant="contained"
-                startIcon={<GitHubIcon />}
-                href="https://github.com/dknkim/Manuscript_alert"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View on GitHub
-              </Button>
-            </Stack>
-          </Box>
-
-          {/* Hero Image */}
-          <Box
-            sx={{
-              position: 'relative',
-              width: '100%',
-              aspectRatio: '16/9',
-              borderRadius: 2,
-              overflow: 'hidden',
-              bgcolor: alpha(theme.palette.background.paper, 0.5),
-            }}
-          >
-            <Image
-              src="/images/portfolio/manuscript-alert/preview.jpg"
-              alt="Manuscript Alert System showing paper search results with relevance scoring"
-              fill
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-          </Box>
-
-          {/* Bento Box Metrics */}
-          <BentoBox
-            items={bentoItems}
-            columns={{ xs: 2, sm: 3, md: 3 }}
-            gap={2}
-            variant="glass"
-            primaryColor={theme.palette.primary.light}
-          />
-        </Stack>
+        <ProjectHeader
+          title="Manuscript Alert"
+          breadcrumbLabel="Manuscript Alert"
+          description="Research paper aggregator for Alzheimer's disease and neuroimaging researchers. Stay updated with the latest publications across multiple academic databases."
+          statusChip={{ label: 'Contributor', color: 'primary', variant: 'outlined' }}
+          media={{
+            type: 'image',
+            src: '/images/portfolio/manuscript-alert/preview.jpg',
+            alt: 'Manuscript Alert System showing paper search results with relevance scoring',
+            useNextImage: true,
+          }}
+          ctaButtons={[
+            {
+              label: 'View on GitHub',
+              href: 'https://github.com/dknkim/Manuscript_alert',
+              variant: 'contained',
+              icon: <GitHubIcon />,
+              target: '_blank',
+            },
+          ]}
+          bentoItems={bentoItems}
+          bentoPrimaryColor={theme.palette.primary.light}
+        />
 
         {/* Architecture Diagram */}
         <Card sx={{ mb: 6, bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
@@ -221,7 +170,6 @@ export default function ManuscriptAlertClient() {
           </Typography>
 
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-            {/* Multi-Source Fetching */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -237,7 +185,6 @@ export default function ManuscriptAlertClient() {
               </CardContent>
             </Card>
 
-            {/* Smart Keyword Matching */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -253,7 +200,6 @@ export default function ManuscriptAlertClient() {
               </CardContent>
             </Card>
 
-            {/* Relevance Scoring */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -269,7 +215,6 @@ export default function ManuscriptAlertClient() {
               </CardContent>
             </Card>
 
-            {/* Journal Quality Filter */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>

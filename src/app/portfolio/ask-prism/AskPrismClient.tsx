@@ -9,13 +9,10 @@ import {
   Card,
   CardContent,
   Button,
-  Breadcrumbs,
-  Chip,
 } from '@mui/material';
 import { useTheme, alpha } from '@mui/material/styles';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ArticleIcon from '@mui/icons-material/Article';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import VerifiedIcon from '@mui/icons-material/Verified';
@@ -26,8 +23,9 @@ import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import ScannerIcon from '@mui/icons-material/Scanner';
 import Tag from '@/components/ui/Tag';
-import { BentoBox, BentoItem } from '@/components/ui/BentoBox';
+import { BentoItem } from '@/components/ui/BentoBox';
 import { VideoPlayer } from '@/components/ui/VideoPlayer';
+import ProjectHeader from '@/components/portfolio/ProjectHeader';
 
 export default function AskPrismClient() {
   const theme = useTheme();
@@ -95,77 +93,48 @@ export default function AskPrismClient() {
   return (
     <Box component="main" sx={{ py: 6 }}>
       <Container maxWidth="lg">
-        {/* Breadcrumbs */}
-        <Breadcrumbs
-          separator={<NavigateNextIcon fontSize="small" />}
-          sx={{ mb: 3 }}
-        >
-          <Link href="/portfolio/" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <Typography variant="body2" color="text.secondary" sx={{ '&:hover': { color: 'primary.main' } }}>
-              Portfolio
-            </Typography>
-          </Link>
-          <Typography variant="body2" color="text.primary">
-            Ask Prism
-          </Typography>
-        </Breadcrumbs>
-
-        {/* Header */}
-        <Stack spacing={4} sx={{ mb: 6 }}>
-          <Box>
-            <Typography variant="h1" sx={{ fontWeight: 700, mb: 2 }}>
-              Ask Prism
-            </Typography>
-            <Typography variant="h5" color="text.secondary" sx={{ mb: 3, maxWidth: 700 }}>
-              Document Analytics Platform with visual citations—click a citation and the PDF scrolls to the exact passage, highlighted with bounding boxes.
-            </Typography>
-            <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
-              <Button
-                variant="contained"
-                startIcon={<GitHubIcon />}
-                href="https://github.com/Jabawack/ask-prism"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View on GitHub
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<OpenInNewIcon />}
-                href="/storybook/?path=/docs/components-chainofthought--docs"
-                target="_blank"
-              >
-                ChainOfThought in Storybook
-              </Button>
-              <Button
-                variant="outlined"
-                href="/blog/ask-prism-ai-components/"
-              >
-                Read Blog Post
-              </Button>
-            </Stack>
-          </Box>
-
-          {/* Demo Video */}
-          <Box>
-            <Typography variant="h6" sx={{ mb: 1 }}>
-              Demo: AI-Powered Table Enrichment
-            </Typography>
-            <VideoPlayer
-              src="/images/portfolio/ask-prism/demo.mp4"
-              alt="Ask Prism table assistant demo showing AI-powered data enrichment"
-            />
-          </Box>
-
-          {/* Bento Box Metrics */}
-          <BentoBox
-            items={bentoItems}
-            columns={{ xs: 2, sm: 3, md: 3 }}
-            gap={2}
-            variant="glass"
-            primaryColor={theme.palette.primary.light}
-          />
-        </Stack>
+        <ProjectHeader
+          title="Ask Prism"
+          breadcrumbLabel="Ask Prism"
+          description="Document Analytics Platform with visual citations—click a citation and the PDF scrolls to the exact passage, highlighted with bounding boxes."
+          media={{
+            type: 'custom',
+            component: (
+              <Box>
+                <Typography variant="h6" sx={{ mb: 1 }}>
+                  Demo: AI-Powered Table Enrichment
+                </Typography>
+                <VideoPlayer
+                  src="/images/portfolio/ask-prism/demo.mp4"
+                  alt="Ask Prism table assistant demo showing AI-powered data enrichment"
+                />
+              </Box>
+            ),
+          }}
+          ctaButtons={[
+            {
+              label: 'View on GitHub',
+              href: 'https://github.com/Jabawack/ask-prism',
+              variant: 'contained',
+              icon: <GitHubIcon />,
+              target: '_blank',
+            },
+            {
+              label: 'ChainOfThought in Storybook',
+              href: '/storybook/?path=/docs/components-chainofthought--docs',
+              variant: 'outlined',
+              icon: <OpenInNewIcon />,
+              target: '_blank',
+            },
+            {
+              label: 'Read Blog Post',
+              href: '/blog/ask-prism-ai-components/',
+              variant: 'outlined',
+            },
+          ]}
+          bentoItems={bentoItems}
+          bentoPrimaryColor={theme.palette.primary.light}
+        />
 
         {/* Architecture Diagram */}
         <Card sx={{ mb: 6, bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
@@ -219,7 +188,6 @@ export default function AskPrismClient() {
           </Typography>
 
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-            {/* Visual Citations */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -236,7 +204,6 @@ export default function AskPrismClient() {
               </CardContent>
             </Card>
 
-            {/* Multi-Model Verification */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -252,7 +219,6 @@ export default function AskPrismClient() {
               </CardContent>
             </Card>
 
-            {/* Chain of Thought UI */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
@@ -271,7 +237,6 @@ export default function AskPrismClient() {
               </CardContent>
             </Card>
 
-            {/* AI Elements Library */}
             <Card sx={{ bgcolor: alpha(theme.palette.background.paper, 0.5) }}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>

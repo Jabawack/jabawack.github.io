@@ -153,7 +153,7 @@ export default function PersonalStatement() {
           }}
         >
           <ScrollIndicator
-            label="Featured Work"
+            label="Latest Posts"
             onClick={skipSection}
           />
         </Box>
